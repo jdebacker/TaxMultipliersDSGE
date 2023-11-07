@@ -4,4 +4,4 @@ This repository contains code and other materials for the paper ``Tax Multiplier
 
 To solve the model:
 * In Matlab (after installing Dynare and linking the Dynare path to Matlab), navigate to the `./TaxMultipliersDSGE/Codes` directory.
-* At the command prompt, type `dynare tax_dsge` and presse return.
+* At the command prompt, type `dynare tax_dsge` and press return.
