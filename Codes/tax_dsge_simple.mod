@@ -1,6 +1,4 @@
 // /**** TO DO IN SIMPLE VERSION ***/
-// 1. Add elastic labor supply (isn't that there now???)
-// 2. Add pricing to int goods producers profits (now r_k and w are nominal...)
 // 3. Add Taylor rule for monetary authority
 // 4. Add law of motion for capital stock (will include e_tau and delta_tau)
 
@@ -213,7 +211,7 @@ x = gamma_x*(tau_l*w*l) ;
 
 
 // 13. Taylor Rule for monetary authority
-// r(+1) = max(((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1)/(1-tau_i),0) ;
+//r(+1) = max(((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1)/(1-tau_i),0) ;
 //r(+1) = ((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1) ;
 
 
@@ -231,8 +229,8 @@ mc = ((w^(1-alfa))*(r_k^alfa))/(p*exp(a)*(alfa^alfa)*((1-alfa)^(1-alfa))) ;
 
 
 // 17. Int. goods producer FOC, price
-p_star = 0 ;
-//p_star = ((((1+lambda_bar_p)/lambda_bar_p)*mc_bar*(1-(betta*theta)))*(((mc-mc_bar)/mc_bar)+((p-1)/1)+((lambda_bar_p/(1+lambda_bar_p))*((lambda_p-lambda_bar_p)/lambda_bar_p)))) + (betta*theta*p_star(+1));
+//p_star = 0 ;
+p_star = ((((1+lambda_bar_p)/lambda_bar_p)*mc_bar*(1-(betta*theta)))*(((mc-mc_bar)/mc_bar)+((p-1)/1)+((lambda_bar_p/(1+lambda_bar_p))*((lambda_p-lambda_bar_p)/lambda_bar_p)))) + (betta*theta*p_star(+1));
 //p_star = ((((1+lambda_bar_p)*mc_bar*(1-(betta*theta)))/(1-((1-lambda_bar_p)*mc_bar*(1-(betta*theta))*(1-theta))))*(((mc-mc_bar)/mc_bar)+((theta*p(-1))-1)+((lambda_bar_p/(1+lambda_bar_p))*((lambda_p-lambda_bar_p)/lambda_bar_p)))) + (betta*theta*p_star(+1)) ;
 
 

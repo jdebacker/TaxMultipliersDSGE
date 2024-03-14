@@ -202,7 +202,6 @@ x = (gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1)) + ((tau
 // r(+1) = max(((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1)/(1-tau_i),0) ;
 r(+1) = ((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1)/(1-tau_i) ;
 
-
 // 14. Int. goods producer FOC, effective capital demand
 v*k(-1) = (alfa/r_k)*y*p ;
 
