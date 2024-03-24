@@ -86,11 +86,11 @@
 //
 // lbar = SS labor supply (I think we need this to ID model in SS)
 /***************************************************************/
-var a v epsilon_b r b r_k l k i y w d c x g lambda q p_star lambda_p mc p ;
+var z v epsilon_b r b r_k l k i y w d c x g lambda q p_star lambda_p mc p k_tau ;
 
-varexo e_b e_a e_p ;
+varexo e_b e_z e_p ;
 
-parameters betta siggma zetta siggma_g chi_g rho_b gamma delta_0 delta_1 delta_2 alfa lambda_bar_p theta phi_1 phi_2 rho_r rho_a rho_lambda siggma_a siggma_b siggma_p tau_c tau_i tau_k tau_l tau_d tau_ic e_tau delta_tau gamma_x lbar ybar rbar r_k_bar wbar mc_bar ;
+parameters betta siggma zetta siggma_g chi_g rho_b gamma delta_0 delta_1 delta_2 alfa lambda_bar_p theta phi_1 phi_2 rho_r rho_z rho_lambda siggma_z siggma_b siggma_p tau_c tau_i tau_k tau_l tau_d tau_ic e_tau delta_tau gamma_x lbar ybar rbar r_k_bar wbar mc_bar ;
 
 betta = 0.9883 ;
 siggma = 2 ;
@@ -106,9 +106,9 @@ delta_2 = (psi/(1-psi))*delta_1 ;
 alfa = 0.33 ;
 lambda_bar_p = 8 ;
 theta = 0.82 ;
-rho_a = 0.89 ;
+rho_z = 0.89 ;
 rho_lambda = 0 ;
-siggma_a = 0 ; //0.64 ;
+siggma_z = 0 ; //0.64 ;
 siggma_p = 0 ; //0.19 ;
 siggma_b = 0 ; //2.4 ;
 
@@ -147,24 +147,24 @@ mc_bar = ((wbar^(1-alfa))*(r_k_bar^alfa))/((alfa^alfa)*((1-alfa)^(1-alfa))) ;
 // 2. HH FOC, consumption -> lambda (Marg Util Cons)
 // 3. HH FOC, labor supply -> labor supply
 // 4. HH FOC, capital -> investment
-// 4. HH FOC, investment -> q
-// 5. HH FOC, bond holdings -> demand for gov't bonds
-// 6. HH FOC, capital utilization -> capital utilization
-// 7. Law of motion for capital stock -> capital stock
-// 8. Law of motion for tax basis of capital stock -> tax basis of cap stock
-// 9. Resource constraint -> y
-// 10. Calibration of g/y -> g
-// 11. Gov't budget constraint -> x
-// 12. Taylor Rule for monetary authority -> r
-// 13. Int. goods producer FOC, effective capital demand -> (with market clearning condition) r_k
-// 14. Int. goods producer FOC, labor demand -> (with market clearing condition) -> w
-// 15. Int. goods producr FOCs -> mc (intermediate variable)
-// 16. Int. goods producer FOC, price -> p_star
-// 17. Int. goods producer profit function -> d
-// 18. Calvo pricing rule -> p
-// 19. AR(1) process for TFP -> z
-// 20. Price markup process -> lambda_p
-// 21. AR(1) process for stochastic time preference -> epsilon_b
+// 5. HH FOC, investment -> q
+// 6. HH FOC, bond holdings -> demand for gov't bonds
+// 7. HH FOC, capital utilization -> capital utilization
+// 8. Law of motion for capital stock -> capital stock
+// 9. Law of motion for tax basis of capital stock -> tax basis of cap stock
+// 10. Resource constraint -> y
+// 11. Calibration of g/y -> g
+// 12. Gov't budget constraint -> x
+// 13. Taylor Rule for monetary authority -> r
+// 14. Int. goods producer FOC, effective capital demand -> (with market clearning condition) r_k
+// 15. Int. goods producer FOC, labor demand -> (with market clearing condition) -> w
+// 16. Int. goods producr FOCs -> mc (intermediate variable)
+// 17. Int. goods producer FOC, price -> p_star
+// 18. Int. goods producer profit function -> d
+// 19. Calvo pricing rule -> p
+// 20. AR(1) process for TFP -> z
+// 21. Price markup process -> lambda_p
+// 22. AR(1) process for stochastic time preference -> epsilon_b
 /***************************************************************/
 model ;
 
@@ -194,9 +194,8 @@ lambda(-1)/p(-1) = (betta*lambda*(1+r))/p ;
 // 8. Law of motion for capital stock
 k = ((1-(delta_0+(delta_1*(v-1))+((delta_2/2)*((v-1)^2))))*k(-1)) + (i*(1-((gamma/2)*((i/i(-1))-1)^2))) ;
 
-
 // 9. Law of motion for tax basis of capital stock
-
+k_tau = ((1-delta_tau)*k_tau(-1)) + (i*(1-e_tau)) ;
 
 // 10. Resource constraint
 // y = c + k - (1-delta_0)*k(-1) ;
@@ -216,16 +215,16 @@ x = gamma_x*(tau_l*w*l) ;
 
 
 // 14. Int. goods producer FOC, effective capital demand
-k(-1) = (r_k/(alfa*exp(a)*(v^alfa)*(l^(1-alfa))))^(1/(alfa-1)) ;
+k(-1) = (r_k/(alfa*exp(z)*(v^alfa)*(l^(1-alfa))))^(1/(alfa-1)) ;
 
 
-y = exp(a)*((v*k(-1))^alfa)*(l^(1-alfa)) ;
+y = exp(z)*((v*k(-1))^alfa)*(l^(1-alfa)) ;
 
 // 15. Int. goods producer FOC, labor demand
 w = (1-alfa)*(y/l) ;
 
 // 16. Int goods producer marginal cost
-mc = ((w^(1-alfa))*(r_k^alfa))/(p*exp(a)*(alfa^alfa)*((1-alfa)^(1-alfa))) ;
+mc = ((w^(1-alfa))*(r_k^alfa))/(p*exp(z)*(alfa^alfa)*((1-alfa)^(1-alfa))) ;
 
 
 // 17. Int. goods producer FOC, price
@@ -241,7 +240,7 @@ d = y - (r_k*k(-1)*v) - (w*l) ;
 p = ((theta*(p(-1)^(-1/lambda_p))) + ((1-theta)*(exp(p_star)^(-1/lambda_p))))^(-lambda_p) ;
 
 // 20. AR(1) process for TFP
-a = (rho_a*a(-1)) + e_a ;
+z = (rho_z*z(-1)) + e_z ;
 
 // 21. Price markup process
 ln(lambda_p) = (rho_lambda*(ln(lambda_p(-1)))) + ((1-rho_lambda)*ln(lambda_bar_p)) + e_p ;
@@ -261,7 +260,7 @@ end ;
 initval;
 //tax_dsge2_steadystate ;
 
-a = 0 ;
+z = 0 ;
 v = 1 ;
 epsilon_b = 0 ;
 r = (1/betta)-1 ;
@@ -281,10 +280,11 @@ p_star = 0 ;
 lambda_p = lambda_bar_p ;
 mc = 1 ;
 p = ((1+lambda_bar_p)/lambda_bar_p)*mc ;
+b = 0 ;
 
 e_b = 0 ;
 e_p = 0 ;
-e_a = 0 ;
+e_z = 0 ;
 
 end ;
 
@@ -303,7 +303,7 @@ check ;
 /***************************************************************/
 shocks;
 var e_b = siggma_b^2 ;
-var e_a = siggma_a^2 ;
+var e_z = siggma_z^2 ;
 var e_p = siggma_p^2 ;
 end;
 
