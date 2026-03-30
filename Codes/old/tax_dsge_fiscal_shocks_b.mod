@@ -118,12 +118,12 @@ tau_d_bar = 0.15 ;
 tau_ic_bar = 0 ;
 
 // Tax shock persistence parameters (matching Zubairy 2014)
-rho_tau_c = 0.90 ;
-rho_tau_i = 0.90 ;
-rho_tau_k = 0.90 ;
-rho_tau_l = 0.90 ;
-rho_tau_d = 0.90 ;
-rho_tau_ic = 0.90 ;
+rho_tau_c = 1 ; //0.90
+rho_tau_i = 1 ;
+rho_tau_k = 1 ;
+rho_tau_l = 1 ;
+rho_tau_d = 1 ;
+rho_tau_ic = 1 ;
 
 e_tau = 0 ;
 delta_tau = 0.1 ;
@@ -199,13 +199,16 @@ lambda = exp(epsilon_b)*(zetta*(c^(zetta*(1-siggma)-1))*((1-l)^((1-zetta)*(1-sig
 exp(epsilon_b)*((1-zetta)*(c^(zetta*(1-siggma)))*((1-l)^(((1-zetta)*(1-siggma))-1))) = (lambda*w*(1-tau_l))/p ;
 
 // 4. HH FOC, capital (Eq. 1.27)
-q = betta*(((lambda(+1)*(1-tau_k)*r_k(+1)*v(+1))/p(+1)) + (q(+1)*(1-delta_0-(delta_1*(v(+1)-1))-((delta_2/2)*((v(+1)-1)^2))))) ;
+// q = betta*(((lambda(+1)*(1-tau_k)*r_k(+1)*v(+1))/p(+1)) + (q(+1)*(1-delta_0-(delta_1*(v(+1)-1))-((delta_2/2)*((v(+1)-1)^2))))) ;
+q = betta*(((lambda(+1)*(1-tau_k(+1))*r_k(+1)*v(+1))/p(+1)) + (q(+1)*(1-delta_0-(delta_1*(v(+1)-1))-((delta_2/2)*((v(+1)-1)^2))))) ;
 
 // 5. HH FOC, investment (Eq. 1.24)
-lambda*(1-tau_ic-(tau_k*e_tau)) = (q*(1-((gamma/2)*(((i/i(-1))-1)^2))-(gamma*((i/i(-1))-1)*(i/i(-1))))) + (betta*((lambda(+1)*tau_k*delta_tau*(1-e_tau)) + (q(+1)*gamma*((i(+1)/i)-1)*((i(+1)/i)^2)))) ;
+// lambda*(1-tau_ic-(tau_k*e_tau)) = (q*(1-((gamma/2)*(((i/i(-1))-1)^2))-(gamma*((i/i(-1))-1)*(i/i(-1))))) + (betta*((lambda(+1)*tau_k*delta_tau*(1-e_tau)) + (q(+1)*gamma*((i(+1)/i)-1)*((i(+1)/i)^2)))) ;
+lambda*(1-tau_ic-(tau_k*e_tau)) = (q*(1-((gamma/2)*(((i/i(-1))-1)^2))-(gamma*((i/i(-1))-1)*(i/i(-1))))) + (betta*((lambda(+1)*tau_k(+1)*delta_tau*(1-e_tau)) + (q(+1)*gamma*((i(+1)/i)-1)*((i(+1)/i)^2)))) ;
 
 // 6. HH FOC, bond holdings (Eq. 1.28)
-lambda/p = ((betta*lambda(+1)*(1+(r(+1)*(1-tau_i))))/p(+1)) ;
+// lambda/p = ((betta*lambda(+1)*(1+(r(+1)*(1-tau_i))))/p(+1)) ;
+lambda/p = ((betta*lambda(+1)*(1+(r(+1)*(1-tau_i(+1)))))/p(+1));
 
 // 7. HH FOC, capital utilization (Eq. 1.22)
 (lambda*(1-tau_k)*r_k*k(-1))/p = q*(delta_1+(delta_2*(v-1)))*k(-1) ;

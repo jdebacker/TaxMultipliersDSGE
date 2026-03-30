@@ -85,7 +85,7 @@
 //
 // lbar = SS labor supply (I think we need this to ID model in SS)
 /***************************************************************/
-var p p_star v z epsilon_b lambda_p r r_k w l k k_tau i y d c lambda q g b x mc ;
+var p p_star v z epsilon_b lambda_p r r_k w l k k_tau i y d c lambda q g b x mc A_p B_p;
 
 varexo e_b e_p e_z ;
 
@@ -102,7 +102,7 @@ delta_0 = 0.1 ;
 delta_1 = 0.152632 ; //get this from SS, delta_1 = 1/betta-1+delta_0
 delta_2 = 0.01 ;
 alfa = 0.33 ;
-lambda_bar_p = 7 ;
+lambda_bar_p = 0.125 ; // For 12.5% markup (middle of range) (matches Basu & Fernald)
 theta = 0.82 ;
 rho_z = 0.7 ;
 rho_lambda = 0 ;
@@ -110,7 +110,7 @@ siggma_z = 0.01 ;
 siggma_p = 0.01 ;
 siggma_b = 0.01 ;
 
-phi_1 = 0.2 ;
+phi_1 = 1.5 ; // NOTE: To satisfy the Taylor principle and restore determinacy, phi_1 has to be >1.
 phi_2 = 0.03 ;
 rho_r = 0.1 ;
 
@@ -126,14 +126,24 @@ delta_tau = 0.1 ;
 
 gamma_x = 0.2 ;
 
-lbar = 0.5 ;
+lbar = 0.2 ;
+
 
 // Create steady state variables needed for model equations
-rbar = (1-betta)/(betta*(1-tau_i)) ;
-r_k_bar = (((1/betta)-1+delta_0)/(1-tau_k))*(1-tau_ic -(tau_k*e_tau) - (betta*tau_k*delta_tau*(1-e_tau))) ;
-wbar = (1-alfa)*((r_k_bar/alfa)^((-1*alfa)/(1-alfa))) ;
-ybar = (((alfa/(1-alfa))*(wbar/r_k_bar))^(alfa))*lbar ;
-mc_bar = ((wbar^(1-alfa))*(r_k_bar^alfa))/((alfa^alfa)*((1-alfa)^(1-alfa))) ;
+
+// Policy rate from household bond Euler 
+rbar = (1-betta)/(betta*(1-tau_i));
+// Steady-state marginal cost pinned by desired markup 
+// If lambda_bar_p is the net markup, gross markup is 1+lambda_bar_p, so mc_bar = 1/(1+lambda_bar_p).
+mc_bar = 1/(1+lambda_bar_p);
+// Rental rate from the model’s q-Euler + investment FOC 
+r_k_bar = (((1/betta)-1+delta_0)/(1-tau_k))*(1-tau_ic -(tau_k*e_tau) - (betta*tau_k*delta_tau*(1-e_tau)));
+// Wage from the Cobb-Douglas marginal cost identity (p=1, z=0 in steady state) 
+wbar = ((mc_bar*(alfa^alfa)*((1-alfa)^(1-alfa)))/(r_k_bar^alfa))^(1/(1-alfa));
+// Capital scale from the cost-minimization ratio (mc cancels in the ratio) 
+kbar = (alfa/(1-alfa))*(wbar/r_k_bar)*lbar;
+// Output from production (z=0, v=1) 
+ybar = (kbar^alfa)*(lbar^(1-alfa));
 
 
 
@@ -154,11 +164,18 @@ mc_bar = ((wbar^(1-alfa))*(r_k_bar^alfa))/((alfa^alfa)*((1-alfa)^(1-alfa))) ;
 // 10. Calibration of g/y -> g
 // 11. Gov't budget constraint -> x
 // 12. Taylor Rule for monetary authority -> r
+// NOTE: The policy rule is written in standard inertial form with r on the left-hand side,
+// and uses gross inflation (p/p(-1)). The max(.,0) ZLB-style kink is omitted because it is non-differentiable.
 // 13. Int. goods producer FOC, effective capital demand -> (with market clearning condition) r_k
+// NOTE: Factor demand conditions are written in real terms consistently with the presence of a price level p,
+// and tie the rental rate to marginal cost rather than implicitly assuming mc = 1.
 // 14. Int. goods producer FOC, labor demand -> (with market clearing condition) -> w
+// NOTE: Same rationale as capital demand, labor demand uses mc and the price level p for consistency.
 // 15. Int. goods producr FOCs -> mc (intermediate variable)
 // 16. Int. goods producer FOC, price -> p_star
 // 17. Int. goods producer profit function -> d
+// NOTE: Dividend definition uses the Calvo aggregation logic, separating non-adjusters priced at p(-1)
+// from adjusters priced at p_star, with demand weights implied by the CES aggregator.
 // 18. Calvo pricing rule -> p
 // 19. AR(1) process for TFP -> z
 // 20. Price markup process -> lambda_p
@@ -203,26 +220,31 @@ g = (1-gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1)) + ((t
 x = (gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1)) + ((tau_d*d)/p) - (tau_ic*i) - (tau_k*delta_tau*k_tau(-1)) - (tau_k*e_tau*i) - ((b(-1)*(1+(r*(1-tau_i))))/p)) ;
 
 // 13. Taylor Rule for monetary authority (Eq. 1.82)
-// r(+1) = max(((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1)/(1-tau_i),0) ;
-r(+1) = ((1/betta)*((1+((p-p(-1))/p(-1)))^phi_1)*((y/ybar)^phi_2)*(((1+r)/(1+rbar))^rho_r)-1)/(1-tau_i) ;
-
+// NOTE: // Replaced r(+1) with r (standard inertial timing) to avoid making the policy instrument forward-looking and to improve BK determinacy/numerical stability.
+r = ((1/betta)*((p/p(-1))^phi_1)*((y/ybar)^phi_2)*(((1+r(-1))/(1+rbar))^rho_r)-1)/(1-tau_i) ;
 
 // 14. Int. goods producer FOC, effective capital demand (Eq. 1.64)
-v*k(-1) = (alfa/r_k)*y*p ;
+// NOTE: Under stage-1 cost minimization conditional on producing demanded output, factor demands are scaled by real marginal cost mc (Eq. 1.67, used in Eq. 1.68). With effective capital k_tilde = v*k(-1), this implies r_k*k_tilde = alfa*mc*p*y.
+v*k(-1) = (alfa*mc/r_k)*y*p ;
 
 // 15. Int. goods producer FOC, labor demand (Eq. 1.65)
-l = ((1-alfa)/w)*y*p ;
+// NOTE: Same logic as Eq. 14: labor demand satisfies w*l = (1-alfa)*mc*p*y, so l = ((1-alfa)/w)*mc*y*p.
+l = ((1-alfa)/w)*mc*y*p ;
 
 // 16. Int goods producer marginal cost (Eq. T.2.5)
+// NOTE: Real marginal cost implied by Cobb-Douglas technology and factor prices, with productivity exp(z) and the price level p.
 mc = ((w^(1-alfa))*(r_k^alfa))/(p*exp(z)*(alfa^alfa)*((1-alfa)^(1-alfa))) ;
 
-// 17. Int. goods producer FOC, price (Eq. 1.24)
-// p_star = ((1 + lambda_bar_p) / (1 - betta * theta)) * mc; // Calvo + CES microfoundations
-p_star = (((1+lambda_bar_p)*mc_bar*(1-(betta*theta)))*(((mc-mc_bar)/mc_bar)+((p-1)/1)+((lambda_bar_p/(1+lambda_bar_p))*((lambda_p-lambda_bar_p)/lambda_bar_p)))) + (betta*theta*p_star(+1)) ;
-// p_star = ((((1+lambda_bar_p)*mc_bar*(1-(betta*theta)))/(1-((1-lambda_bar_p)*mc_bar*(1-(betta*theta))*(1-theta))))*(((mc-mc_bar)/mc_bar)+((theta*p(-1))-1)+((lambda_bar_p/(1+lambda_bar_p))*((lambda_p-lambda_bar_p)/lambda_bar_p)))) + (betta*theta*p_star(+1)) ;
-// the ss state with second equation has larger residuals, if we use this , we need may need to set a proper convergence condition for p ∗(+1) which could involve iterating or adjusting the solution method.
+// 17. Int. goods producer optimal reset price under Calvo pricing (paper Eq. (1.75)–(1.76))
+// NOTE: The paper expresses the optimal reset price p_star as a ratio of two infinite discounted sums (a numerator with marginal costs and a denominator with demand/discounting terms).
+// NOTE: We implement those infinite sums in recursive form for Dynare: A_p is the numerator recursion and B_p is the denominator recursion, so p_star is pinned down by their ratio (scaled by the desired markup term (1+lambda_p)).
+// NOTE: When solving the full nonlinear model at order=2, hard-coding a first-order approximation inside the equilibrium conditions can distort second derivatives and make higher-order dynamics unstable. For order>=2, prefer the nonlinear Calvo implementation via the A_p and B_p recursions; keep these approximations only as commented reference.
+A_p = (lambda*mc*y*(p^((1+lambda_p)/lambda_p))) + (betta*theta*A_p(+1));
+B_p = (lambda*y*(p^((1+lambda_p)/lambda_p - 1))) + (betta*theta*B_p(+1));
+p_star = (1+lambda_p)*(A_p/B_p);
 
 // 18. Int. goods producer profit function (Eq. 1.62)
+// NOTE: Dividend definition uses the Calvo aggregation logic, separating non-adjusters priced at p(-1), from adjusters priced at p_star, with demand weights implied by the CES aggregator.
 d = y*((((theta*((p(-1)/p)^((-1*(1+lambda_p))/lambda_p)))*(p(-1)-mc))) + (((1-theta)*((p_star/p)^((-1*(1+lambda_p))/lambda_p)))*(p_star-mc))) ;
 // d = y - w * l - r_k * k; used for stable steady state
 
@@ -246,159 +268,58 @@ end ;
 /* Steady State (symbolic) */
 /***************************************************************/
 
-steady_state_model;
 
-// 1. Exogenous variables — steady-state values
-z         = 0;                      // Eq. (1.1): TFP shock
-epsilon_b = 0;                      // Eq. (1.2): Discount factor shock
-lambda_p  = lambda_bar_p;          // Eq. (1.20): Price adjustment cost shock
+// NOTE: Alternative (not now): The steady state values below are generated from a separate Python steady-state solver that solves the static version of THIS updated model (same equations, same parameters).
 
-// 2. Normalizations
-p         = 1;                      // Eq. (1.3): Normalize aggregate price level
-v         = 1;                      // Normalization: value of intermediate firm
-
-// 3. Prices and policy rates
-r         = rbar;                   // Eq. (1.12): Household FOC for bonds
-r_k       = r_k_bar;               // Eq. (1.10): Rental rate of capital
-w         = wbar;                   // Eq. (1.9): Wage from labor FOC
-l         = lbar;                   // Assumed calibration
-mc        = mc_bar;                 // Eq. (1.7): Marginal cost from production
-
-// 4. Output and capital
-y         = ybar;                   // Eq. (1.4): Output from production function
-k         = (alfa / (1 - alfa)) * (w * l / r_k);                       // Eq. (1.10): Capital demand FOC
-k_tau     = delta_0 * k * (1 - e_tau) / delta_tau;                    // Eq. (1.18): Tax-depreciation capital stock
-i         = delta_0 * k;                                              // Eq. (1.5): Steady-state capital accumulation
-
-// 5. Dividends
-d         = y - w * l - r_k * k;   // Eq. (1.6): Profits = Y - WL - RK
-
-// 6. Government spending g — first from budget constraint
-g = (                                     // Eq. (1.45): Government budget constraint (used to pin down g)
-  tau_c * (y - i)
-+ tau_l * w * l / p
-+ tau_k * r_k * k
-+ tau_d * d / p
-- tau_ic * i
-- tau_k * delta_tau * k_tau
-- tau_k * e_tau * i
-) * (1 - gamma_x);
-
-// 7. Calibrate b from Eq. (1.47)
-b = (                                     // Eq. (1.47): Intertemporal government budget constraint
-  tau_c * (y - i)
-+ tau_l * w * l / p
-+ tau_k * r_k * k
-+ tau_d * d / p
-- tau_ic * i
-- tau_k * delta_tau * k_tau
-- tau_k * e_tau * i
-- g
-) / (1 + r * (1 - tau_i));
-
-// 8. Transfers
-x = (                                     // Eq. (1.46): Transfer rule
-  tau_c * (y - i)
-+ tau_l * w * l / p
-+ b / p
-+ tau_k * r_k * k
-+ tau_d * d / p
-- tau_ic * i
-- tau_k * delta_tau * k_tau
-- tau_k * e_tau * i
-- b * (1 + r * (1 - tau_i)) / p
-) * gamma_x;
-
-// 9. Consumption from resource constraint
-c = y - i - g;                            // Eq. (1.5): Resource constraint (Y = C + I + G)
-
-// 10. Marginal utility of consumption
-lambda = zetta * c^(zetta * (1 - siggma) - 1) *
-       (1 - l)^((1 - zetta) * (1 - siggma)) / (1 + tau_c); // (from consumption FOC — derived from utility function)
-
-//lambda = (1 - zetta) * c^(zetta * (1 - siggma)) *
-       //(1 - l)^((1 - zetta) * (1 - siggma) - 1) /   // Eq. (1.9): Labor FOC
-       //(w * (1 - tau_l));
-
-// 11. Capital Euler equation
-q = lambda * (1 - tau_ic - tau_k * e_tau - betta * tau_k * delta_tau * (1 - e_tau));  // Eq. (1.11): FOC w.r.t. capital investment
-
-// 12. Price of adjusting firms
-p_star = ((1 + lambda_bar_p) / (1 - betta * theta)) * mc_bar;  // Eq. (1.22): Calvo with CES and markup
-
-end;
-
-/* 
 initval;
 // 1. Exogenous shocks
 z         = 0;
 epsilon_b = 0;
 lambda_p  = lambda_bar_p;
 
-// 2. Normalizations
+// 2. Normalizations 
 p         = 1;
+p_star    = 1;
 v         = 1;
 
-// 3. Prices and rates
+// 3. Prices and rates 
 r         = rbar;
 r_k       = r_k_bar;
 w         = wbar;
 l         = lbar;
 mc        = mc_bar;
 
-// 4. Output and capital
-y         = ybar;
-k         = (alfa / (1 - alfa)) * (w * l / r_k);
+// 4. Output and capital 
+k         = kbar;
 k_tau     = delta_0 * k * (1 - e_tau) / delta_tau;
 i         = delta_0 * k;
+y         = ybar;
 
-// 5. Dividends
+// 5. Dividends (accounting identity guess) 
 d         = y - w * l - r_k * k;
 
-// 6. Government variables
-g = (tau_c * (y - i)
- + tau_l * w * l / p
- + tau_k * r_k * k
- + tau_d * d / p
- - tau_ic * i
- - tau_k * delta_tau * k_tau
- - tau_k * e_tau * i) * (1 - gamma_x);
+// 6. Government variables (consistent with budget/tax block) 
+g = (tau_c * (y - i) + tau_l * w * l / p + tau_k * r_k * k + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i) * (1 - gamma_x);
+b = (tau_c * (y - i) + tau_l * w * l / p + tau_k * r_k * k + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i - g) / (1 + r * (1 - tau_i));
+x = (tau_c * (y - i) + tau_l * w * l / p + b / p + tau_k * r_k * k + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i - b * (1 + r * (1 - tau_i)) / p) * gamma_x;
 
-b = (tau_c * (y - i)
- + tau_l * w * l / p
- + tau_k * r_k * k
- + tau_d * d / p
- - tau_ic * i
- - tau_k * delta_tau * k_tau
- - tau_k * e_tau * i
- - g) / (1 + r * (1 - tau_i));
-
-x = (tau_c * (y - i)
- + tau_l * w * l / p
- + b / p
- + tau_k * r_k * k
- + tau_d * d / p
- - tau_ic * i
- - tau_k * delta_tau * k_tau
- - tau_k * e_tau * i
- - b * (1 + r * (1 - tau_i)) / p) * gamma_x;
-
-// 7. Consumption from resource constraint
+// 7. Consumption from resource constraint 
 c = y - i - g;
 
-// 8. Marginal utility
+// 8. Marginal utility (consistent with utility FOC) 
 lambda = zetta * c^(zetta * (1 - siggma) - 1) * (1 - l)^((1 - zetta) * (1 - siggma)) / (1 + tau_c);
 
-// 9. Capital Euler equation
+// 9. Capital Euler / investment FOC steady-state object 
 q = lambda * (1 - tau_ic - tau_k * e_tau - betta * tau_k * delta_tau * (1 - e_tau));
 
-// 10. Calvo price
-p_star = ((1 + lambda_bar_p) / (1 - betta * theta)) * mc_bar;
+// 10. Calvo auxiliary objects (steady-state recursion, p=1 so powers drop out) 
+A_p = (lambda * mc * y) / (1 - betta * theta);
+B_p = (lambda * y)      / (1 - betta * theta);
 end;
-*/
+
 
 resid(1);
-steady(nocheck);
+steady;
 check;
 
 
@@ -423,7 +344,8 @@ end;
 // Solve the model with second order taylor approximation.
 // Get all of output.
 // Specify seed to can confirm shock working.
-stoch_simul(order=2, irf=20);
+// set_dynare_seed(1); 
+stoch_simul(order=2, pruning, irf=40);
 
 
 
