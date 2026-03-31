@@ -298,8 +298,6 @@ end ;
 /***************************************************************/
 
 
-// NOTE: Alternative (not now): The steady state values below are generated from a separate Python steady-state solver that solves the static version of THIS updated model (same equations, same parameters).
-
 initval;
 // 1. Exogenous shocks
 z         = 0;
