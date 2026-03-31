@@ -1,4 +1,4 @@
-// /************ tax_dsge.mod **************/
+// /************ tax_dsge_fiscal_shocks_b.mod **************/
 // /**  This program sets up the model to be solved by Dynare.
 // ***  There are five part to this file:
 // ***  1. The preamble, which initializes variables and parameters.
@@ -10,11 +10,6 @@
 // ***  Throughout, I try to use the notation we use in our
 // ***  write-up of the model.
 // ***/
-
-/* 
-*addpath C:\dynare\5.5\matlab // 
-*dynare tax_dsge.mod  
-*/
 
 // /***************************************************************/
 // /* Preamble */
@@ -85,11 +80,11 @@
 //
 // lbar = SS labor supply (I think we need this to ID model in SS)
 /***************************************************************/
-var p p_star v z epsilon_b lambda_p r r_k w l k k_tau i y d c lambda q g b x mc A_p B_p;
+var p p_star v z epsilon_b lambda_p r r_k w l k k_tau i y d c lambda q g b x mc A_p B_p tau_c tau_i tau_k tau_l tau_d tau_ic rev_c rev_l rev_k rev_i rev_d spend_ic rev_net;
 
-varexo e_b e_p e_z ;
+varexo e_b e_p e_z e_tau_c e_tau_i e_tau_k e_tau_l e_tau_d e_tau_ic;
 
-parameters betta siggma zetta siggma_g chi_g rho_b gamma delta_0 delta_1 delta_2 alfa lambda_bar_p theta phi_1 phi_2 rho_r rho_z rho_lambda siggma_z siggma_b siggma_p tau_c tau_i tau_k tau_l tau_d tau_ic e_tau delta_tau gamma_x lbar ybar rbar r_k_bar wbar mc_bar ;
+parameters betta siggma zetta siggma_g chi_g rho_b gamma delta_0 delta_1 delta_2 alfa lambda_bar_p theta phi_1 phi_2 rho_r rho_z rho_lambda siggma_z siggma_b siggma_p tau_c_bar tau_i_bar tau_k_bar tau_l_bar tau_d_bar tau_ic_bar e_tau delta_tau gamma_x lbar ybar rbar r_k_bar wbar mc_bar rho_tau_c rho_tau_i rho_tau_k rho_tau_l rho_tau_d rho_tau_ic;
 
 betta = 0.95 ;
 siggma = 2 ;
@@ -114,12 +109,22 @@ phi_1 = 1.5 ; // NOTE: To satisfy the Taylor principle and restore determinacy, 
 phi_2 = 0.03 ;
 rho_r = 0.1 ;
 
-tau_c = 0.1 ;
-tau_i = 0.2 ;
-tau_k = 0.35 ;
-tau_l = 0.25 ;
-tau_d = 0.15 ;
-tau_ic = 0 ;
+// Steady state tax rates
+tau_c_bar = 0.1 ;
+tau_i_bar = 0.2 ;
+tau_k_bar = 0.35 ;
+tau_l_bar = 0.25 ;
+tau_d_bar = 0.15 ;
+tau_ic_bar = 0 ;
+
+// Tax shock persistence parameters (matching Zubairy 2014)
+rho_tau_c = 1 ; //0.90
+rho_tau_i = 1 ;
+rho_tau_k = 1 ;
+rho_tau_l = 1 ;
+rho_tau_d = 1 ;
+rho_tau_ic = 1 ;
+
 e_tau = 0 ;
 delta_tau = 0.1 ;
 //0.13 ;
@@ -132,12 +137,12 @@ lbar = 0.2 ;
 // Create steady state variables needed for model equations
 
 // Policy rate from household bond Euler 
-rbar = (1-betta)/(betta*(1-tau_i));
+rbar = (1-betta)/(betta*(1-tau_i_bar));
 // Steady-state marginal cost pinned by desired markup 
 // If lambda_bar_p is the net markup, gross markup is 1+lambda_bar_p, so mc_bar = 1/(1+lambda_bar_p).
 mc_bar = 1/(1+lambda_bar_p);
 // Rental rate from the model’s q-Euler + investment FOC 
-r_k_bar = (((1/betta)-1+delta_0)/(1-tau_k))*(1-tau_ic -(tau_k*e_tau) - (betta*tau_k*delta_tau*(1-e_tau)));
+r_k_bar = (((1/betta)-1+delta_0)/(1-tau_k_bar))*(1-tau_ic_bar -(tau_k_bar*e_tau) - (betta*tau_k_bar*delta_tau*(1-e_tau)));
 // Wage from the Cobb-Douglas marginal cost identity (p=1, z=0 in steady state) 
 wbar = ((mc_bar*(alfa^alfa)*((1-alfa)^(1-alfa)))/(r_k_bar^alfa))^(1/(1-alfa));
 // Capital scale from the cost-minimization ratio (mc cancels in the ratio) 
@@ -180,6 +185,7 @@ ybar = (kbar^alfa)*(lbar^(1-alfa));
 // 19. AR(1) process for TFP -> z
 // 20. Price markup process -> lambda_p
 // 21. AR(1) process for stochastic time preference -> epsilon_b
+// 23-28. AR(1) processes for fiscal policy shocks -> tau_c, tau_l, tau_k, tau_i, tau_d, tau_ic
 /***************************************************************/
 model ;
 
@@ -193,13 +199,16 @@ lambda = exp(epsilon_b)*(zetta*(c^(zetta*(1-siggma)-1))*((1-l)^((1-zetta)*(1-sig
 exp(epsilon_b)*((1-zetta)*(c^(zetta*(1-siggma)))*((1-l)^(((1-zetta)*(1-siggma))-1))) = (lambda*w*(1-tau_l))/p ;
 
 // 4. HH FOC, capital (Eq. 1.27)
-q = betta*(((lambda(+1)*(1-tau_k)*r_k(+1)*v(+1))/p(+1)) + (q(+1)*(1-delta_0-(delta_1*(v(+1)-1))-((delta_2/2)*((v(+1)-1)^2))))) ;
+// q = betta*(((lambda(+1)*(1-tau_k)*r_k(+1)*v(+1))/p(+1)) + (q(+1)*(1-delta_0-(delta_1*(v(+1)-1))-((delta_2/2)*((v(+1)-1)^2))))) ;
+q = betta*(((lambda(+1)*(1-tau_k(+1))*r_k(+1)*v(+1))/p(+1)) + (q(+1)*(1-delta_0-(delta_1*(v(+1)-1))-((delta_2/2)*((v(+1)-1)^2))))) ;
 
 // 5. HH FOC, investment (Eq. 1.24)
-lambda*(1-tau_ic-(tau_k*e_tau)) = (q*(1-((gamma/2)*(((i/i(-1))-1)^2))-(gamma*((i/i(-1))-1)*(i/i(-1))))) + (betta*((lambda(+1)*tau_k*delta_tau*(1-e_tau)) + (q(+1)*gamma*((i(+1)/i)-1)*((i(+1)/i)^2)))) ;
+// lambda*(1-tau_ic-(tau_k*e_tau)) = (q*(1-((gamma/2)*(((i/i(-1))-1)^2))-(gamma*((i/i(-1))-1)*(i/i(-1))))) + (betta*((lambda(+1)*tau_k*delta_tau*(1-e_tau)) + (q(+1)*gamma*((i(+1)/i)-1)*((i(+1)/i)^2)))) ;
+lambda*(1-tau_ic-(tau_k*e_tau)) = (q*(1-((gamma/2)*(((i/i(-1))-1)^2))-(gamma*((i/i(-1))-1)*(i/i(-1))))) + (betta*((lambda(+1)*tau_k(+1)*delta_tau*(1-e_tau)) + (q(+1)*gamma*((i(+1)/i)-1)*((i(+1)/i)^2)))) ;
 
 // 6. HH FOC, bond holdings (Eq. 1.28)
-lambda/p = ((betta*lambda(+1)*(1+(r(+1)*(1-tau_i))))/p(+1)) ;
+// lambda/p = ((betta*lambda(+1)*(1+(r(+1)*(1-tau_i))))/p(+1)) ;
+lambda/p = ((betta*lambda(+1)*(1+(r(+1)*(1-tau_i(+1)))))/p(+1));
 
 // 7. HH FOC, capital utilization (Eq. 1.22)
 (lambda*(1-tau_k)*r_k*k(-1))/p = q*(delta_1+(delta_2*(v-1)))*k(-1) ;
@@ -214,14 +223,15 @@ k_tau = ((1-delta_tau)*k_tau(-1)) + (i*(1-e_tau)) ;
 y = c + i + g ;
 
 // 11. Gov't budget constraint (Eq. 1.79)
-g = (1-gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1)) + ((tau_d*d)/p) - (tau_ic*i) - (tau_k*delta_tau*k_tau(-1)) - (tau_k*e_tau*i) - ((b(-1)*(1+(r*(1-tau_i))))/p)) ;
+g = (1-gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1))/p + ((tau_d*d)/p) - (tau_ic*i) - (tau_k*delta_tau*k_tau(-1)) - (tau_k*e_tau*i) - ((b(-1)*(1+(r*(1-tau_i))))/p)) ;
 
 // 12. Calibrate x is a fraction of gov't spending (Eq. 1.80)
-x = (gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1)) + ((tau_d*d)/p) - (tau_ic*i) - (tau_k*delta_tau*k_tau(-1)) - (tau_k*e_tau*i) - ((b(-1)*(1+(r*(1-tau_i))))/p)) ;
+x = (gamma_x)*((tau_c*c) + ((tau_l*l*w)/p) + (b/p) + (tau_k*r_k*v*k(-1))/p + ((tau_d*d)/p) - (tau_ic*i) - (tau_k*delta_tau*k_tau(-1)) - (tau_k*e_tau*i) - ((b(-1)*(1+(r*(1-tau_i))))/p)) ;
 
 // 13. Taylor Rule for monetary authority (Eq. 1.82)
-// NOTE: // Replaced r(+1) with r (standard inertial timing) to avoid making the policy instrument forward-looking and to improve BK determinacy/numerical stability.
 r = ((1/betta)*((p/p(-1))^phi_1)*((y/ybar)^phi_2)*(((1+r(-1))/(1+rbar))^rho_r)-1)/(1-tau_i) ;
+// Separates monetary policy (Fed sets r based on macro conditions) from tax policy
+// r = ((1/betta)*((p/p(-1))^phi_1)*((y/ybar)^phi_2)*(((1+r(-1))/(1+rbar))^rho_r)-1);
 
 // 14. Int. goods producer FOC, effective capital demand (Eq. 1.64)
 // NOTE: Under stage-1 cost minimization conditional on producing demanded output, factor demands are scaled by real marginal cost mc (Eq. 1.67, used in Eq. 1.68). With effective capital k_tilde = v*k(-1), this implies r_k*k_tilde = alfa*mc*p*y.
@@ -244,9 +254,11 @@ B_p = (lambda*y*(p^((1+lambda_p)/lambda_p - 1))) + (betta*theta*B_p(+1));
 p_star = (1+lambda_p)*(A_p/B_p);
 
 // 18. Int. goods producer profit function (Eq. 1.62)
-// NOTE: Dividend definition uses the Calvo aggregation logic, separating non-adjusters priced at p(-1), from adjusters priced at p_star, with demand weights implied by the CES aggregator.
+// d = y - w*l - r_k*v*k(-1);
+// NOTE: Dividend definition uses the Calvo aggregation logic, separating non-adjusters priced at p(-1), from adjusters priced at p_star, with demand weights implied by the CES aggregator. ;
 d = y*((((theta*((p(-1)/p)^((-1*(1+lambda_p))/lambda_p)))*(p(-1)-mc))) + (((1-theta)*((p_star/p)^((-1*(1+lambda_p))/lambda_p)))*(p_star-mc))) ;
-// d = y - w * l - r_k * k; used for stable steady state
+// if mc is real 
+// d = y*((((theta*((p(-1)/p)^((-1*(1+lambda_p))/lambda_p)))*(p(-1)-mc*p))) + (((1-theta)*((p_star/p)^((-1*(1+lambda_p))/lambda_p)))*(p_star-mc*p))) ; 
 
 // 19. Calvo pricing rule (Eq. 1.51)
 p = ((theta*(p(-1)^(-1/lambda_p))) + ((1-theta)*(p_star^(-1/lambda_p))))^(-lambda_p) ;
@@ -260,7 +272,24 @@ ln(lambda_p) = (rho_lambda*(ln(lambda_p(-1)))) + ((1-rho_lambda)*ln(lambda_bar_p
 // 22. AR(1) process for stochastic time preference (Eq. 1.33)
 epsilon_b = (rho_b*epsilon_b(-1)) + e_b ;
 
+// 23-28. AR(1) processes for tax rates (fiscal policy shocks)
+tau_c = (rho_tau_c*tau_c(-1)) + ((1-rho_tau_c)*tau_c_bar) + e_tau_c ;
+tau_i = (rho_tau_i*tau_i(-1)) + ((1-rho_tau_i)*tau_i_bar) + e_tau_i ;
+tau_k = (rho_tau_k*tau_k(-1)) + ((1-rho_tau_k)*tau_k_bar) + e_tau_k ;
+tau_l = (rho_tau_l*tau_l(-1)) + ((1-rho_tau_l)*tau_l_bar) + e_tau_l ;
+tau_d = (rho_tau_d*tau_d(-1)) + ((1-rho_tau_d)*tau_d_bar) + e_tau_d ;
+tau_ic = (rho_tau_ic*tau_ic(-1)) + ((1-rho_tau_ic)*tau_ic_bar) + e_tau_ic ;
 
+
+
+// ===== Auxiliary fiscal accounting variables (for multipliers) =====
+rev_c    = tau_c*c ;
+rev_l    = tau_l*w*l/p ;
+rev_k    = tau_k*(r_k*v*k(-1)/p - delta_tau*k_tau(-1) - e_tau*i) ;
+rev_i    = tau_i*r*b(-1)/p ;
+rev_d    = tau_d*d/p ;
+spend_ic = tau_ic*i ;
+rev_net  = rev_c + rev_l + rev_k + rev_i + rev_d - spend_ic ;
 end ;
 
 
@@ -296,25 +325,42 @@ i         = delta_0 * k;
 y         = ybar;
 
 // 5. Dividends (accounting identity guess) 
-d         = y - w * l - r_k * k;
+d         = y - w * l - r_k * v * k;
 
-// 6. Government variables (consistent with budget/tax block) 
-g = (tau_c * (y - i) + tau_l * w * l / p + tau_k * r_k * k + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i) * (1 - gamma_x);
-b = (tau_c * (y - i) + tau_l * w * l / p + tau_k * r_k * k + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i - g) / (1 + r * (1 - tau_i));
-x = (tau_c * (y - i) + tau_l * w * l / p + b / p + tau_k * r_k * k + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i - b * (1 + r * (1 - tau_i)) / p) * gamma_x;
+// 6. Tax rates at steady state
+tau_c     = tau_c_bar;
+tau_i     = tau_i_bar;
+tau_k     = tau_k_bar;
+tau_l     = tau_l_bar;
+tau_d     = tau_d_bar;
+tau_ic    = tau_ic_bar;
 
-// 7. Consumption from resource constraint 
+// 7. Government variables (consistent with budget/tax block) 
+g = (tau_c * (y - i) + tau_l * w * l / p + tau_k * r_k * v * k / p + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i) * (1 - gamma_x);
+b = (tau_c * (y - i) + tau_l * w * l / p + tau_k * r_k * v * k / p + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i - g) / (1 + r * (1 - tau_i));
+x = (tau_c * (y - i) + tau_l * w * l / p + b / p + tau_k * r_k * v * k / p + tau_d * d / p - tau_ic * i - tau_k * delta_tau * k_tau - tau_k * e_tau * i - b * (1 + r * (1 - tau_i)) / p) * gamma_x;
+
+// 8. Consumption from resource constraint 
 c = y - i - g;
 
-// 8. Marginal utility (consistent with utility FOC) 
+// 9. Marginal utility (consistent with utility FOC) 
 lambda = zetta * c^(zetta * (1 - siggma) - 1) * (1 - l)^((1 - zetta) * (1 - siggma)) / (1 + tau_c);
 
-// 9. Capital Euler / investment FOC steady-state object 
+// 10. Capital Euler / investment FOC steady-state object 
 q = lambda * (1 - tau_ic - tau_k * e_tau - betta * tau_k * delta_tau * (1 - e_tau));
 
-// 10. Calvo auxiliary objects (steady-state recursion, p=1 so powers drop out) 
+// 11. Calvo auxiliary objects (steady-state recursion, p=1 so powers drop out) 
 A_p = (lambda * mc * y) / (1 - betta * theta);
 B_p = (lambda * y)      / (1 - betta * theta);
+
+// Fiscal accounting (steady state values)
+rev_c    = tau_c*c ;
+rev_l    = tau_l*w*l/p ;
+rev_k    = tau_k*(r_k*v*k/p - delta_tau*k_tau - e_tau*i) ;
+rev_i    = tau_i*r*b/p ;
+rev_d    = tau_d*d/p ;
+spend_ic = tau_ic*i ;
+rev_net  = rev_c + rev_l + rev_k + rev_i + rev_d - spend_ic ;
 end;
 
 
@@ -327,15 +373,23 @@ check;
 /***************************************************************/
 /* Shocks */
 /***************************************************************/
-// The model has three shocks:
+// The model has nine shocks:
 // 1. Shock to time preference (value of consumption across periods)
 // 2. Shock to TFP
 // 3. Shock to price markup
+// 4-9. Shocks to tax rates (fiscal policy)
 /***************************************************************/
 shocks;
 var e_b = siggma_b^2 ;
 var e_z = siggma_z^2 ;
 var e_p = siggma_p^2 ;
+// Fiscal shocks - standard deviations set to generate 1% tax rate changes
+var e_tau_c = 0.01^2 ;
+var e_tau_i = 0.01^2 ;
+var e_tau_k = 0.01^2 ;
+var e_tau_l = 0.01^2 ;
+var e_tau_d = 0.01^2 ;
+var e_tau_ic = 0.01^2 ;
 end;
 
 /***************************************************************/
@@ -345,8 +399,7 @@ end;
 // Get all of output.
 // Specify seed to can confirm shock working.
 // set_dynare_seed(1); 
-stoch_simul(order=2, pruning, irf=40);
-
+stoch_simul(order=2, pruning, irf=40, nodisplay);
 
 
 
