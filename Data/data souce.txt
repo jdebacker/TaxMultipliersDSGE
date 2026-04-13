@@ -1,0 +1,17 @@
+Population Level
+https://data.bls.gov/dataViewer/view/timeseries/LNU00000000Q
+LNU00000000Q.csv
+
+Gross Domestic Product: Implicit Price Deflator 
+https://fred.stlouisfed.org/series/GDPDEF
+GDPDEF.xlsx
+
+Debt: Market Value of Privately Held Gross Federal Debt (MVPHGFD027MNFRBDAL) https://fred.stlouisfed.org/series/MVPHGFD027MNFRBDAL
+MVPHGFD027MNFRBDAL.xlsx
+
+ITC: ITCdat.txt from House and Shapiro (2008) AER
+
+Bonus Depreciation and Expensing Rate: PQdat.txt from House and Shapiro (2008) AER
+
+
+Other data are based on the old excel sheet. We need to re-construct the other data.
