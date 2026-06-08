@@ -98,7 +98,7 @@ The economy is populated by a continuum of identical households. Each household 
 \begin{equation}\label{eq:utility}
 E_{0}\sum_{t=0}^{\infty}\beta^{t} d_t \left\{ \frac{\left[x_{c,t}^{a}(1-h_{t})^{1-a}\right]^{1-\gamma}}{1-\gamma} + V(x_{g,t}) \right\}
 \end{equation}
-where $\beta \in (0,1)$ is the discount factor, $d_t$ is an intertemporal preference shock, $\gamma$ is the coefficient of relative risk aversion, and $a \in (0,1)$ is the consumption expenditure share calibrated at the steady state. Utility over government consumption $V(x_{g,t})$ is separable from private utility, so government spending does not directly affect the marginal utility of private consumption or leisure. Following \cn{Zubairy2010}, the model incorporates deep habit formation in both private and government consumption as in \cn{RSU2006}, which generates countercyclical markups and allows private consumption to rise in response to a government spending shock.
+where $\beta \in (0,1)$ is the discount factor, $d_t$ is an intertemporal preference shock, $\gamma$ is the coefficient of relative risk aversion, and $a \in (0,1)$ is the consumption expenditure share calibrated at the steady state. Utility over government consumption $V(x_{g,t})$ is separable from private utility, so government spending does not directly affect the marginal utility of private consumption or leisure. Following \cn{Zubairy2010}, the model incorporates deep habit formation in both private and government consumption as in \cn{RSU2006}, which generates counter-cyclical markups and allows private consumption to rise in response to a government spending shock.
 
 The habit-adjusted consumption surpluses are:
 \begin{align}
@@ -145,7 +145,7 @@ The intratemporal labor-leisure condition equates the marginal disutility of wor
 \begin{equation}\label{eq:labor}
 d_t (1-a) \frac{\left[x_{c,t}^{a}(1-h_t)^{1-a}\right]^{1-\gamma}}{1-h_t} = \frac{\lambda_t w_t}{\tilde{w}_t}
 \end{equation}
-where $\tilde{w}_t$ is the wage markup arising from monopolistic competition in the labor market.
+where $\tilde{w}_t$ is the wage markup arising from monopolistic competition in the labor market. The labor income tax $\tau_t^w$ does not appear explicitly here because it is absorbed into the endogenous markup: the wage Phillips curve \eqref{eq:wagePC} implies $\tilde{w}_t = \eta_w/[(\eta_w-1)(1-\tau_t^w)]$ in the frictionless limit, so the effective wage $w_t/\tilde{w}_t$ already reflects the after-tax, after-markup return to labor.
 
 The optimal utilization rate equates the after-tax marginal product of capital to the marginal cost of utilization:
 \begin{equation}\label{eq:util}
@@ -193,7 +193,7 @@ A continuum of monopolistically competitive firms indexed by $i \in [0,1]$ each 
 c_{i,t} &= \left(\frac{P_{i,t}}{P_t}\right)^{-\eta}x_{c,t} + b_c s_{C,i,t-1} \label{eq:cdem} \\
 g_{i,t} &= \left(\frac{P_{i,t}}{P_t}\right)^{-\eta}x_{g,t} + b_g s_{G,i,t-1} \label{eq:gdem}
 \end{align}
-Investment demand for variety $i$ is $i_{i,t} = (P_{i,t}/P_t)^{-\eta}(y_t - c_t - g_t)$; there are no deep habits in investment. Here $\eta > 1$ is the elasticity of substitution across varieties and $P_t$ is the aggregate price index. The habit-inelastic components $b_c s_{C,i,t-1}$ and $b_g s_{G,i,t-1}$ make a portion of demand perfectly price-inelastic, generating countercyclical markups: when aggregate demand expands, the price-elastic share rises, increasing effective demand elasticity and compressing markups. Firms therefore invest in their customer base by holding prices low today to earn higher profits on a larger habit stock in the future.
+Investment demand for variety $i$ is $i_{i,t} = (P_{i,t}/P_t)^{-\eta}(y_t - c_t - g_t)$; there are no deep habits in investment. Here $\eta > 1$ is the elasticity of substitution across varieties and $P_t$ is the aggregate price index. The habit-inelastic components $b_c s_{C,i,t-1}$ and $b_g s_{G,i,t-1}$ make a portion of demand perfectly price-inelastic, generating counter-cyclical markups: when aggregate demand expands, the price-elastic share rises, increasing effective demand elasticity and compressing markups. Firms therefore invest in their customer base by holding prices low today to earn higher profits on a larger habit stock in the future.
 
 \subsubsection{Intermediate Goods Producers}
 
@@ -350,58 +350,42 @@ y_t = c_t + g_t + i_t + \frac{\gamma_1}{1+\sigma_u}\!\left(u_t^{1+\sigma_u}-1\ri
 \end{equation}
 Output $y_t$ is already net of the Rotemberg price adjustment cost (see equation \eqref{eq:ynet}), so only the utilization cost and wage adjustment cost appear on the right-hand side. By Walras' law, the bond market clearing condition is redundant given \eqref{eq:labmc}, \eqref{eq:capmc}, and \eqref{eq:goodsmc}.
 
-\subsection{Solving the model}
+\subsection{Solving the Model}
+\label{sec:solution}
 
-Probably best to use some linearization method.  We used the AIM algorithm (\cn{AM1985}) in Willis' class and I still have the code for that.  Alternatively, we used Christiano's method of undetermined coefficients (\cn{Christiano2002}) in Corbae's class.  Chris Sim's has the code for his method (\cn{Sims2002}) available on his website.  \cn{Uhlig1998} does a good job summarizing these methods.
+The equilibrium conditions described in Section~\ref{sec:model} form a system of 46 nonlinear expectational difference equations in 46 structural endogenous variables, driven by 13 exogenous shock processes. The model is solved and estimated in Dynare using a three-step procedure: analytical computation of the deterministic steady state, first-order perturbation approximation of the equilibrium system, and Bayesian estimation via the Kalman filter and Metropolis-Hastings algorithm.
 
-\subsubsection{Characterizing equations}
-\label{TAppCharEqs}
+\subsubsection{Steady State}
 
-Altogether, this model has 36 endogenous variables and 28 exogenous parameters. The 36 endogenous variables are characterized by the 37 equations listed in the sections below. By Walras' Law, one of the market clearing conditions is redundant. In the computation, we discard the resource constraint \eqref{TAppEqMarkClrResConst}.
-\begin{align*}
-   \text{Endogenous variables:}\quad &\left\{c_t,\lambda_t,l_t,i_t,b_t,v_t,k_t,k_t^\tau,\ve_t^b\right\} \\
-   &\left\{Y_t,y_{i,t}^d,P_t,\lambda_{p,t}\right\} \\
-   &\left\{y_{i,t},\tilde{k}_{i,t},d_{i,t},r_t^k,w_t,p_{i,t},z_t\right\} \\
-   &\left\{G_t,X_t\right\} \\
-   &\left\{r_t\right\} \\
-   &\left\{p_t,d_t,x_t,g_t,k_{i,t},l_{i,t},C_t,L_t,B_t,K_t,K_t^\tau,D_t,I_t\right\} \\
-   \text{Exogenous parameters:}\quad &\left\{\tau_t^c,\tau_t^i,\tau_t^l,\tau_t^k,\tau_t^{ic},\tau_t^d,\delta_t^\tau,e_t^\tau\right\} \\
-   &\left\{\beta,\zeta,\sigma\right\} \\
-   &\left\{\delta_0,\delta_1,\delta_2,\gamma\right\} \\
-   &\left\{\rho_\ve,\mu_\ve,\sigma_\ve\right\} \\
-   &\left\{\rho_\lambda,\mu_\lambda,\sigma_\lambda\right\} \\
-   &\left\{\alpha,\theta\right\} \\
-   &\left\{\gamma_{x,t}\right\} \\
-   &\left\{\beta_r,\phi_1,\phi_2,\rho_r\right\}
-\end{align*}
+The model's deterministic steady state is computed analytically by setting all shocks to their unconditional means ($z = d = \mu = 1$; all fiscal innovations zero) and imposing stationarity. The calibrated parameters in Table~\ref{tab:calib} jointly pin down the steady-state tax rates and the aggregate ratios $\bar{g}/\bar{y}$ and $\bar{b}/\bar{y}$, from which all remaining steady-state values follow in closed form. In particular, the steady-state rental rate $\bar{r}^k$, wage $\bar{w}$, output $\bar{y}$, consumption $\bar{c}$, investment $\bar{\imath}$, and government debt $\bar{b}$ are each expressed as analytic functions of the calibrated parameters. The fixed operating cost $\psi$ is then set residually to match the target dividend share $\overline{\text{div}}/\bar{y} = 0.11$. Because several estimated parameters (deep habit parameters, risk aversion, Rotemberg costs) enter the steady-state expressions, all steady-state values are recomputed at each draw of the Metropolis-Hastings algorithm.
 
+\subsubsection{First-Order Perturbation Approximation}
 
-There are 19 unknown variables (not counting those from the intermediate goods producers and the shocks, {$\varepsilon_{t}^{b},\lambda_{p,t}$- for which we will have equations that we haven't specified yet) : $i, k, b, c, k^{\tau}, \lambda, g, x, d, P, w, z, \varepsilon^{b}, r, r^{k}, v, l, Y, M$.  These breakdown into the following groups:
-\begin{itemize}
-\item 4 choice variables (Household): $i,v,l,c$
-\item 4 prices: $P,w,r,r^{k}$
-\item 2 choice variables (gov't): $g,x$, reallly $2+n$ where $n$ is the number tax instruments
-\item 1 choice variable (monetary authority): $M$
-\item 2 exogenous state: $z,\varepsilon$
-\item 5 endogenous state variable: $k,b,d,k^{\tau},Y$
-\end{itemize}
+Let $y_t$ denote the $n_y$-vector of endogenous variables and $u_t \sim \mathcal{N}(0,\Sigma)$ the $n_u$-vector of structural shocks. The equilibrium conditions can be written compactly as:
+\begin{equation}\label{eq:eqsys}
+E_t\!\left[f\!\left(y_{t+1},\, y_t,\, y_{t-1},\, u_t;\, \Theta\right)\right] = 0
+\end{equation}
+where $\Theta$ is the structural parameter vector. Dynare takes a first-order Taylor expansion of \eqref{eq:eqsys} around the deterministic steady state $(\bar{y},\,\mathbf{0})$, yielding the linear policy function:
+\begin{equation}\label{eq:policy}
+\hat{y}_t = A(\Theta)\,\hat{y}_{t-1} + B(\Theta)\,u_t
+\end{equation}
+where $\hat{y}_t \equiv y_t - \bar{y}$ denotes deviations from steady state and the coefficient matrices $A$ and $B$ are functions of the structural parameters. Dynare computes $A$ and $B$ using the generalized Schur (QZ) decomposition \citep{Klein2000}, which handles both predetermined and forward-looking variables. A unique stationary rational expectations solution exists if and only if the number of eigenvalues of $A$ outside the unit circle equals the number of non-predetermined (forward-looking) variables — the Blanchard-Kahn conditions \citep{BK1980}. Dynare verifies these conditions numerically at the posterior mode and at every point during estimation at which the likelihood is evaluated.
 
-Solve for these unknowns with the following equations:
-\begin{itemize}
-\item 5 FOCs, household $\implies i,v,l,c,b$
-\item 3 from FOCs, intermediate goods producers $\implies r^{k},w,P$ (These FOC's give demand for effective capital and labor.  So together with the HH supply of these factors we can use our market clearing conditions to find the eq'm factor prices.)
-\item 1 from the profit function of intermediate goods producers $\implies d$
-\item 1 from FOCs, final goods producer $\implies Y$
-\item 1 from the zero profit condition for the final goods producer $\implies P$ (This together with the FOC's from the intermediate goods producers gives you the aggregate price index.)
-\item 1 Gov't budget constraint ($+n$ fiscal policy rules) $\implies X$, ($+n$ tax rates)
-\item 1 Resource constraint $\implies G$
-\item 2 laws of motion $\implies k^{\tau},k$
-\item 3 exog shock process $\implies z,\varepsilon^{b},\lambda_{p}$
-\item 1 Taylor rule for monetary authority $\implies r,M$ (There is the Taylor Rule plus the fact that $r=max(M,0)$ that determines both these.)
-\end{itemize}
+By Walras' law, one market clearing condition is redundant; Dynare drops the goods market clearing equation \eqref{eq:goodsmc} from the system prior to solving, leaving 45 independent structural equations. The policy function \eqref{eq:policy} therefore maps the 13 endogenous state variables $(k_t,\, k_t^{\tau},\, b_t,\, s_{C,t},\, s_{G,t},\, \tau_t^k,\, \tau_t^w,\, \tau_t^c,\, \tau_t^{ic},\, \tau_t^i,\, \tau_t^d,\, e_t^{\tau},\, w_t)$ and 13 exogenous shock states into the full set of endogenous variables.
 
+\subsubsection{Likelihood Evaluation and Bayesian Estimation}
 
+The policy function \eqref{eq:policy} together with the 12 measurement equations (Section~\ref{sec:calibration}) form a linear Gaussian state-space system. The Kalman filter recursively evaluates the prediction-error decomposition of the log-likelihood:
+\begin{equation}\label{eq:likelihood}
+\log \mathcal{L}(Z^T \mid \Theta) = -\frac{T \cdot n_{obs}}{2}\log(2\pi) - \frac{1}{2}\sum_{t=1}^{T}\!\left[\log|F_t| + \nu_t' F_t^{-1} \nu_t\right]
+\end{equation}
+where $\nu_t = z_t^{obs} - E_{t-1}[z_t^{obs}]$ is the $n_{obs}$-vector of one-step-ahead prediction errors and $F_t$ is its conditional variance. The Kalman filter is initialized with a diffuse prior on the state vector. Observed data are demeaned prior to estimation to handle potential mismatches between model steady states and sample means.
 
+Combining the likelihood with the prior distributions specified in Table~\ref{tab:priors} yields the log-posterior kernel:
+\begin{equation}\label{eq:posterior}
+\log p(\Theta \mid Z^T) = \log\mathcal{L}(Z^T \mid \Theta) + \log p(\Theta) + \text{const.}
+\end{equation}
+The posterior mode is located via a Monte Carlo–based numerical optimization routine. The negative inverse Hessian at the mode provides an estimate of the posterior covariance, which is used to calibrate the scaling of a Gaussian random-walk proposal distribution for the Metropolis-Hastings algorithm. Two parallel chains of 1{,}500{,}000 draws each are generated, with the first one-third discarded as burn-in, yielding approximately 2{,}000{,}000 retained draws for posterior inference. Impulse response functions and fiscal multipliers are computed from draws of $A(\Theta)$ and $B(\Theta)$ over the retained posterior sample.
 
 \subsection{Calibration and Estimation}
 \label{sec:calibration}
