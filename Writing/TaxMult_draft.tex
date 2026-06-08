@@ -32,13 +32,12 @@ pdftex}
 
 
 \author{
-  Jason DeBacker\thanks{University of South Carolina, Email: \href{mailto:jason.debacker@moore.sc.edu}{jason.debacker@moore.sc.edu}} 
-  \and Richard W. Evans\thanks{Center for Growth and Opportunity, Email: \href{mailto:revans@thecgo.org}{revans@thecgo.org}} 
+  Jason DeBacker\thanks{University of South Carolina, Email: \href{mailto:jason.debacker@moore.sc.edu}{jason.debacker@moore.sc.edu}}
   \and Aerfate Haimiti\thanks{University of South Carolina, Email: \href{mailto:haerfate@email.sc.edu}{haerfate@email.sc.edu}}
 }
 
 \title{Tax Multipliers in a DSGE Model\thanks{Preliminary-- Please do not cite without author's permission.}}
-\date{First Draft: September 28, 2010\\ This Version: \today}
+\date{\today}
 
 
 % make tables with smaller sized font
@@ -63,7 +62,7 @@ pdftex}
 
 
 \begin{abstract}
-This paper analyzes the stabilization properties of tax cuts in a DSGE model.
+This paper analyzes the stabilization properties of tax cuts in a DSGE model.  We do this by simulating the a general equilibrium model with a rich set of tax levers in order to quantify tax multipliers over the short and medium-term.  The novelty in this paper is that we focus on tax cuts that directly target consumption and investment, which are the most effective counter-cyclical fiscal policies.  We find that the short-term multiplier associated with a cut to the consumption tax is larger than the multiplier associated with a cut to the labor income tax, and that the short-term multipliers associated with cuts to investment taxes are even larger.  We compare these to the multipliers associated with cuts to broad taxes on capital and labor income, which are the focus of much of the existing literature.  We also find that the medium-term multipliers associated with cuts to consumption and investment taxes are larger than the medium-term multipliers associated with cuts to broad taxes on capital and labor income.  These results suggest that tax cuts that directly target consumption and investment are more effective counter-cyclical fiscal policies than tax cuts that target broad taxes on capital and labor income.
 \end{abstract}
 
 
@@ -75,412 +74,107 @@ This paper analyzes the stabilization properties of tax cuts in a DSGE model.
 %\label{sec:intro}
 
 
-Consumption taxes have long been favored by tax economists for their relative efficiency vis-a-vis taxes on capital and labor.  This paper attempts to argue that consumption taxes should also be favored by macroeconomists for their stabilization properties.  Cuts to consumption taxes can quickly and effectively stimulate aggregate demand. The following analysis studies the quantitative impact of tax cuts in a dynamic schocastic general equilibrium (DSGE) model.  In addition to consumption taxes, the model nests other tax policies, such as investment tax credits and changes to expensing and depreciation policies.  These policies target investment by lowering the after-tax cost of capital.  Historically, such instruments have been used by the U.S. to provide counter-cyclical fiscal policy (e.g. the Economic Recovery Act of 1981 increased the ability of businesses to take advantage of the investment tax credit).  Despite their use, such policies have not been studied in a DSGE environment.
+We study tax multipliers associated with taxes that directly stimulate private consumption spending or investment such as consumption taxes and investment tax credits.  Consumption taxes have long been favored by tax economists for their relative efficiency vis-a-vis taxes on capital and labor.  This paper attempts to argue that consumption taxes should also be favored by macroeconomists for their stabilization properties.  Cuts to consumption taxes can quickly and effectively stimulate aggregate demand. The following analysis studies the quantitative impact of tax cuts in a dynamic stochastic general equilibrium (DSGE) model.  In addition to consumption taxes, the model nests other tax policies, such as investment tax credits and changes to expensing and depreciation policies.  These policies target investment by lowering the after-tax cost of capital.  Historically, such instruments have been used by the U.S. to provide counter-cyclical fiscal policy (e.g. the Economic Recovery Act of 1981 increased the ability of businesses to take advantage of the investment tax credit).  Despite their use, such policies have not been studied in a DSGE environment.
 
-The goal of this paper is to study specific tax policies in a DSGE environment.  In a sense, bring in the tax policies favored by tax economists into a model used by macroeconomists.  Recently, a number of researchers have used DSGE models to study the government spending multiplier (e.g., \cn{CER2010}), but less work has been done on tax multipliers.  Those who provide insights on tax multipliers (e.g., \cn{Zubairy2010}, \cn{IMF2010}) focus on multipliers associated with broad taxes on capital and labor income.  Such tax cuts are generally not the most effective counter-cyclical policies.  We are the first to provide quantitative insights into the the size of the multipliers associated with tax cuts that directly target consumption and investment.
+The goal of this paper is to study specific tax policies in a DSGE environment.  A number of researchers have used DSGE models to study the government spending multiplier (e.g., \cn{CER2010}), but less work has been done on tax multipliers.  Those who provide insights on tax multipliers (e.g., \cn{Zubairy2010}, \cn{IMF2010}) focus on multipliers associated with broad taxes on capital and labor income.  Such tax cuts are generally not the most effective counter-cyclical policies.  We are the first to provide quantitative insights into the the size of the multipliers associated with tax cuts that directly target consumption and investment.
 
-Two recent, but related, events have spurred interest in consumption taxes; the 2007-2009 recession and the large federal budget deficits.  In a 2008 \emph{Financial Times} aricle \cn{LK_FT2008} argue that a national sales tax holiday would be an especially effective response to the dip in aggregate demand experienced during the 2007-2009 financial crisis.  While possible, it is difficult to implement such a policy without a national sales tax.  Recent debate about the fiscal sustainability of the federal government has brough much attention to value added taxes (VAT) as a way to increase revenue with minimal efficiency costs.  We hope to show that a tax on consumption has a second positive attribute - a non-zero tax on consumption allows policy makers important flexibility for macro stabilization policies.
+Some related work to mention:
+\begin{enumerate}
+\item \cn{IMF2010} shows impulse response functions to a consumption tax cut.  This paper seems to find that consumption taxes do well compared to other taxes and transfers, but don't do as well as gov't consumption and gov't investment
+\item \cn{LPT2010} have consumption taxes, but don't allow them to vary with gov't debt
+\item \cn{Zubairy2010} doesn't not have consumption taxes, only capital and labor income taxes.  Says few even have distortionary taxes in models of multipliers.
+\item \cn{TY2010} allow for consumption taxes and allow them to vary.  Not answering the same question as I want, but good to look at what they say about consumption taxes.  In particular, how with cons taxes the consumer and producer price index will vary and what crowding out happens with consumption tax changes.
+\item \cn{SC2005} have consumption taxes, but don't use them as a policy instrument.  They don't say anything interesting about consumption taxes.
+\item \cn{CER2010} don't have consumption taxes and only focus on spending multipliers.  I don't even think they have taxes.  Fiscal and monetary policy rules look simple though- might want to take these.
+\end{enumerate}
 
+The remainder of the paper is organized as follows.  Section \ref{sec:model} describes the model.  Section \ref{sec:calibration} describes the calibration and estimation strategy we use to identify parameter values.  Section \ref{sec:results} presents the results.  Section \ref{sec:conclusion} concludes.
 
-Maybe cite some of the micro evidence of effects of sales tax holidays...
-
-Stress:
-\begin{itemize}
-\item lower dwl due to consumption tax than other forms of tax
-\item faster impact of consumption tax cut
-\item consumption beats spending because people get to choose what to spend it on (though we can't easily model this)
-\item current focus on the VAT, which is a consumption tax.  Most of talk is about less distortionary way to raise revenue, but it would also allow to a good fiscal stabilizer.
-\end{itemize}
-Other novelties:
-\begin{itemize}
-\item we build a model that can handle other tax cuts like bonus depreciation (something simple so don't have to take account of vintage) and investment tax credits- see what the multiplier is for these in short and long run
-\item Be best if could have heterogenous firms who vary in productivity and have price stickiness.  Build in corporate income tax, div tax, cap gains tax in more realistic detail (now all lumped in tax on capital).
-\end{itemize}
-
-\section{Environment}
+\section{Model}
 \label{sec:model}
 
 \subsection{Households}
-Representative household.
-
-HH maximizes:
-\begin{equation}
-U=E_{0}\sum_{t=0}^{\infty}\beta^{t}u(c_{t},l_{t},g_{t})
+The economy is populated by a continuum of identical households. Each household maximizes expected lifetime utility over its habit-adjusted private consumption surplus $x_{c,t}$, hours worked $h_t$, and habit-adjusted government consumption surplus $x_{g,t}$:
+\begin{equation}\label{eq:utility}
+E_{0}\sum_{t=0}^{\infty}\beta^{t} d_t \left\{ \frac{\left[x_{c,t}^{a}(1-h_{t})^{1-a}\right]^{1-\gamma}}{1-\gamma} + V(x_{g,t}) \right\}
 \end{equation}
+where $\beta \in (0,1)$ is the discount factor, $d_t$ is an intertemporal preference shock, $\gamma$ is the coefficient of relative risk aversion, and $a \in (0,1)$ is the consumption expenditure share calibrated at the steady state. Utility over government consumption $V(x_{g,t})$ is separable from private utility, so government spending does not directly affect the marginal utility of private consumption or leisure. Following \cn{Zubairy2010}, the model incorporates deep habit formation in both private and government consumption as in \cn{RSU2006}, which generates counter-cyclical markups and allows private consumption to rise in response to a government spending shock.
 
-subject to the real budget constraint:
-\begin{equation}
-\begin{split}
-(1+\tau_{t}^{c})c_{t}+\frac{b_{t}}{P_{t}}+i_{t}= & \frac{(1+r_{t}(1-\tau_{t}^{i}))b_{t-1}}{P_{t}} + \frac{(1-\tau_{t}^{l})w_{t}l_{t}}{P_{t}} + \\
-& \frac{(1-\tau_{t}^{k})r_{t}^{k}v_{t}k_{t-1}}{P_{t}} + \tau_{t}^{k}\delta_{t}^{\tau}k_{t-1}^{\tau} + \tau_{t}^{ic}i_{t} + \tau_{t}^{k}e_{t}^{\tau}i_{t} +  \frac{(1-\tau_{t}^{d})d_{t}}{P_{t}} + x_{t}
-\end{split}
-\end{equation}
-
-\noindent\noindent Where all variables pre-determined at time $t$ have subscripts strictly less than time $t$.  $c$ represents consumption, $i$ investment, $b$ government bond holdings, $p$ price level, $l$ labor supply, $k$ capital stock, $x$ government transfers, $d$ dividends, $w$ the nominal wage rate, $v$ intensity of capital utilization. Taxes $\tau^{i}$, $\tau^{l}$, $\tau^{k}$, $\tau^{d}$ are taxes on interest income, labor income, capital income, and dividend income.  $r$ is the nominal interest rate on government bonds and $r^{k}$ is the rental rate on capital.  $k^{\tau}$ is the tax basis for the household's capital stock, $\delta^{\tau}$ is the rate of depreciation for tax purposes, $e^{\tau}$ is the rate of expensing for tax purposes, and $\tau^{ic}$ is the investment tax credit.
-
-
-The law of motion of the household's capital stock is:
-\begin{equation}
-k_{t}=(1-\delta(v_{t}))k_{t-1} + i_{t}\left[1-S\left(\frac{i_{t}}{i_{t-1}}\right)\right]
-\end{equation}
-
-I'll assume that the investment adjustment cost function takes the form $S\left(\frac{i_{t}}{i_{t-1}}\right)=\frac{\gamma}{2}\left(\frac{i_{t}}{i_{t-1}}-1\right)^2$.  Such a functional form is common in the literature (e.g., \cn{SW2003}, \cn{CER2010}, \cn{Zubairy2010}, et al) and has the nice properties that in the steady state $S=0,$ $S'=0$ and $S''>0$, and that in a deterministic steady state, the adjustment costs are zero.
-
-The law of motion of the household's tax basis for it's capital stock is:
-\begin{equation}
-k_{t}^{\tau}=(1-\delta_{t}^{\tau})k_{t-1}^{\tau} + i_{t}(1-e_{t}^{\tau})
-\end{equation}
-
-
-Assume also that $\delta(v_{t})$ takes the form: $\delta(v_{t})=\delta_{0}+\delta_{1}(v_{t}-1) + \frac{\delta_{2}}{2}(v_{t}-1)^2$.  This means that in the deterministic steady state, we can calibrate $\delta$ such that $v_{t}=1$, and $\delta(v)=\delta_{0}$ (see \cn{TY2010} on this point).
-
-
-FOC's (to go in appendix):
-
-\begin{equation}
-\frac{\partial U}{\partial c_{t}}: u_{c}(c_{t},l_{t},g_{t})- \lambda_{t}(1+\tau_{t}^{c}) = 0
-\end{equation}
-
-\begin{equation}
-\frac{\partial U}{\partial l_{t}}: u_{l}(c_{t},l_{t},g_{t})+u_{c}(c_{t},l_{t},g_{t})\frac{w_{t}(1-\tau_{t}^{l})}{P_{t}(1+\tau_{t}^{c})}  = 0
-\end{equation}
-
-
- \begin{equation}
-\begin{split}
-\frac{\partial U}{\partial i_{t}}: & u_{c}(c_{t},l_{t},g_{t})\frac{(-1+\tau_{t}^{ic}+\tau_{t}^{k}e_{t}^{\tau})}{(1+\tau_{t}^{c})} + \\
-& \beta E_{t}u_{c}(c_{t+1},l_{t+1},g_{t+1})\frac{1}{(1+\tau_{t+1}^{c})}\left[\frac{(1-\tau_{t+1}^{k})r_{t+1}^{k}v_{t+1}}{P_{t+1}}\left(1-S\left(\frac{i_{t}}{i_{t-1}}\right)-i_{t}\left(\frac{S'\frac{i_{t}}{i_{t-1}}}{i_{t-1}}\right)\right)+\tau_{t+1}^{k}\delta_{t+1}^{\tau}(1-e_{t}^{\tau})\right] + \\
-&  \beta^{2}E_{t}\left[u_{c}(c_{t+2},l_{t+2},g_{t+2})\left(\frac{1-\tau_{t+2}^{k}}{1+\tau_{t+2}^{c}}\right)\frac{r_{t+2}^{k}v_{t+2}}{P_{t+2}}\gamma\left(\frac{i_{t+1}}{i_{t}}-1\right)\left(\frac{i_{t+1}}{i_{t}}\right)^{2}\right]= 0
-  \end{split}
-  \end{equation}
-
-
-\begin{equation}
-\begin{split}
-\frac{\partial U}{\partial b_{t}}: & \frac{-u_{c}(c_{t},l_{t},g_{t})}{P_{t}(1+\tau_{t}^{c})}  +
-\beta E_{t}u_{c}(c_{t+1},l_{t+1},g_{t+1})\left(\frac{(1+r_{t+1}(1-\tau_{t+1}^{i}))}{P_{t+1}(1+\tau_{t+1}^{c})}\right)  = 0
-\end{split}
-\end{equation}
-
-\begin{equation}
-\begin{split}
-\frac{\partial U}{\partial v_{t}}: & u_{c}(c_{t},l_{t},g_{t})\left(\frac{(1-\tau_{t}^{k})r_{t}^{k}k_{t-1}}{P_{t}(1+\tau_{t}^{c})}\right) - \beta E_{t}u_{c}(c_{t+1},l_{t+1},g_{t+1})\left(\frac{(1-\tau_{t+1}^{k})r_{t+1}^{k}v_{t+1}\frac{\partial \delta(v_{t})}{\partial v_{t}}k_{t-1}}{P_{t+1}(1+\tau_{t+1}^{c})}\right)  = 0
-\end{split}
-\end{equation}
-
-
-\subsubsection{Utility specification 0}
-
-This utility function is similar to that in \cn{CER2010}, \cn{TY2010}, and \cn{Zubairy2010}.
-
-\begin{equation}
-u(c_{t},l_{t},g_{t})= \varepsilon_{t}^{b}\left(\frac{[c_{t}^{\zeta}(1-l_{t})^{(1-\zeta)}]^{1-\sigma}}{1-\sigma}+\chi^{g}\frac{g_{t}^{1-\sigma_{g}}}{1-\sigma_{g}}\right)
-\end{equation}
-
-in which the preference shock is assumed to follow the following AR(1) process:
-\begin{equation}\label{EqPrefShock}
-   \begin{split}
-      \log(\ve_t^b) &= \rho_\ve \log(\ve_{t-1}^b) + \eta_{\ve,t} \\
-      &\quad\text{where}\quad\eta_{\ve,t}\sim N(0,\sigma_\ve) \quad\text{and}\quad \rho_\ve\in[0,1)
-   \end{split}
-\end{equation}
-
-FOC's with this utility function are:
-
-
-
+The habit-adjusted consumption surpluses are:
 \begin{align}
-& \frac{\partial U}{\partial c_{t}}:\: \frac{\varepsilon_{t}^{b}\zeta c_{t}^{\zeta(1-\sigma)-1}(1-l_{t})^{(1-\zeta)(1-\sigma)}}{1+\tau_{t}^{c}} = \lambda_{t} \label{EqFOCc} \\
-   & \frac{\partial U}{\partial l_{t}}:\: \left(\frac{1-\zeta}{\zeta}\right)\left(\frac{c_t}{1-l_t}\right) = \frac{w_{t}(1-\tau_{t}^{l})}{P_{t}(1+\tau_{t}^{c})} \label{EqFOCl} \\
-      \begin{split}
-      &\frac{\partial U}{\partial i_{t}}:\: \ve_{t}^b\left(\frac{c_{t}}{1-l_{t}}\right)^{(\zeta-1)(1-\sigma)}c_{t}^{-\sigma}\left(\frac{\tau_{t}^{ic}+\tau_{t}^{k}e_{t}^{\tau} - 1}{1+\tau_{t}^{c}}\right) + ... \\
-      &\quad\quad\quad\quad \beta E_{t}\Biggl[\ve_{t+1}^b\left(\frac{c_{t+1}}{1-l_{t+1}}\right)^{(\zeta-1)(1-\sigma)}c_{t+1}^{-\sigma}... \\
-      &\quad\quad\quad\quad \Biggl(\frac{[1-\tau_{t+1}^k]r_{t+1}^k v_{t+1}}{P_{t+1}(1+\tau_{t+1}^c)}\left[1-\frac{\gamma}{2}\left(\frac{i_{t}}{i_{t-1}}-1\right)^2 - \gamma\left(\frac{i_{t}}{i_{t-1}}\right)\left(\frac{i_{t}}{i_{t-1}}-1\right)\right] + \frac{\tau_{t+1}^k\delta_{t+1}^\tau(1-e_{t+1}^\tau)}{1+\tau_{t+1}^c}\Biggr)\Biggr] + ... \\
-      &\quad\quad\quad\quad \beta^{2}E_{t}\Biggl[\ve_{t+2}^b\left(\frac{c_{t+2}}{1-l_{t+2}}\right)^{(\zeta-1)(1-\sigma)}c_{t+2}^{-\sigma}\frac{(1-\tau_{t+2}^k)r_{t+2}^k v_{t+2}}{P_{t+2}(1+\tau_{t+2}^c)}\gamma\left(\frac{i_{t+1}}{i_{t}}-1\right)\left(\frac{i_{t+1}}{i_{t}}\right)^{2}\Biggr]= 0
-   \end{split} \label{EqFOCi} \\
-   \begin{split}
-      &\frac{\partial U}{\partial b_{t}}:\: \ve_{t}^b\left(\frac{c_{t}}{1-l_{t}}\right)^{(\zeta-1)(1-\sigma)}c_{t}^{-\sigma}\frac{1}{P_t(1+\tau_t^c)} = ... \\
-      &\quad\quad\quad\quad \beta E_t\Biggl[\ve_{t+1}^b\left(\frac{c_{t+1}}{1-l_{t+1}}\right)^{(\zeta-1)(1-\sigma)}c_{t+1}^{-\sigma}\frac{1+r_{t+1}(1-\tau_{t+1}^i)}{P_{t+1}(1+\tau_{t+1}^c)}\Biggr]
-   \end{split} \label{EqFOCb} \\
-   \begin{split}
-      &\frac{\partial U}{\partial v_{t}}:\: \ve_{t}^b\left(\frac{c_{t}}{1-l_{t}}\right)^{(\zeta-1)(1-\sigma)}c_{t}^{-\sigma}\frac{(1-\tau_t^k)r_t^k k_{t-1}}{P_{t}(1+\tau_t^c)} = ... \\
-      &\quad\quad\quad\quad \beta E_t\Biggl[\ve_{t+1}^b\left(\frac{c_{t+1}}{1-l_{t+1}}\right)^{(\zeta-1)(1-\sigma)}c_{t+1}^{-\sigma}\frac{(1-\tau_{t+1}^k)r_{t+1}^k v_{t+1}}{P_{t+1}(1+\tau_{t+1}^c)}\bigl(\delta_1 + \delta_2[v_t - 1]\bigr)k_{t-1}\Biggr]
-   \end{split}  \label{EqFOCv}\\
+x_{c,t} &= c_t - b_c s_{C,t-1} \label{eq:xc} \\
+x_{g,t} &= g_t - b_g s_{G,t-1} \label{eq:xg}
 \end{align}
+where $b_c \in [0,1)$ and $b_g \in [0,1)$ govern the degree of deep habit formation in private and government consumption. The habit stocks evolve according to:
+\begin{align}
+s_{C,t} &= \theta^c s_{C,t-1} + (1-\theta^c) c_t \label{eq:sC} \\
+s_{G,t} &= \theta^g s_{G,t-1} + (1-\theta^g) g_t \label{eq:sG}
+\end{align}
+where $\theta^c, \theta^g \in [0,1)$ govern the speed of habit stock adjustment.
 
-
-\subsubsection{Alternative Setup}
-
- \begin{equation}
+Households supply labor, accumulate physical capital, hold government bonds, and receive dividend income from firms. The period-by-period real budget constraint is:
+\begin{equation}\label{eq:bc}
 \begin{split}
-E_{0}\sum_{t=0}^{\infty} \beta^{t}\left[ u(c_{t},l_{t},g_{t})- \lambda_{t}
-\left[(1+\tau_{t}^{c})c_{t}+\frac{b_{t}}{P_{t}}+i_{t}-\frac{(1+r_{t}(1-\tau_{t}^{i}))b_{t-1}}{P_{t}} - \frac{(1-\tau_{t}^{l})w_{t}l_{t}}{P_{t}} - \frac{(1-\tau_{t}^{k})r_{t}^{k}v_{t}k_{t-1}}{P_{t}} - \tau_{t}^{k}\delta_{t}^{\tau}k_{t-1}^{\tau} - \tau_{t}^{ic}i_{t} - \tau_{t}^{k}e_{t}^{\tau}i_{t} -  \frac{(1-\tau_{t}^{d})d_{t}}{P_{t}} - x_{t}\right]-Q_{t}
-\left[k_{t}-(1-\delta(v_{t}))k_{t-1}-i_{t}\left(1-S\left[\frac{i_{t}}{i_{t-1}}\right]\right)\right]\right]
- \end{split}
-  \end{equation}
-
-FOCS:
-
-\begin{equation}
-\frac{\partial U}{\partial c_{t}}: u_{c}(c_{t},l_{t},g_{t})- \lambda_{t}(1+\tau_{t}^{c}) = 0
-\end{equation}
-
-\begin{equation}
-\frac{\partial U}{\partial l_{t}}: u_{l}(c_{t},l_{t},g_{t})+\frac{\lambda_{t}w_{t}(1-\tau_{t}^{l})}{P_{t}} = 0
-\end{equation}
-
-
- \begin{equation}
-\begin{split}
-\frac{\partial U}{\partial b_{t}}: \frac{\lambda_{t}}{P{t}} = \beta E_{t}\left[ \frac{\lambda_{t+1}(1+r_{t+1}(1-\tau_{t+1}^{i}))}{P_{t+1}} \right]
-  \end{split}
-  \end{equation}
-
-\begin{equation}
-\begin{split}
-\frac{\partial U}{\partial v_{t}}: \frac{\lambda_{t}(1-\tau{t}^{k})r_{t}^{k}k_{t-1}}{P_{t}} = Q_{t}(\delta_{1}+\delta_{2}(v_{t}-1))k_{t-1}
+(1+\tau_{t}^{c})c_{t} + b_{t} + i_{t} = &\;\frac{\left[1+(R_{t-1}-1)(1-\tau_{t}^{i})\right]b_{t-1}}{\pi_t} + (1-\tau_{t}^{w})w_{t}h_{t} \\
+&+ (1-\tau_{t}^{k})r_{t}^{k}u_{t}k_{t-1} + \tau_{t}^{k}\delta^{\tau}k_{t-1}^{\tau} + \tau_{t}^{k}e_{t}^{\tau}i_{t} + \tau_{t}^{ic}i_{t} + (1-\tau_{t}^{d})\,\text{div}_{t} + x_{t}
 \end{split}
 \end{equation}
+where $b_t$ denotes real bond holdings, $R_t$ is the gross nominal interest rate, $\pi_t \equiv P_t/P_{t-1}$ is gross price inflation, $w_t$ is the real wage, $r_t^k$ is the real rental rate of capital, $u_t$ is the capital utilization rate, $\text{div}_t$ are real firm dividends, and $x_t$ is a lump-sum government transfer. The tax instruments are: $\tau_t^c$ (consumption tax), $\tau_t^w$ (labor income tax), $\tau_t^k$ (capital income tax), $\tau_t^i$ (interest income tax), $\tau_t^d$ (dividend income tax), and $\tau_t^{ic}$ (investment tax credit). Only the interest component $(R_{t-1}-1)$ of the gross bond return is subject to the interest income tax. Capital income is measured net of tax depreciation deductions $\tau_t^k\delta^{\tau}k_{t-1}^{\tau}$, where $\delta^{\tau}$ is the tax depreciation rate and $k_t^{\tau}$ is the tax basis of the capital stock, and net of immediate expensing $\tau_t^k e_t^{\tau} i_t$, where $e_t^{\tau}$ is the expensing rate.
 
-\begin{equation}
-\begin{split}
-\frac{\partial U}{\partial k_{t}}: Q_{t} = \beta E_{t} \left[\frac{\lambda_{t+1}(1-\tau_{t+1}^{k})r_{t+1}^{k}v_{t+1}}{P_{t+1}} + Q_{t+1}(1-\delta(v_{t+1}))\right]
-\end{split}
+Physical capital accumulates according to:
+\begin{equation}\label{eq:kacc}
+k_{t} = (1-\delta)k_{t-1} + i_{t}\left[1-S\!\left(\frac{\mu_t i_{t}}{i_{t-1}}\right)\right]
 \end{equation}
+where $\delta$ is the constant economic depreciation rate and $\mu_t$ is a stochastic investment efficiency shock. Following \cn{SW2003} and \cn{Zubairy2010}, the investment adjustment cost function takes the form $S\!\left(\frac{\mu_t i_t}{i_{t-1}}\right) = \frac{\kappa}{2}\!\left(\frac{\mu_t i_t}{i_{t-1}}-1\right)^2$, so that in the deterministic steady state $S = S' = 0$ and $S'' = \kappa > 0$.
 
-\begin{equation}
-\begin{split}
-\frac{\partial U}{\partial i_{t}}: \lambda_{t}(1-\tau_{t}^{ic}-\tau_{t}^{k}e_{t}^{\tau}) & = Q_{t}\left[1-S\left(\frac{i_{t}}{i_{t-1}}\right)-S'\left(\frac{i_{t}}{i_{t-1}}\right)\frac{i_{t}}{i_{t-1}} \right] + \\
-&  \beta E_{t}\left[\lambda_{t+1}\tau_{t+1}^{k}\delta_{t+1}^{\tau}(1-e_{t}^{\tau}) + Q_{t+1}S'\left(\frac{i_{t+1}}{i_{t}}\right)\left(\frac{i_{t+1}}{i_{t}}\right)^{2}\right]
-\end{split}
+The tax basis of the capital stock evolves as:
+\begin{equation}\label{eq:ktau}
+k_{t}^{\tau} = (1-\delta^{\tau})k_{t-1}^{\tau} + i_{t}(1-e_{t}^{\tau})
 \end{equation}
+Only the non-expensed fraction $(1-e_t^{\tau})$ of new investment is added to the tax basis; the immediately expensed portion is deducted in the period of investment.
 
+\subsubsection*{Household optimality conditions}
 
-
-\subsubsection{HH FOC's in the SS}
-
-\begin{equation}
-\frac{\partial U}{\partial c}:\frac{\zeta \bar{c}^{\zeta(1-\sigma)-1}(1-\bar{l})^{(1-\zeta)(1-\sigma)}}{(1+\tau^{c})} = \bar{\lambda}
+The first-order condition with respect to consumption defines the marginal utility of income $\lambda_t$:
+\begin{equation}\label{eq:lambda}
+\lambda_t = \frac{d_t \cdot a \cdot \left[x_{c,t}^{a}(1-h_t)^{1-a}\right]^{1-\gamma}}{x_{c,t}(1+\tau_{t}^{c})}
 \end{equation}
+The consumption tax $\tau_t^c$ drives a wedge between the marginal utility of income and the marginal utility of the consumption surplus: a higher $\tau_t^c$ lowers $\lambda_t$ for any given level of $x_{c,t}$ and $h_t$.
 
-\begin{equation}
-\frac{\partial U}{\partial l}: \frac{(1-\zeta)\bar{c}}{\zeta (1-\bar{l})} = \frac{\bar{w}(1-\tau^{l})}{(1+\tau^{c})}
+The intratemporal labor-leisure condition equates the marginal disutility of work to the after-markup real wage:
+\begin{equation}\label{eq:labor}
+d_t (1-a) \frac{\left[x_{c,t}^{a}(1-h_t)^{1-a}\right]^{1-\gamma}}{1-h_t} = \frac{\lambda_t w_t}{\tilde{w}_t}
 \end{equation}
+where $\tilde{w}_t$ is the wage markup arising from monopolistic competition in the labor market. The labor income tax $\tau_t^w$ does not appear explicitly here because it is absorbed into the endogenous markup: the wage Phillips curve \eqref{eq:wagePC} implies $\tilde{w}_t = \eta_w/[(\eta_w-1)(1-\tau_t^w)]$ in the frictionless limit, so the effective wage $w_t/\tilde{w}_t$ already reflects the after-tax, after-markup return to labor.
 
-
- \begin{equation}
-\begin{split}
-\frac{\partial U}{\partial i}:\left(1-\tau^{ic}-\tau^{k}e^{\tau}\right) = \beta \left[(1-\tau^{k})\bar{r}^{k}+ \tau^{k}\delta^{\tau}(1-e^{\tau})\right]
- \end{split}
-  \end{equation}
-
-
-\begin{equation}
-\begin{split}
-\frac{\partial U}{\partial b}: 1 = \beta(1+\bar{r}(1-\tau^{i}))
-\end{split}
+The optimal utilization rate equates the after-tax marginal product of capital to the marginal cost of utilization:
+\begin{equation}\label{eq:util}
+(1-\tau_{t}^{k})r_{t}^{k} = \gamma_1 u_{t}^{\sigma_u}
 \end{equation}
+where $\gamma_1 = (1-\tau_k^{ss})r_k^{ss}$ is pinned down at the steady state and $\sigma_u$ governs the convexity of the utilization cost function $a(u_t) = \frac{\gamma_1}{1+\sigma_u}(u_t^{1+\sigma_u}-1)$. Relative to \cn{Zubairy2010}, the term $\delta q_t \tau_t^k$ is absent from this condition because depreciation deductions are now tracked through the shadow value of the tax basis $v_{\tau,t}$ defined below, avoiding double-counting.
 
-\begin{equation}
-\frac{\partial U}{\partial v}: \bar{k} = \beta \delta_{1}
+The capital Euler equation governs the optimal capital stock:
+\begin{equation}\label{eq:capeuler}
+\lambda_t q_t = \beta E_t \lambda_{t+1} \left[(1-\tau_{t+1}^{k})r_{t+1}^{k}u_{t+1} - \frac{\gamma_1}{1+\sigma_u}\!\left(u_{t+1}^{1+\sigma_u}-1\right) + q_{t+1}(1-\delta)\right]
 \end{equation}
+where $q_t$ is Tobin's marginal $q$. Similarly, the term $\delta q_{t+1}\tau_{t+1}^k u_{t+1}$ present in \cn{Zubairy2010} is omitted here for the same reason.
 
-
-\subsubsection{SS of HH constraints/laws of motion}
-\begin{itemize}
-\item $\bar{k}=(1-\delta(\bar{v}))\bar{k}+\bar{i}\implies \bar{k}\delta(\bar{v})=\bar{i}$, if $\bar{v}=1$, then $\bar{i}=\bar{k}\delta_{0}$
-\item $\delta(\bar{v}) = \delta_{0}+\delta_{1}(\bar{v}-1)+\frac{\delta_{2}}{2}(\bar{v}-1)^{2}$, if $\bar{v}=1$, then $\delta(\bar{v})=\delta_{0}$
-\item $S(\bar{i}) = 0$
-\item $\bar{k}^{\tau} = (1-\delta^{\tau})\bar{k}^{\tau}+\bar{i}(1-e^{\tau}) \implies \bar{k}^{\tau}\delta^{\tau}=\bar{i}(1-e^{\tau})$
-\item Seems as though can normalize $\bar{P}=1$ and $\bar{v}=1$.  Problems with this??
-\end{itemize}
-
-
-\subsubsection{SS of non-HH equations}
-
-\begin{itemize}
-\item Resource constraint: $\bar{Y} = \bar{C}+\delta_{0}\bar{K}+\bar{G}$
-\item Government Budget Constraint: $\tau^{c}\bar{C} + \tau^{l}\bar{L}\bar{w} - (\bar{r}(1-\tau^{i}))\bar{B} + \tau^{k}\bar{r}^{k}\bar{K} + \tau^{d}\bar{D} = \bar{G} + \bar{X} + \tau^{ic}\delta_{0}\bar{K} + \tau^{k}\delta_{0}\bar{K}(1-e^{\tau}) + \tau^{k}e^{\tau}\delta_{0}\bar{K} $  It might be that profits of the intermediate goods producers are zero in the SS- in which case, $\bar{D}=0$.
-\item Technology shock: $\bar{z} = 1$
-\item SS conditions from Intermediate Goods Producers:
-	\begin{itemize}
-	\item marginal cost: $ mc = \frac{\bar{w}(1-\alpha)\bar{r}^{k \alpha}}{\alpha^{\alpha}(1-\alpha)^{(1-\alpha)}}$
-	\item labor-capital ratio: $\frac{\bar{K}}{\bar{L}}=\left(\frac{\alpha}{1-\alpha}\right)\frac{\bar{w}}{\bar{r}^{k}}$
-	\item output: $\bar{Y} = \bar{K}^{\alpha}\bar{L}^{(1-\alpha)}$
-	\end{itemize}
-	\item Final Goods Producers: $\bar{P}=1$ (\emph{I think}).
-\end{itemize}
-
-
-
-%\subsubsection{Log-linearizing HH FOCs and other necessary conditions:}
-%
-%Let $\hat{X}_{t}=\left(\frac{X_{t}-\bar{X}}{\bar{X}}\right)$.  This is the percentage deviation from the steady state times the steady state value.
-%
-%\emph{These are not right.  I need to update them, though it's not that important if using Dynare...}
-%
-%\begin{equation}
-%\frac{\partial U}{\partial c_{t}}: (\zeta(1-\sigma)-1)\hat{c}_{t} - \frac{\bar{l}(1-\zeta)(1-\sigma)}{(1-\bar{l})}\hat{l}_{t} - \hat{\lambda}_{t}
-% - \frac{\bar{\lambda}\tau^{c}\hat{\tau}_{t}^{c}}{\zeta\bar{c}^{\zeta(1-\sigma)-1}(1-\bar{l})^{(1-\zeta)(1-\sigma)}} = 0
-%\end{equation}
-%
-%\begin{equation}
-%\frac{\partial U}{\partial l_{t}}: \frac{(1-\zeta)\bar{c}}{\zeta \bar{l}}(\hat{l}_{t}-\hat{c}_{t}) + \frac{(1+\bar{l})(1-\tau^{l})\bar{w}}{1+\tau^{c}}\left[\frac{\hat{l}_{t}}{1+\bar{l}} + \hat{w}_{t} - \frac{\tau^{l}\hat{\tau}_{t}^{l}}{(1-\tau^{l})} - \hat{P}_{t} - \frac{\tau^{c}\hat{\tau}_{t}^{c}}{1+\tau^{c}}\right] = 0
-%\end{equation}
-%
-%
-% \begin{equation}
-%\begin{split}
-%\frac{\partial U}{\partial i_{t}}:  & (-1+\tau^{ic}+e^{\tau})\left[\hat{c}_{t}-\frac{\bar{l}\hat{l}_{t}}{(1-\bar{l})}+\hat{\varepsilon}_{t}^{b}-\frac{\tau^{c}\hat{\tau}_{t}^{c}}{1+\tau^{c}}\right] +
-% \tau^{ic}\hat{\tau}_{t}^{ic} + e^{\tau}\hat{e}_{t}^{\tau} + \\
-% & \beta E_{t}\left[((1-\tau^{k})\bar{r}^{k}+\tau^{k}\delta^{\tau}(1-e^{\tau}))\left(\hat{c}_{t+1}-\frac{\bar{l}\hat{l}_{t+1}}{(1-\bar{l})}+\hat{\varepsilon}_{t+1}^{b}-\frac{\tau^{c}\hat{\tau}_{t+1}^{c}}{1+\tau^{c}}\right) \right] \\
-%  & + \beta E_{t}\left[ (1-\tau^{k})\bar{r}^{k}\hat{r}_{t+1}^{k} - (\bar{r}^{k}\delta^{\tau}(1-e^{\tau}))\tau^{k}\hat{\tau}_{t+1}^{k} - \tau^{k}\delta^{\tau}e^{\tau}\hat{e}_{t}^{\tau} - (1-\tau^{k})\bar{r}^{k}\gamma\hat{i}_{t} +
-%   (1-\tau^{k})\bar{r}^{k}\gamma\hat{i}_{t-1} \right] \\
-%   & = 0
-% \end{split}
-%  \end{equation}
-%
-%
-%\begin{equation}
-%\begin{split}
-%\frac{\partial U}{\partial b_{t}}: & (\zeta(1-\sigma)-1)\hat{c}_{t} - \frac{(1-\zeta)(1-\sigma)\bar{l}\hat{l}_{t}}{1-\bar{l}} - \hat{P}_{t} + \hat{\varepsilon}_{t}^{b} - \frac{\tau^{c}\hat{\tau}_{t}^{c}}{1+\tau^{c}} - \\
-%& \beta E_{t}\left[(1+\bar{r}(1-\tau^{i}))\left[(\zeta(1-\sigma)-1)\hat{c}_{t+1} - \frac{(1-\zeta)(1-\sigma)\bar{l}\hat{l}_{t+1}}{1-\bar{l}} - \hat{P}_{t+1} + \hat{\varepsilon}_{t+1}^{b} - \frac{\tau^{c}\hat{\tau}_{t+1}^{c}}{1+\tau^{c}}\right]
-% + (1-\tau_{i})\bar{r}\hat{r}_{t+1} \right] \\
-% & = 0
-%\end{split}
-%\end{equation}
-%
-%\begin{equation}
-%\begin{split}
-%\frac{\partial U}{\partial v_{t}}: & \bar{k}\left[(\zeta(1-\sigma)-1)\hat{c}_{t} - \frac{(1-\sigma)(1-\zeta)\bar{l}\hat{l}_{t}}{(1-\bar{l})} - \frac{\tau^{k}\hat{\tau}_{t}^{k}}{(1-\tau^{k})} + \hat{r}_{t}^{k} + \hat{k}_{t-1} - \frac{\tau^{c}\hat{\tau}_{t}^{c}}{1+\tau^{c}} + \hat{\varepsilon}_{t}^{b}\right] \\
-%& - \beta E_{t} \left[(\zeta(1-\sigma)-1)\hat{c}_{t+1} - \frac{(1-\sigma)(1-\zeta)\bar{l}\hat{l}_{t+1}}{(1-\bar{l})} - \frac{\tau^{k}\hat{\tau}_{t+1}^{k}}{(1-\tau^{k})} + \hat{r}_{t+1}^{k} + \hat{v}_{t+1} + \frac{\delta_{2}\hat{v}_{t}}{\delta_{1}} - \frac{\tau^{c}\hat{\tau}_{t+1}^{c}}{1+\tau^{c}} + \hat{\varepsilon}_{t+1}^{b}\  \right] = 0
-%\end{split}
-%\end{equation}
-%
-%\begin{equation}
-%\text{Resource Constraint}: \bar{Y}(\hat{Y}_{t} - \alpha\hat{K}_{t}-(1-\alpha)\hat{L}_{t}) = 0
-%\end{equation}
-%
-%\begin{equation}
-%\text{Aggregate Tech Shock}: \hat{z}_{t} = \rho\hat{z}_{t-1} + \epsilon_{t}
-%\end{equation}
-%
-%\begin{equation}
-%\text{Law of Motion of Capital Stock}: \bar{K}\hat{K}_{t}-(1-\delta_{0})\bar{K}\hat{K}_{t-1} + \delta_{1}\bar{K}\hat{V}_{t}  - \bar{I}\hat{I}_{t} = 0
-%\end{equation}
-%
-%\begin{equation}
-%\text{Law of Motion of Tax Basis of Capital Stock}: \bar{K}^{\tau}(\hat{K}_{t}^{\tau}-(1-\delta^{\tau})\hat{K}_{t-1}^{\tau}+\delta^{\tau}\hat{\delta}_{t}^{\tau}) -
-%\bar{I}((1-e^{\tau})\hat{I}_{t}-e^{\tau}\hat{e}_{t}^{\tau}) = 0
-%\end{equation}
-%
-%\begin{equation}
-%\begin{split}
-%\text{Gov't Budget Constraint}:  & \bar{C}\tau^{c}(\hat{\tau}_{t}^{c}+\hat{C}_{t}) + \tau^{l}\bar{L}\bar{w}(\hat{\tau}_{t}^{l}+\hat{L}_{t}+\hat{w}_{t}-\hat{P}_{t}) - \bar{B}(1+\bar{r}(1-\tau^{i}))(\hat{B}_{t}-\hat{P}_{t}) \\
-%& - \bar{B}(1-\tau^{i})\bar{r}\hat{r}_{t} + \bar{B}\bar{r}\tau^{i}\hat{\tau}_{t}^{i} + \tau^{k}\bar{r}^{k}\bar{K}(\hat{\tau}_{t}^{k}+\hat{r}_{t}^{k}+\hat{V}_{t}+\hat{K}_{t-1}) -  \\
-%&  \tau^{k}\delta^{\tau}\bar{K}^{\tau}(\hat{\tau}_{t}^{k}+\hat{\delta}_{t}^{\tau}+\hat{K}_{t-1}) - \tau^{ic}\bar{I}(\hat{\tau}_{t}^{ic}+\hat{I}_{t}) - e^{\tau} \bar{I}(\hat{e}_{t}^{\tau}+\hat{I}_{t}) + \\
-% &  \bar{B}(\hat{B}_{t}-\hat{P}_{t}) - \bar{X}\hat{X}_{t} - \bar{G}\hat{G}_{t} = 0
-%\end{split}
-%\end{equation}
-
-
-\subsubsection{Steady state values of state variables:}
-
-From the Calvo pricing equation, we can normalize $\bar{P}$:
-\begin{equation}
-\bar{P} = 1
+The investment Euler equation governs the optimal investment decision:
+\begin{equation}\label{eq:inv}
+\lambda_t\!\left(1-\tau_{t}^{ic}-\tau_{t}^{k}e_{t}^{\tau}\right) = \lambda_t q_t \!\left[1-S\!\left(\tfrac{\mu_t i_t}{i_{t-1}}\right) - \tfrac{\mu_t i_t}{i_{t-1}} S'\!\left(\tfrac{\mu_t i_t}{i_{t-1}}\right)\right] + \beta E_t \lambda_{t+1} q_{t+1} \!\left(\tfrac{\mu_{t+1}i_{t+1}}{i_t}\right)^{\!2} S'\!\left(\tfrac{\mu_{t+1}i_{t+1}}{i_t}\right) + \lambda_t v_{\tau,t}(1-e_{t}^{\tau})
 \end{equation}
-
-We can calibrate $\delta_{0}$ such that we can normalize our SS capital utilization:
-\begin{equation}
-\bar{V} = 1
+The left-hand side is the net cost of investing one unit: the investment tax credit $\tau_t^{ic}$ and the immediate expensing saving $\tau_t^k e_t^{\tau}$ each reduce the effective outlay. The term $\lambda_t v_{\tau,t}(1-e_t^{\tau})$ on the right-hand side is the present value of future tax depreciation deductions on the non-expensed share of investment. The shadow value of the tax basis $v_{\tau,t}$ satisfies its own Euler equation:
+\begin{equation}\label{eq:vtau}
+\lambda_t v_{\tau,t} = \beta E_t \lambda_{t+1}\!\left[(1-\delta^{\tau})v_{\tau,t+1} + \tau_{t+1}^{k}\delta^{\tau}\right]
 \end{equation}
+An additional unit of tax basis yields a deduction $\tau_{t+1}^k\delta^{\tau}$ next period and a depreciated stock $(1-\delta^{\tau})v_{\tau,t+1}$ of future deductions.
 
-We can normalize the mean of the TFP process (and know that the disturbance term = 0 in the SS):
-\begin{equation}
-\bar{Z} = 1
+Finally, the bond Euler equation is:
+\begin{equation}\label{eq:bondeuler}
+\lambda_t = \beta E_t \!\left[1+(R_t-1)(1-\tau_{t+1}^{i})\right]\frac{\lambda_{t+1}}{\pi_{t+1}}
 \end{equation}
+Only the interest earned $(R_t-1)$ on bond holdings is subject to the interest income tax $\tau_{t+1}^i$, so the relevant return is the after-tax net interest. This differs from \cn{Zubairy2010}, in which the pre-tax gross return $R_t$ governs the bond Euler.
 
-We can normalize the mean of the taste shock (and know that the disturbance term = 0 in the SS):
-\begin{equation}
-\bar{\varepsilon}^{b} = 1
-\end{equation}
-
-We know that the disturbance term to the price markup is zero in the SS, thus:
-\begin{equation}
-\bar{\lambda}_{p} = \lambda_{p}
-\end{equation}
-
-We can solve for the SS interest rate directly from the HH FOC for demand for gov't bonds (or from the Taylor Rule):
-\begin{equation}
-\bar{r} = \frac{1-\beta}{\beta(1-\tau^{i})}
-\end{equation}
-
-The FOC for the HH investment decision, we can find the SS return on capital:
-\begin{equation}
-\bar{r}^{k} = \frac{\left(\frac{1-\tau^{ic}-\tau^{k}e^{\tau}}{\beta}\right)-\tau^{k}\delta^{\tau}(1-e^{\tau})}{(1-\tau^{k})}
-\end{equation}
-
-The FOC for labor demand from the int goods producer's problem gives the SS wage rate:
-\begin{equation}
-\bar{w} = (1-\alpha)\left(\frac{\bar{r}^{k}}{\alpha}\right)^{\frac{-\alpha}{1-\alpha}}
-\end{equation}
-
-Calibration gives the SS labor supply (I think this implies the Frisch elasticity of labor paramter = 1 -- see \cn{Zubairy2010}):
-\begin{equation}
-\bar{L} = 0.5
-\end{equation}
-
-The FOC for effective capital demand from the int goods producer's problem gives the SS level of capital:
-\begin{equation}
-\bar{K} = \left(\frac{\alpha}{1-\alpha}\right)\frac{\bar{w}\bar{L}}{\bar{r}^{k}}
-\end{equation}
-
-The law of motion for the tax basis of the capital stock gives the SS value for the tax basis of the capital stock:
-\begin{equation}
-\bar{K}^{\tau} = \frac{\delta_{0}\bar{K}(1-e^{\tau})}{\delta^{\tau}}
-\end{equation}
-
-The law of motion for the capital stock gives SS investment:
-\begin{equation}
-\bar{I} = \delta_{0}\bar{K}
-\end{equation}
-
-The int goods producers' production function gives the aggregate level of output in the SS:
-\begin{equation}
-\bar{Y} = \bar{K}^{\alpha}\bar{L}^{(1-\alpha)}
-\end{equation}
-
-The int goods producers' profit function gives aggregate profits in the SS:
-\begin{equation}
-\bar{D} = \bar{Y} - \bar{w}\bar{L} - \bar{r}^{k}\bar{K}
-\end{equation}
-
-
-The HH FOC for labor gives SS consumption:
-\begin{equation}
-\bar{C} = \frac{\bar{w}(1-\tau^{l})(1-\bar{L})\zeta}{(1-\zeta)(1+\tau^{c})}
-\end{equation}
-
-The HH FOC for consumption gives SS marginal utility of consumption (the shadow price of consumption):
-\begin{equation}
-\bar{\lambda} = \frac{\zeta \bar{c}^{\zeta(1-\sigma)-1}(1-\bar{l})^{(1-\zeta)(1-\sigma)}}{(1+\tau^{c})}
-\end{equation}
-
-The resource constraint gives SS government spending:
-\begin{equation}
-\bar{G} = \bar{Y}-\bar{C}-\bar{I}
-\end{equation}
-
-The gov't budget constraint gives SS bond issuance necessary to finance $\bar{G}$:
-\begin{equation}
-\bar{B} = \frac{\left[\tau^{c}\bar{C} + \tau^{l}\bar{L}\bar{w} + \tau^{k}\bar{r}^{k}\bar{K} + \tau^{d}\bar{D} - \tau^{ic}\bar{I} - \tau^{k}\delta^{\tau}\bar{K}^{\tau} - \tau^{k}e^{\tau}\bar{I}-(1-\gamma_{x})\bar{G}\right]}{\bar{r}(1-\tau^{i})}
-\end{equation}
-
-The assumption regarding what fraction of the federal budget goes to X gives SS government transfers:
-\begin{equation}
-\bar{X} = \gamma_{x}*\Biggl[\tau^{c}\bar{C} + \tau^{l}\bar{L}\bar{w} + \bar{B} + \tau^{k}\bar{r}^{k}\bar{K} + \tau^{d}\bar{D} - \tau^{ic}\bar{I} - \tau^{k}\delta^{\tau}\bar{K}^{\tau} - \tau^{k}e^{\tau}\bar{I} - \bar{B}\left[1+\bar{r}(1-\tau^{i})\right]\Biggr]
-\end{equation}
 
 
 
@@ -492,454 +186,351 @@ The assumption regarding what fraction of the federal budget goes to X gives SS 
 
 \subsection{Firms}
 
-	\subsubsection{Final Goods Producers}
+\subsubsection{Final Goods Producers}
 
-Final goods producers aggregate differentiated inputs to produce a homogenous output.  The Dixit-Stiglitz aggregation function is given by;
-
-\begin{equation}
-\label{aggY}
-Y_{t}=\left(\int_{0}^{1} y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}di\right)^{1+\lambda_{p,t}},
-\end{equation}
-
-\noindent\noindent where $log(\lambda_{p,t})=\rho_{\lambda}log(\lambda_{p,t-1})+(1-\rho_{\lambda})log(\lambda_{p})+\eta_{t}^{p}$ is the stochastic price markup in the intermediate goods market.  We assume that $\eta_{t}^{p}\sim N(0,\sigma_\lambda)$
-
-Maximizing profits (or minimizing costs) subject to Equation \ref{aggY} results in demand for intermediate input $y_{i,t}$ of:
-
-\begin{equation}
-y_{i,t}=\left(\frac{p_{i,t}}{P_{t}}\right)^{-\frac{1+\lambda_{p,t}}{\lambda_{p,t}}}Y_{t} ,
-\end{equation}
-
-\noindent\noindent where the price of a unit of the final, homogenous output, $P_{t}$, is given by:
-
-\begin{equation}
-P_{t}=\left(\int_{0}^{1}p_{i,t}^{-\frac{1}{\lambda_{p,t}}}di\right)^{-\lambda_{p,t}}
-\end{equation}
-
-\subsubsection{Working Through the Final Goods Producer's problem}
-
-Objective function:
-
-\begin{equation}
-\max_{y_{i,t}} P_{t}Y_{t}^{d} - \int_{0}^{1}p_{i,t}y_{i,t}di
-\end{equation}
-
-The FOC's are:
-
-\begin{equation}
-p_{t}(1+\lambda_{p,t})\left(\int_{0}^{1}y_{i,t}^{\left(\frac{1}{1+\lambda_{p,t}}\right)}di\right)^{\lambda_{p,t}}\left(\frac{1}{1+\lambda_{p,t}}\right)y_{i,t}^{\frac{1}{1+\lambda_{p,t}}-1}-p_{i,t} = 0, \forall i
-\end{equation}
-
-Dividing the FOCs for intermediate inputs $i$ and $j$ $\implies$
-\begin{equation}
-\frac{p_{i,t}}{p_{j,t}} = \left(\frac{y_{i,t}}{y_{j,t}}\right)^{\frac{1}{1+\lambda_{p,t}}-1} = \left(\frac{y_{i,t}}{y_{j,t}}\right)^{\frac{-\lambda_{p,t}}{1+\lambda_{p,t}}}
-\end{equation}
-
-Rearranging:
-\begin{equation}
-\begin{split}
-&\implies p_{i,t} = \left(\frac{y_{j,t}}{y_{i,t}}\right)^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}p_{j,t} \\
-& \implies p_{i,t} = y_{j,t}^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}p_{j,t}y_{i,t}^{\frac{-\lambda_{p,t}}{1+\lambda_{p,t}}} \\
-& \implies p_{i,t}y_{i,t} = p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}
-\end{split}
-\end{equation}
-
-Then integrate this condition to yield:
-\begin{equation}
-\begin{split}
-\int_{0}^{1}p_{i,t}y_{i,t}di & = p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}\int_{0}^{1}y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}di  \\
-& = p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}}
-\end{split}
-\end{equation}
-
-The zero profit condition implies $P_{t}Y_{t}=\int_{0}^{1}p_{i,t}y_{i,t}di$.  Plugging this into the above and we find:
-\begin{equation}
-\begin{split}
-P_{t}Y_{t} &= p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}} \\
-\implies &P_{t}Y_{t}=p_{j,t}y_{j,t}^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}} \\
-\implies & P_{t} =  p_{j,t}y_{j,t}^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}(Y_{t})^{\frac{-\lambda_{p,t}}{1+\lambda_{p,t}}}
-\end{split}
-\end{equation}
-
-Which implies the demand function (just rearranging terms):
-\begin{equation}
-\begin{split}
-y_{i,t} =  \left(\frac{p_{i,t}}{P_{t}}\right)^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}, \forall i
-\end{split}
-\end{equation}
-
-To find $P_{t}$ use the zero profit condition:
-\begin{equation}
-\begin{split}
-& P_{t}Y_{t} = \int_{0}^{1}p_{i,t}y_{i,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}\left(\left(\frac{p_{i,t}}{P_{t}}\right)^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}\right)^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}\left(\frac{p_{i,t}}{P_{t}}\right)^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}p_{i,t}^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}P_{t}^{\frac{(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di \:  Y_{t}P_{t}^{\frac{1+\lambda_{p,t}}{\lambda_{p,t}}} \\
-\implies & P_{t} = \int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di \: P_{t}^{\frac{1+\lambda_{p,t}}{\lambda_{p,t}}} \\
-\implies & P_{t}^{\frac{-1}{\lambda_{p,t}}} = \int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di \\
-\implies & P_{t} = \left(\int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di\right)^{-\lambda_{p,t}} \\
-\end{split}
-\end{equation}
-
-
+A continuum of monopolistically competitive firms indexed by $i \in [0,1]$ each produce a differentiated variety of output demanded by households, the government, and for investment. Because households and the government form deep habits over individual varieties (Section~\ref{sec:model}), the demand for variety $i$ in the private consumption and government markets is:
+\begin{align}
+c_{i,t} &= \left(\frac{P_{i,t}}{P_t}\right)^{-\eta}x_{c,t} + b_c s_{C,i,t-1} \label{eq:cdem} \\
+g_{i,t} &= \left(\frac{P_{i,t}}{P_t}\right)^{-\eta}x_{g,t} + b_g s_{G,i,t-1} \label{eq:gdem}
+\end{align}
+Investment demand for variety $i$ is $i_{i,t} = (P_{i,t}/P_t)^{-\eta}(y_t - c_t - g_t)$; there are no deep habits in investment. Here $\eta > 1$ is the elasticity of substitution across varieties and $P_t$ is the aggregate price index. The habit-inelastic components $b_c s_{C,i,t-1}$ and $b_g s_{G,i,t-1}$ make a portion of demand perfectly price-inelastic, generating counter-cyclical markups: when aggregate demand expands, the price-elastic share rises, increasing effective demand elasticity and compressing markups. Firms therefore invest in their customer base by holding prices low today to earn higher profits on a larger habit stock in the future.
 
 \subsubsection{Intermediate Goods Producers}
 
-Each intermediate-goods producing firm has a monopoly on it's heterogeneous output.  Following \cn{Calvo1983}, firms can reset prices each period with probability $(1-\theta)$.  Firm's that cannot reset prices must rent labor and capital inputs to meet demand at last period's price, $p_{i,t-1}$.  Each intermediate good's producer faces the same production function:
+Each firm $i$ produces output using capital services $u_t k_{i,t-1}$ and labor $h_{i,t}$ according to a Cobb-Douglas technology with a fixed operating cost $\psi$:
+\begin{equation}\label{eq:prodfunc}
+\tilde{y}_{i,t} = z_t(u_t k_{i,t-1})^{\theta}h_{i,t}^{1-\theta} - \psi
+\end{equation}
+where $z_t$ is an aggregate technology shock, $\theta$ is the capital income share, and $\psi$ is calibrated to match a realistic profit-to-output ratio in steady state. The technology shock follows an AR(1) process:
+\begin{equation}\label{eq:techshock}
+\log z_t = \rho_z \log z_{t-1} + \varepsilon_t^z, \quad \varepsilon_t^z \sim \mathcal{N}(0,\sigma_z^2)
+\end{equation}
+where $\rho_z \in [0,1)$. Cost minimization at given factor prices yields the symmetric-equilibrium factor demand conditions:
+\begin{align}
+w_t &= mc_t \cdot z_t(1-\theta)(u_t k_{t-1})^{\theta}h_t^{-\theta} \label{eq:wfoc} \\
+r_t^k &= mc_t \cdot z_t\theta(u_t k_{t-1})^{\theta-1}h_t^{1-\theta} \label{eq:rkfoc}
+\end{align}
+where $mc_t$ is the common real marginal cost across firms.
 
-\begin{equation}
-\label{int_prodfunc}
-y_{i,t}=z_{t}\tilde{k}_{i,t}^{\alpha}l_{i,t}^{1-\alpha},
+Following Rotemberg (1982), each firm faces a quadratic cost of changing its nominal price, which reduces output available for final demand. In symmetric equilibrium, aggregate output net of price adjustment costs is:
+\begin{equation}\label{eq:ynet}
+y_t = z_t(u_t k_{t-1})^{\theta}h_t^{1-\theta} - \psi - \frac{\alpha_P}{2}(\pi_t - \bar{\pi})^2
+\end{equation}
+where $\alpha_P > 0$ governs the magnitude of price adjustment costs and $\bar{\pi}$ is the steady-state gross inflation rate.
+
+Because deep habits create dynamic pricing incentives, each firm tracks the shadow value of its customer base in each demand segment. In symmetric equilibrium, the shadow values $\tilde{\nu}_t^c$, $\tilde{\nu}_t^g$, and $\tilde{\nu}_t^i$ for the private consumption, government consumption, and investment markets satisfy:
+\begin{align}
+1 - mc_t - \tilde{\nu}_t^i &= 0 \label{eq:nui} \\
+\frac{1 - mc_t - \tilde{\nu}_t^c}{\theta^c - 1} &= \beta E_t \frac{\lambda_{t+1}}{\lambda_t}\!\left[b_c\tilde{\nu}_{t+1}^c + \frac{\theta^c}{\theta^c-1}\!\left(1-mc_{t+1}-\tilde{\nu}_{t+1}^c\right)\right] \label{eq:nuc} \\
+\frac{1 - mc_t - \tilde{\nu}_t^g}{\theta^g - 1} &= \beta E_t \frac{\lambda_{t+1}}{\lambda_t}\!\left[b_g\tilde{\nu}_{t+1}^g + \frac{\theta^g}{\theta^g-1}\!\left(1-mc_{t+1}-\tilde{\nu}_{t+1}^g\right)\right] \label{eq:nug}
+\end{align}
+Equation~\eqref{eq:nui} states that the investment market, lacking habit-inelastic demand, yields a zero effective markup. Equations~\eqref{eq:nuc}--\eqref{eq:nug} are forward-looking Euler equations: a firm accepts a lower current markup to build its habit stock, earning higher future rents.
+
+These conditions together with the demand structure yield the aggregate price Phillips curve:
+\begin{equation}\label{eq:pricePC}
+\eta\!\left(\tilde{\nu}_t^c x_{c,t} + \tilde{\nu}_t^g x_{g,t} + \tilde{\nu}_t^i(y_t - c_t - g_t)\right) + \alpha_P\pi_t(\pi_t - \bar{\pi}) - y_t = \alpha_P\beta E_t\frac{\lambda_{t+1}}{\lambda_t}\pi_{t+1}(\pi_{t+1}-\bar{\pi})
 \end{equation}
 
-\noindent\noindent where $\tilde{k}_{i,t}=v_{t}k_{i,t-1}$ are the effective units of capital rented from the households, $l_{i,t}$ is the effective labor rented from households, $z_{t}$ is a serially correlated shock to firm productivity (which affect all intermediate-goods producers equally).
+Each household is also a monopolistic supplier of a differentiated labor variety and faces quadratic wage adjustment costs. Defining gross wage inflation $\pi_t^w \equiv (w_t / w_{t-1})\pi_t$, the wage Phillips curve is:
+\begin{equation}\label{eq:wageinfl}
+\pi_t^w = \frac{w_t}{w_{t-1}}\pi_t
+\end{equation}
+\begin{equation}\label{eq:wagePC}
+(\eta_w - 1)(1-\tau_t^w)h_t + \alpha_W\pi_t^w(\pi_t^w - \bar{\pi}) - \frac{\eta_w h_t}{\tilde{w}_t} = \alpha_W\beta E_t\frac{\lambda_{t+1}}{\lambda_t}\pi_{t+1}^w(\pi_{t+1}^w - \bar{\pi})
+\end{equation}
+where $\eta_w > 1$ is the elasticity of substitution across labor varieties and $\alpha_W$ governs wage adjustment costs. The labor income tax $\tau_t^w$ enters the wage Phillips curve because it affects the effective value of the marginal product of labor to the household.
 
-We assume $z_{t}$ follows the following AR(1) process:
-\begin{equation}\label{EqProdShock}
-   \log(z_{t}) = \rho_z\log(z_{t-1}) + \eta_{z,t} \quad\text{where}\quad\eta_{z,t}\sim N(0,\sigma_z), \quad\text{and}\quad \rho_z\in[0,1)
+Firm dividends are the residual of net output after paying all factors:
+\begin{equation}\label{eq:div}
+\text{div}_t = y_t - w_t h_t - r_t^k u_t k_{t-1}
 \end{equation}
 
-There is no entry or exit.
-
-The problem of intermediate-goods producers who can optimally reset their prices can be solved in two stages.  In the first, the demand for factor inputs is found, taking the rental rate for capital, $r_{t}^{k}$, and the wage rate, $w_{t}$, as given.  This stage yields the relative factor demands and the marginal cost of production.  In the second stage, firm's take their marginal cost function as given, and choose the their, $p_{i,t}$ to maximize their expected, discounted profits.
-
-The firms' per-period profit function takes the following form:
-\begin{equation}
-   d_{i,t} = p_{i,t}y_{i,t} - r_t^k\tilde{k}_{i,t} - w_t l_{i,t} \quad\forall i,t
+The aggregate resource constraint equates gross production (net of fixed costs) to all expenditure uses plus utilization and price and wage adjustment costs:
+\begin{equation}\label{eq:rc}
+z_t(u_t k_{t-1})^{\theta}h_t^{1-\theta} - \psi = c_t + g_t + i_t + \frac{\gamma_1}{1+\sigma_u}(u_t^{1+\sigma_u}-1)k_{t-1} + \frac{\alpha_P}{2}(\pi_t-\bar{\pi})^2 + \frac{\alpha_W}{2}(\pi_t^w-\bar{\pi})^2 w_t
 \end{equation}
-A firm's objective function when it chooses price is to maximize expected profits in the case that the current price cannot be changed.
-
-\begin{equation}
-V=\max_{p_{i,t},\tilde{k}_{i,t},l_{i,t}}E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{t+j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[p_{i,t}y_{i,t+j}-r_{t+j}^{k}\tilde{k}_{i,t+j}-w_{t+j}l_{i,t+j}\right]\Biggr)
-\end{equation}
-
-FOC's:
-
-\begin{equation}
-\label{foc_int_k}
-\frac{\partial V}{\partial \tilde{k}_{i,t}}:\frac{\alpha p_{i,t}y_{i,t}}{\tilde{k}_{i,t}}-r_{t}^{k}=0
-\end{equation}
-
-\begin{equation}
-\label{foc_int_l}
-\frac{\partial V}{\partial l_{i,t}}:\frac{(1-\alpha) p_{i,t}y_{i,t}}{l_{i,t}}-w_{t}=0
-\end{equation}
-
-Dividing Equation \ref{foc_int_k} by Equation \ref{foc_int_l} and rearranging some terms, one gets:
-
-\begin{equation}
-\label{k_l_ratio}
-\frac{\tilde{k}_{i,t}}{l_{i,t}}=\left(\frac{\alpha}{1-\alpha}\right)\frac{w_{t}}{r_{t}^{k}}
-\end{equation}
-
-
-Plugging this ratio into Equation \ref{int_prodfunc} and setting it equal to 1, one can find the amount of labor needed to produce one unit of output in terms of $w_{t}, r{t}^{k}, z_{t}$, and the parameter $\alpha$.  Rearranging \ref{k_l_ratio} to put $\tilde{k}_{i,t}$ in terms of $l_{i,t}$, factor input prices, and parameters then writing the cost function ($r_{t+j}^{k}\tilde{k}_{i,t+j}+w_{t+j}l_{i,t+j}$) in terms of $l_{i,t}$, factor input prices, and parameters, one can substitute in the equation for $l_{i,t}$ This yields the marginal cost of production in real terms (this procedure is described in \cn{FVRR2006}):
-
-\begin{equation}
-mc_{t}=\frac{w_{t}^{(1-\alpha)}(r_{t}^{k})^{\alpha}}{p_{t}z_{t}\alpha^{\alpha}(1-\alpha)^{(1-\alpha)}}
-\end{equation}
-
-\noindent\noindent N.B., the marginal cost function, $mc_{t}$ does not depend upon $i$.  This is because all firms receive the same technology shock and face the same factor input prices.
-
-The second stage, were firms optimally choose price, can be setup as a profit maximization problem, taking $mc_{t}$ as given.  Assuming an interior solution, the problem can be written as:
-
-\begin{equation}
-V=\max_{p_{i,t}}E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[\left(\frac{p_{i,t}}{P_{t+j}}-mc_{t+j}\right)y_{i,t+j}\right]\Biggr),
-\end{equation}
-
-\noindent\noindent subject to:
-\begin{equation}
-y_{i,t+j}=\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\left(\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}\right)}Y_{t+j}
-\end{equation}
-
-\noindent\noindent where $Y_{t+j}$ is the demand for final goods in period $t+j$.  N.B. there is no $p_{i,t+j}$ because prices are fixed at their value chose in period $t$.
-
-
-Rewriting the second-stage problem gives:
-
-\begin{equation}
-\begin{split}
- & V=\max_{p_{i,t}} E_{t}\left(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[\left(\frac{p_{i,t}}{P_{t+j}}-mc_{t+j}\right)y_{i,t+j}\right]\right)
-\\
-\implies & V=\max_{p_{i,t}} E_{t}\left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[\left(\frac{p_{i,t}}{P_{t+j}}-mc_{t+j}\right)\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}Y_{t+j}\right]\right) \\
- \implies & V=\max_{p_{i,t}} E_{t}\left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[\left(\frac{p_{i,t}}{P_{t+j}}\right)^{\frac{-1}{\lambda_{p,t+j}}}-\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}mc_{t+j}\right]Y_{t+j}\right) \\
- \implies & V=\max_{p_{i,t}} E_{t}\left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{p_{i,t}}{P_{t}}\right)^{\frac{-1}{\lambda_{p,t+j}}}-\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{p_{i,t}}{P_{t}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}mc_{t+j}\right]Y_{t+j}\right)
-\end{split}
-\end{equation}
-
-In the above, $\pi_{t}=\frac{P_{t}}{P_{t-1}}$.
-
-The FOC for this problem (where the intermediate-goods producer is choosing $p_{i,t}$) is given by:
-
-\begin{equation}
-\begin{split}
- & \frac{\partial V}{\partial p_{i,t}}: E_{t}\left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left[\frac{-1}{\lambda_{p,t+j}}\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{p_{i,t}}{P_{t}}\right)^{\frac{-1}{\lambda_{p,t+j}}}\left(\frac{1}{p_{i,t}}\right)+\left(\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}\right)\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{p_{i,t}}{P_{t}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\frac{mc_{t+j}}{p_{i,t}}\right]Y_{t+j}\right)=0 \\
-\implies & \frac{\partial V}{\partial p_{i,t}}: E_{t}\left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{1}{p_{i,t}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\left[\frac{-1}{\lambda_{p,t+j}}\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{p_{i,t}}{P_{t}}\right)+\left(\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}\right)mc_{t+j}\right]Y_{t+j}\right)=0
-\end{split}
-\end{equation}
-
-Rearranging:
-\begin{equation}
-\begin{split}
-\implies & \frac{\partial V}{\partial p_{i,t}}: E_{t}  \left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{1}{p_{i,t}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\left[\frac{1}{\lambda_{p,t+j}}\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{p_{i,t}}{P_{t}}\right)\right]Y_{t+j}\right) \\
-& = E_{t}  \left(\sum_{j=0}^{\infty} \beta^{j}\theta^{j}\frac{\lambda_{t+j}}{\lambda_{t}}\left(\prod_{s=1}^{j}\frac{1}{\pi_{t+s}}\frac{1}{p_{i,t}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\left[\left(\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}\right)mc_{t+j}\right]Y_{t+j}\right)
-\end{split}
-\end{equation}
-
-
-Or (using notation without gross inflation):
-\begin{equation}
-\begin{split}
-\implies  &  \frac{\partial V}{\partial p_{i,t}}:\: E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}\lambda_{t}}\left[\frac{(1+\lambda_{p,t+j})mc_{t+j}P_{t+j} - p_{i,t}}{p_{i,t}P_{t+j}}\right]\Biggr) = 0 \ \ \forall i,t
-\end{split}
-\end{equation}
-
-Which implies:
-\begin{equation}
-\begin{split}
- &   E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}\lambda_{t}}\left[\frac{(1+\lambda_{p,t+j})mc_{t+j}P_{t+j}}{p_{i,t}P_{t+j}}\right]\Biggr) =  \\
- & E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}\lambda_{t}}\left[\frac{p_{i,t}}{p_{i,t}P_{t+j}}\right]\Biggr)
-\end{split}
-\end{equation}
-
-Which can be written as:
-\begin{equation}
-\begin{split}
- &   p_{i,t}^{*}=\frac{E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}}\left[(1+\lambda_{p,t+j})mc_{t+j}\right]\Biggr)}{E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left(\frac{p_{i,t}}{P_{t+j}}\right)^{-\frac{1+\lambda_{p,t+j}}{\lambda_{p,t+j}}}\frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}P_{t+j}}\Biggr)}
-\end{split}
-\end{equation}
-
-Assume a symmetric equilibrium ($\implies p_{i,t}^{*}=p_{t}^{*}, \ \ \forall i$).
-
-Calvo pricing (with zero indexation) implies $P_{t}^{\frac{-1}{\lambda_{p,t}}}= \theta P_{t-1}^{\frac{-1}{\lambda_{p,t}}} +(1-\theta)p_{t}^{*\frac{-1}{\lambda_{p,t}}}$ (you can get this from the definition of the Calvo model and the aggregate price index from the final goods producers problem).  One can divide this equation through by $P_{t}^{\frac{-1}{\lambda_{p,t}}}$ and get $1=\theta \left(\frac{P_{t-1}}{P_{t}}\right)^{\frac{-1}{\lambda_{p,t}}}+(1-\theta)\left(\frac{p_{t}^{*}}{P_{t}}\right)^{\frac{-1}{\lambda_{p,t}}}$.  Using the gross inflation variable, $\pi_{t}$ defined above, we can write: $\left(\frac{p_{t}^{*}}{P_{t}}\right)=\left(\frac{1-\theta\pi_{t}^{\frac{1}{\lambda{p,t}}}}{1-\theta} \right)^{-\lambda_{p,t}}$.
-
-Using this, we can write the equation for $p_{t}^{*}$ as:
-
-Which can be written as:
-\begin{equation}
-\begin{split}
- &   p_{t}^{*}=\frac{E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j} \left(\frac{1-\theta\pi_{t+j}^{\frac{1}{\lambda{p,t+j}}}}{1-\theta} \right)^{1+\lambda_{p,t+j}} \frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}} \left[(1+\lambda_{p,t+j})mc_{t+j}\right]\Biggr)}{E_{t}\Biggl(\sum_{j=0}^{\infty}\beta^{j}\theta^{j} \left(\frac{1-\theta\pi_{t+j}^{\frac{1}{\lambda{p,t+j}}}}{1-\theta} \right)^{1+\lambda_{p,t+j}}  \frac{Y_{t+j}\lambda_{t+j}}{\lambda_{p,t+j}P_{t+j}}\Biggr)}
-\end{split}
-\end{equation}
-
-The way most people seem to solve this is to log-linearize the equation.  This turns the infinite sum into a difference equation.  In addition, the analysis is greatly simplified by assuming that gross inflation ($\pi$) equals 1 in the steady state.  Assuming that gross inflation equals 1 in the SS, I am getting the following equation for the price chosen by firms who can change price in period $t$:
-
-\begin{equation}
-\begin{split}
- &   p_{t}^{*}=(1+\lambda_{p})\bar{mc}(1-\beta\theta)E_{t}\left[\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left[\frac{mc_{t+j}-\bar{mc}}{\bar{mc}}+\frac{P_{t+j}-\bar{P}}{\bar{P}}\right]+\frac{\lambda_{p}}{(1+\lambda_{p})}\sum_{j=0}^{\infty}\beta^{j}\theta^{j}\left(\frac{\lambda_{p,t+j}-\lambda_{p}}{\lambda_{p}}\right)\right]
-\end{split}
-\end{equation}
-
-
-Nominal profits from the intermediate-goods producers, $d_{i,t}$ are distributed as dividends to households.
 
 
 \subsection{Government/Fiscal Authority}
+\label{sec:govt}
 
-The government is described by a budget constraint and rules fiscal policy rules.  Some, like \cn{Zubairy2010} and \cn{TY2010}, have equations like Taylor rules for fiscal policy, the parameters of which they estimate using historical data.  I don't see the need for this.  I'm thinking we just have a projection of tax law into the future (though we can run into problems if that is not sustainable- i.e. can't have increasing debt forever).  We perturb policies from this for to see the effects (e.g. lower the consumption tax rate by five percentage points for eight quarters, after which is reverts to it's earlier level).  But I can consider other alternatives if needed.
-
-\subsection{Fiscal authority equations}\label{TAppSecFiscAuth}
-
-The government budget constraint represents 1 equation with two unknowns $\{G_t,X_t\}$. It has 8 tax parameters $\{\tau_t^c,\tau_t^l,\tau_t^k,\tau_t^d,\tau_t^{ic},\delta_t^\tau,e_t^\tau,\tau_t^i\}$, 1 spending parameter $\{\gamma_{x,t}\}$, and 13 other endogenous aggregate variables $\{C_t,P_t,L_t,B_t,B_{t-1},w_t,r_t^k,r_t,v_t,K_{t-1},D_t,I_t,K_{t-1}^\tau\}$.
-\begin{equation}\label{TAppEqGovtBC}
-   \begin{split}
-      &\tau^{c}C_t + \frac{\tau_{t}^{l}L_{t}w_{t}}{P_{t}} + \frac{B_{t}}{P_{t}} + \tau_{t}^{k}r_{t}^{k}v_{t}K_{t-1} + \frac{\tau_{t}^{d}D_{t}}{P_{t}} = ... \\
-      &\quad\quad\quad\quad G_{t} + X_{t} + \tau_{t}^{ic}I_{t} + \tau_{t}^{k}\delta_{t}^{\tau}K_{t-1}^{\tau} + \tau_{t}^{k}e_{t}^{\tau}I_{t} + \frac{B_{t-1}\left[1+r_{t}(1-\tau_{t}^{i})\right]}{P_{t}}
-   \end{split}
+The government issues one-period nominal bonds, purchases goods, pays lump-sum transfers to households, and collects tax revenue from all six tax instruments. The real government budget constraint is:
+\begin{equation}\label{eq:gbc}
+b_t = \frac{R_{t-1}\,b_{t-1}}{\pi_t} + g_t + x_t - taxrev_t
 \end{equation}
-Because $G_t$ and $X_t$ are not independently identified, we must make an assumption about how any changes in tax revenue affect spending on public goods versus spending on transfers. We assume here that spending on public goods and on transfers are each a fixed portion of total revenues. If we solve \eqref{TAppEqGovtBC} for $G_t + X_t$, the other side of the equation represents total revenues. We will assume that $\gamma_{x,t}\in(0,1)$ percent of revenues are spent on transfers and $(1-\gamma_{x,t})$ percent is spent on public goods.
-\begin{equation}\label{TAppEqPubGood}
-   \begin{split}
-      G_t = &(1 - \gamma_{x,t})\Biggl[\tau^{c}C_t + \frac{\tau_{t}^{l}L_{t}w_{t}}{P_{t}} + \frac{B_{t}}{P_{t}} + \tau_{t}^{k}r_{t}^{k}v_{t}K_{t-1} + \frac{\tau_{t}^{d}D_{t}}{P_{t}} ... \\
-      &\quad\quad\quad - \tau_{t}^{ic}I_{t} - \tau_{t}^{k}\delta_{t}^{\tau}K_{t-1}^{\tau} - \tau_{t}^{k}e_{t}^{\tau}I_{t} - \frac{B_{t-1}\left[1+r_{t}(1-\tau_{t}^{i})\right]}{P_{t}}\Biggr]
-   \end{split}
+where $b_t$ is real government debt, $g_t$ is real government purchases, $x_t$ is real lump-sum transfers, and $taxrev_t$ is total real tax revenue. Tax revenue is:
+\begin{equation}\label{eq:taxrev}
+\begin{split}
+taxrev_t = &\;\tau_t^c c_t + \tau_t^w w_t h_t + \tau_t^k\!\left(r_t^k u_t k_{t-1} - \delta^{\tau}k_{t-1}^{\tau} - e_t^{\tau}i_t\right) \\
+           & + \tau_t^i(R_{t-1}-1)\frac{b_{t-1}}{\pi_t} + \tau_t^d\,\text{div}_t - \tau_t^{ic}\,i_t
+\end{split}
 \end{equation}
+The six components are: consumption tax revenue ($\tau_t^c c_t$), labor income tax revenue ($\tau_t^w w_t h_t$), capital income tax revenue net of tax depreciation deductions and immediate expensing ($\tau_t^k(\cdot)$), interest income tax revenue on bond interest ($\tau_t^i(R_{t-1}-1)b_{t-1}/\pi_t$), dividend tax revenue ($\tau_t^d\,\text{div}_t$), and investment tax credit outlays ($-\tau_t^{ic}\,i_t$).
 
-\begin{equation}\label{TAppEqTfer}
-   \begin{split}
-      X_t = &\gamma_{x,t}\Biggl[\tau^{c}C_t + \frac{\tau_{t}^{l}L_{t}w_{t}}{P_{t}} + \frac{B_{t}}{P_{t}} + \tau_{t}^{k}r_{t}^{k}v_{t}K_{t-1} + \frac{\tau_{t}^{d}D_{t}}{P_{t}} ... \\
-      &\quad\quad\quad\quad\quad - \tau_{t}^{ic}I_{t} - \tau_{t}^{k}\delta_{t}^{\tau}K_{t-1}^{\tau} - \tau_{t}^{k}e_{t}^{\tau}I_{t} - \frac{B_{t-1}\left[1+r_{t}(1-\tau_{t}^{i})\right]}{P_{t}}\Biggr]
-   \end{split}
-\end{equation}
-Now we have two equations and two unknowns $\{G_t,X_t\}$.
+\subsubsection*{Fiscal rules}
+
+Each fiscal instrument follows an autoregressive rule that allows feedback from lagged government debt and lagged output, following \cn{Zubairy2010}. Debt feedback ensures intertemporal fiscal solvency; output feedback captures automatic stabilizers. Because $g_t$ and $x_t$ are expenditures that the government cuts when debt is elevated, their debt-feedback coefficients enter with a negative sign. Tax rates carry a positive debt-feedback sign, rising to close the fiscal gap.
+
+Government purchases and lump-sum transfers follow:
+\begin{align}
+\log\!\left(\frac{g_t}{\bar{g}}\right) &= \rho_g\log\!\left(\frac{g_{t-1}}{\bar{g}}\right) - \rho_{g,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{g,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^g \label{eq:grule} \\
+\log\!\left(\frac{x_t}{\bar{x}}\right) &= \rho_{x}\log\!\left(\frac{x_{t-1}}{\bar{x}}\right) - \rho_{x,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{x,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^{x} \label{eq:trrule}
+\end{align}
+
+The rules for the capital and labor income tax rates, which follow \cn{Zubairy2010}, are:
+\begin{align}
+\log\!\left(\frac{\tau_t^k}{\bar{\tau}^k}\right) &= \rho_k\log\!\left(\frac{\tau_{t-1}^k}{\bar{\tau}^k}\right) + \rho_{k,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{k,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^k \label{eq:taukrule} \\
+\log\!\left(\frac{\tau_t^w}{\bar{\tau}^w}\right) &= \rho_w\log\!\left(\frac{\tau_{t-1}^w}{\bar{\tau}^w}\right) + \rho_{w,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{w,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \phi\,\varepsilon_t^k + \varepsilon_t^w \label{eq:taukwrule}
+\end{align}
+The term $\phi\,\varepsilon_t^k$ in the labor tax rule allows capital tax shocks to generate correlated movements in the labor tax rate, capturing the empirical co-movement between capital and labor income tax changes.
+
+The four extension fiscal rules for the additional tax instruments take the same log-ratio form:
+\begin{align}
+\log\!\left(\frac{\tau_t^c}{\bar{\tau}^c}\right) &= \rho_c\log\!\left(\frac{\tau_{t-1}^c}{\bar{\tau}^c}\right) + \rho_{c,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{c,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^c \label{eq:taucrule} \\
+\log\!\left(\frac{\tau_t^i}{\bar{\tau}^i}\right) &= \rho_i\log\!\left(\frac{\tau_{t-1}^i}{\bar{\tau}^i}\right) + \rho_{i,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{i,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^i \label{eq:tauirule} \\
+\log\!\left(\frac{\tau_t^d}{\bar{\tau}^d}\right) &= \rho_d\log\!\left(\frac{\tau_{t-1}^d}{\bar{\tau}^d}\right) + \rho_{d,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{d,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \phi_{wd}\,\varepsilon_t^w + \varepsilon_t^d \label{eq:taudrule}
+\end{align}
+The dividend tax rule includes $\phi_{wd}\,\varepsilon_t^w$, capturing the empirical co-movement between changes in labor and dividend income tax rates. Because the steady-state values of the investment tax credit $\bar{\tau}^{ic}$ and the expensing rate $\bar{e}^{\tau}$ are calibrated to zero, their rules are specified in level-deviation form to avoid undefined log-ratios:
+\begin{align}
+\tau_t^{ic} - \bar{\tau}^{ic} &= \rho_{ic}(\tau_{t-1}^{ic} - \bar{\tau}^{ic}) + \rho_{ic,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{ic,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^{ic} \label{eq:tauicrule} \\
+e_t^{\tau} - \bar{e}^{\tau} &= \rho_{e}(e_{t-1}^{\tau} - \bar{e}^{\tau}) + \rho_{e,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{e,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^{e} \label{eq:etaurule}
+\end{align}
 
 
 
 \subsection{Monetary Authority}
 
-The monetary authority follows a Taylor rule, targeting the nominal, after-tax interest rate (I'm taking this from \cn{CER2010}, but feel free to modify to whatever- though I think it's important that we have the zero bound condition):
-
-\begin{equation}
-r_{t+1} = max(M_{t+1},0)
+The monetary authority sets the gross nominal interest rate $R_t$ according to a Taylor rule with interest rate smoothing, following \cn{Zubairy2010}:
+\begin{equation}\label{eq:taylor}
+\log\!\left(\frac{R_t}{\bar{R}}\right) = \alpha_R\log\!\left(\frac{R_{t-1}}{\bar{R}}\right) + (1-\alpha_R)\!\left[\alpha_\pi\log\!\left(\frac{\pi_t}{\bar{\pi}}\right) + \alpha_Y\log\!\left(\frac{y_t}{\bar{y}}\right)\right] + \varepsilon_t^m
 \end{equation}
-
-Where $M_{t+1}$ (better notation??) is given by:
-
-\begin{equation}
-(1-\tau^{i}_{t})M_{t+1} = \frac{1}{\beta}(1+\pi_{t})^{\phi_{1}}\left(\frac{Y_{t}}{\bar{Y}}\right)^{\phi_{2}}\left(\frac{1+r_{t}}{1+\bar{r}}\right)^{\rho_{r}} - 1
-\end{equation}
-
-\begin{equation*}
-r_{t+1} = \max\Biggl\{\frac{\frac{1}{\beta}(1+\pi_{t})^{\phi_{1}}\left(\frac{Y_{t}}{\bar{Y}}\right)^{\phi_{2}}\left(\frac{1+r_{t}}{1+\bar{r}}\right)^{\rho_{r}} - 1}{(1-\tau^{i}_{t}},\: 0\Biggr\}
-\end{equation*}
-
-Where $\pi_{t}=\frac{P_{t}-P_{t-1}}{P_{t-1}}$ and $\phi_{1} > 1$,  $\phi_{2}\in(0,1)$, and  $\rho_{r}\in(0,1)$.
+where $\alpha_R \in (0,1)$ governs interest rate inertia, $\alpha_\pi > 1$ is the response to inflation deviations from steady state (satisfying the Taylor principle), $\alpha_Y > 0$ is the response to output deviations, and $\varepsilon_t^m$ is a monetary policy shock. The interest income tax $\tau_t^i$ does not enter the Taylor rule directly; it affects the economy through the household bond Euler equation \eqref{eq:bondeuler}, which links the pre-tax policy rate $R_t$ set by the central bank to the after-tax return relevant for household saving decisions.
 
 \subsection{Equilibrium}
 
+\noindent\textbf{Definition (Competitive Rational Expectations Equilibrium).} Given exogenous shock processes $\{z_t, d_t, \mu_t\}_{t=0}^{\infty}$ and initial conditions $(k_{-1},\, k_{-1}^{\tau},\, s_{C,-1},\, s_{G,-1},\, b_{-1})$, a \emph{competitive rational expectations equilibrium} is a collection of sequences of quantities
+\[
+\bigl\{c_t,\, i_t,\, g_t,\, x_t,\, y_t,\, h_t,\, u_t,\, k_t,\, k_t^{\tau},\, b_t,\, \text{div}_t,\, s_{C,t},\, s_{G,t},\, x_{c,t},\, x_{g,t}\bigr\}_{t=0}^{\infty},
+\]
+prices and shadow values
+\[
+\bigl\{w_t,\, r_t^k,\, R_t,\, \pi_t,\, \pi_t^w,\, mc_t,\, q_t,\, \lambda_t,\, v_{\tau,t},\, \tilde{w}_t,\, \tilde{\nu}_t^c,\, \tilde{\nu}_t^g,\, \tilde{\nu}_t^i\bigr\}_{t=0}^{\infty},
+\]
+and fiscal instrument sequences $\{\tau_t^c,\, \tau_t^w,\, \tau_t^k,\, \tau_t^i,\, \tau_t^d,\, \tau_t^{ic},\, e_t^{\tau}\}_{t=0}^{\infty}$ such that:
+\begin{enumerate}
+\item[(i)] Taking prices and tax rates as given, the representative household maximizes \eqref{eq:utility} subject to the budget constraint \eqref{eq:bc}, capital accumulation \eqref{eq:kacc}, and tax basis accumulation \eqref{eq:ktau}, yielding the first-order conditions \eqref{eq:lambda}--\eqref{eq:bondeuler}.
 
-Standard definition: prices, wages, and interest rates to clear markets (labor, goods, bond)
+\item[(ii)] Taking wages $w_t$ and rental rates $r_t^k$ as given, each intermediate goods firm $i \in [0,1]$ minimizes costs, yielding factor demands \eqref{eq:wfoc}--\eqref{eq:rkfoc}, and sets its nominal price to maximize the present discounted value of dividends subject to Rotemberg adjustment costs and the deep habits demand structure \eqref{eq:cdem}--\eqref{eq:gdem}, yielding customer-base shadow values \eqref{eq:nui}--\eqref{eq:nug} and the price Phillips curve \eqref{eq:pricePC}.
 
-Market Clearing:
-\begin{itemize}
-\item Household demand for bonds equals gov't supply
-\item Household labor supply equals intermediate producer labor demand
-\item Household capital supply equals intermediate producer capital demand
-\item Household and gov't consumption equals supply from the final goods producer
-\end{itemize}
+\item[(iii)] Each household sets its nominal wage to maximize utility subject to Rotemberg wage adjustment costs, yielding the wage Phillips curve \eqref{eq:wagePC}.
 
-\subsection{Solving the model}
+\item[(iv)] The government satisfies its budget constraint \eqref{eq:gbc} with tax revenue defined by \eqref{eq:taxrev}, and each fiscal instrument follows its policy rule \eqref{eq:grule}--\eqref{eq:etaurule}.
 
-Probably best to use some linearization method.  We used the AIM algorithm (\cn{AM1985}) in Willis' class and I still have the code for that.  Alternatively, we used Christiano's method of undetermined coefficients (\cn{Christiano2002}) in Corbae's class.  Chris Sim's has the code for his method (\cn{Sims2002}) available on his website.  \cn{Uhlig1998} does a good job summarizing these methods.
+\item[(v)] The central bank sets the gross nominal interest rate $R_t$ according to the Taylor rule \eqref{eq:taylor}.
 
-\subsubsection{Characterizing equations}
-\label{TAppCharEqs}
+\item[(vi)] Labor, capital, bond, and goods markets clear according to conditions \eqref{eq:labmc}--\eqref{eq:goodsmc}.
 
-Altogether, this model has 36 endogenous variables and 28 exogenous parameters. The 36 endogenous variables are characterized by the 37 equations listed in the sections below. By Walras' Law, one of the market clearing conditions is redundant. In the computation, we discard the resource constraint \eqref{TAppEqMarkClrResConst}.
-\begin{align*}
-   \text{Endogenous variables:}\quad &\left\{c_t,\lambda_t,l_t,i_t,b_t,v_t,k_t,k_t^\tau,\ve_t^b\right\} \\
-   &\left\{Y_t,y_{i,t}^d,P_t,\lambda_{p,t}\right\} \\
-   &\left\{y_{i,t},\tilde{k}_{i,t},d_{i,t},r_t^k,w_t,p_{i,t},z_t\right\} \\
-   &\left\{G_t,X_t\right\} \\
-   &\left\{r_t\right\} \\
-   &\left\{p_t,d_t,x_t,g_t,k_{i,t},l_{i,t},C_t,L_t,B_t,K_t,K_t^\tau,D_t,I_t\right\} \\
-   \text{Exogenous parameters:}\quad &\left\{\tau_t^c,\tau_t^i,\tau_t^l,\tau_t^k,\tau_t^{ic},\tau_t^d,\delta_t^\tau,e_t^\tau\right\} \\
-   &\left\{\beta,\zeta,\sigma\right\} \\
-   &\left\{\delta_0,\delta_1,\delta_2,\gamma\right\} \\
-   &\left\{\rho_\ve,\mu_\ve,\sigma_\ve\right\} \\
-   &\left\{\rho_\lambda,\mu_\lambda,\sigma_\lambda\right\} \\
-   &\left\{\alpha,\theta\right\} \\
-   &\left\{\gamma_{x,t}\right\} \\
-   &\left\{\beta_r,\phi_1,\phi_2,\rho_r\right\}
-\end{align*}
+\item[(vii)] Expectations $E_t[\,\cdot\,]$ are rational: agents' beliefs are consistent with the probability distribution implied by the model.
+\end{enumerate}
 
+\subsubsection{Market Clearing}
 
-There are 19 unknown variables (not counting those from the intermediate goods producers and the shocks, {$\varepsilon_{t}^{b},\lambda_{p,t}$- for which we will have equations that we haven't specified yet) : $i, k, b, c, k^{\tau}, \lambda, g, x, d, P, w, z, \varepsilon^{b}, r, r^{k}, v, l, Y, M$.  These breakdown into the following groups:
-\begin{itemize}
-\item 4 choice variables (Household): $i,v,l,c$
-\item 4 prices: $P,w,r,r^{k}$
-\item 2 choice variables (gov't): $g,x$, reallly $2+n$ where $n$ is the number tax instruments
-\item 1 choice variable (monetary authority): $M$
-\item 2 exogenous state: $z,\varepsilon$
-\item 5 endogenous state variable: $k,b,d,k^{\tau},Y$
-\end{itemize}
+In a symmetric equilibrium all intermediate goods firms make identical factor choices, so labor and capital markets clear when household factor supply equals aggregate firm demand:
+\begin{align}
+h_t &= \int_0^1 h_{i,t}\,di \label{eq:labmc} \\
+k_{t-1} &= \int_0^1 k_{i,t-1}\,di \label{eq:capmc}
+\end{align}
+In symmetric equilibrium these reduce to $h_{i,t} = h_t$ and $k_{i,t-1} = k_{t-1}$ for all $i \in [0,1]$.
 
-Solve for these unknowns with the following equations:
-\begin{itemize}
-\item 5 FOCs, household $\implies i,v,l,c,b$
-\item 3 from FOCs, intermediate goods producers $\implies r^{k},w,P$ (These FOC's give demand for effective capital and labor.  So together with the HH supply of these factors we can use our market clearing conditions to find the eq'm factor prices.)
-\item 1 from the profit function of intermediate goods producers $\implies d$
-\item 1 from FOCs, final goods producer $\implies Y$
-\item 1 from the zero profit condition for the final goods producer $\implies P$ (This together with the FOC's from the intermediate goods producers gives you the aggregate price index.)
-\item 1 Gov't budget constraint ($+n$ fiscal policy rules) $\implies X$, ($+n$ tax rates)
-\item 1 Resource constraint $\implies G$
-\item 2 laws of motion $\implies k^{\tau},k$
-\item 3 exog shock process $\implies z,\varepsilon^{b},\lambda_{p}$
-\item 1 Taylor rule for monetary authority $\implies r,M$ (There is the Taylor Rule plus the fact that $r=max(M,0)$ that determines both these.)
-\end{itemize}
+The bond market clears when household bond holdings equal the government's outstanding debt. Since both the household budget constraint \eqref{eq:bc} and the government budget constraint \eqref{eq:gbc} use the same variable $b_t$, this condition holds by construction.
 
-So we have 19 unknowns and 19 equations.  We should be able to plug this into Dynare and solve the model.
-
-\subsubsection{Market clearing and resource constraint}
-\label{TAppSecMCandRC}
-
-The following 14 market clearing conditions close the model. The last equation \eqref{TAppEqMarkClrResConst} is a resource constraint, and can be thought of as goods market clearing. By Walras' Law, one of the following conditions is redundant.
-
-\begin{equation}\label{TAppEqMarkClrC}
-   c_t = C_t
+Goods market clearing requires total net output to equal total absorption. Combining the output definition \eqref{eq:ynet} with the resource constraint \eqref{eq:rc} yields:
+\begin{equation}\label{eq:goodsmc}
+y_t = c_t + g_t + i_t + \frac{\gamma_1}{1+\sigma_u}\!\left(u_t^{1+\sigma_u}-1\right)k_{t-1} + \frac{\alpha_W}{2}(\pi_t^w - \bar{\pi})^2 w_t
 \end{equation}
+Output $y_t$ is already net of the Rotemberg price adjustment cost (see equation \eqref{eq:ynet}), so only the utilization cost and wage adjustment cost appear on the right-hand side. By Walras' law, the bond market clearing condition is redundant given \eqref{eq:labmc}, \eqref{eq:capmc}, and \eqref{eq:goodsmc}.
 
-\begin{equation}\label{TAppEqMarkClrL}
-   \int_{0}^{1}l_{i,t}di = l_t = L_t
+\subsection{Solving the Model}
+\label{sec:solution}
+
+The equilibrium conditions described in Section~\ref{sec:model} form a system of 46 nonlinear expectational difference equations in 46 structural endogenous variables, driven by 13 exogenous shock processes. The model is solved and estimated in Dynare using a three-step procedure: analytical computation of the deterministic steady state, first-order perturbation approximation of the equilibrium system, and Bayesian estimation via the Kalman filter and Metropolis-Hastings algorithm.
+
+\subsubsection{Steady State}
+
+The model's deterministic steady state is computed analytically by setting all shocks to their unconditional means ($z = d = \mu = 1$; all fiscal innovations zero) and imposing stationarity. The calibrated parameters in Table~\ref{tab:calib} jointly pin down the steady-state tax rates and the aggregate ratios $\bar{g}/\bar{y}$ and $\bar{b}/\bar{y}$, from which all remaining steady-state values follow in closed form. In particular, the steady-state rental rate $\bar{r}^k$, wage $\bar{w}$, output $\bar{y}$, consumption $\bar{c}$, investment $\bar{\imath}$, and government debt $\bar{b}$ are each expressed as analytic functions of the calibrated parameters. The fixed operating cost $\psi$ is then set residually to match the target dividend share $\overline{\text{div}}/\bar{y} = 0.11$. Because several estimated parameters (deep habit parameters, risk aversion, Rotemberg costs) enter the steady-state expressions, all steady-state values are recomputed at each draw of the Metropolis-Hastings algorithm.
+
+\subsubsection{First-Order Perturbation Approximation}
+
+Let $y_t$ denote the $n_y$-vector of endogenous variables and $u_t \sim \mathcal{N}(0,\Sigma)$ the $n_u$-vector of structural shocks. The equilibrium conditions can be written compactly as:
+\begin{equation}\label{eq:eqsys}
+E_t\!\left[f\!\left(y_{t+1},\, y_t,\, y_{t-1},\, u_t;\, \Theta\right)\right] = 0
 \end{equation}
-
-\begin{equation}\label{TAppEqMarkClrI}
-   i_t = I_t
+where $\Theta$ is the structural parameter vector. Dynare takes a first-order Taylor expansion of \eqref{eq:eqsys} around the deterministic steady state $(\bar{y},\,\mathbf{0})$, yielding the linear policy function:
+\begin{equation}\label{eq:policy}
+\hat{y}_t = A(\Theta)\,\hat{y}_{t-1} + B(\Theta)\,u_t
 \end{equation}
+where $\hat{y}_t \equiv y_t - \bar{y}$ denotes deviations from steady state and the coefficient matrices $A$ and $B$ are functions of the structural parameters. Dynare computes $A$ and $B$ using the generalized Schur (QZ) decomposition \citep{Klein2000}, which handles both predetermined and forward-looking variables. A unique stationary rational expectations solution exists if and only if the number of eigenvalues of $A$ outside the unit circle equals the number of non-predetermined (forward-looking) variables — the Blanchard-Kahn conditions \citep{BK1980}. Dynare verifies these conditions numerically at the posterior mode and at every point during estimation at which the likelihood is evaluated.
 
-\begin{equation}\label{TAppEqMarkClrK}
-   \int_{0}^{1}\tilde{k}_{i,t}di = v_{t}k_{t} = V_{t}K_{t}
+By Walras' law, one market clearing condition is redundant; Dynare drops the goods market clearing equation \eqref{eq:goodsmc} from the system prior to solving, leaving 45 independent structural equations. The policy function \eqref{eq:policy} therefore maps the 13 endogenous state variables $(k_t,\, k_t^{\tau},\, b_t,\, s_{C,t},\, s_{G,t},\, \tau_t^k,\, \tau_t^w,\, \tau_t^c,\, \tau_t^{ic},\, \tau_t^i,\, \tau_t^d,\, e_t^{\tau},\, w_t)$ and 13 exogenous shock states into the full set of endogenous variables.
+
+\subsubsection{Likelihood Evaluation and Bayesian Estimation}
+
+The policy function \eqref{eq:policy} together with the 12 measurement equations (Section~\ref{sec:calibration}) form a linear Gaussian state-space system. The Kalman filter recursively evaluates the prediction-error decomposition of the log-likelihood:
+\begin{equation}\label{eq:likelihood}
+\log \mathcal{L}(Z^T \mid \Theta) = -\frac{T \cdot n_{obs}}{2}\log(2\pi) - \frac{1}{2}\sum_{t=1}^{T}\!\left[\log|F_t| + \nu_t' F_t^{-1} \nu_t\right]
 \end{equation}
+where $\nu_t = z_t^{obs} - E_{t-1}[z_t^{obs}]$ is the $n_{obs}$-vector of one-step-ahead prediction errors and $F_t$ is its conditional variance. The Kalman filter is initialized with a diffuse prior on the state vector. Observed data are demeaned prior to estimation to handle potential mismatches between model steady states and sample means.
 
-\begin{equation}\label{TAppEqMarkClrKtau}
-   k_t^\tau = K_t^\tau
+Combining the likelihood with the prior distributions specified in Table~\ref{tab:priors} yields the log-posterior kernel:
+\begin{equation}\label{eq:posterior}
+\log p(\Theta \mid Z^T) = \log\mathcal{L}(Z^T \mid \Theta) + \log p(\Theta) + \text{const.}
 \end{equation}
+The posterior mode is located via a Monte Carlo–based numerical optimization routine. The negative inverse Hessian at the mode provides an estimate of the posterior covariance, which is used to calibrate the scaling of a Gaussian random-walk proposal distribution for the Metropolis-Hastings algorithm. Two parallel chains of 1{,}500{,}000 draws each are generated, with the first one-third discarded as burn-in, yielding approximately 2{,}000{,}000 retained draws for posterior inference. Impulse response functions and fiscal multipliers are computed from draws of $A(\Theta)$ and $B(\Theta)$ over the retained posterior sample.
 
-\begin{equation}\label{TAppEqMarkClry}
-   \left(\int_{0}^{1}y_{i,t}^{\frac{1}{1+\lambda_{p,t}}} di \right) = Y_{t}^{d} = Y_{t}
-\end{equation}
+\subsection{Calibration and Estimation}
+\label{sec:calibration}
 
-\begin{equation}\label{TAppEqMarkClrD}
-   \left(\int_{0}^{1}d_{i,t}\right) = d_t = D_t
-\end{equation}
+The model's parameter vector is partitioned into two groups. A subset of parameters is \emph{calibrated}: fixed prior to estimation at values drawn from the literature or from long-run data targets, because they are weakly identified by the business-cycle observables used in estimation. The remaining parameters are \emph{estimated} via Bayesian methods using U.S.\ quarterly data, following \cn{Zubairy2010} and \cn{SW2003}. We use Dynare to compute the posterior mode via a Monte Carlo–based optimization routine and to characterize the posterior distribution via the Metropolis-Hastings algorithm with 1{,}500{,}000 draws across two chains, discarding the first one-third of draws as burn-in.
 
-\begin{equation}\label{TAppEqMarkClrpit}
-   \left(\int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di\right)^{-\lambda_{p,t}} = P_t
-\end{equation}
+\subsubsection{Calibrated Parameters}
 
-\begin{equation}\label{TAppEqMarkClrG}
-   g_t = G_t
-\end{equation}
+Table~\ref{tab:calib} reports the calibrated parameters. The discount factor $\beta$ is set to imply a 3\% annual real interest rate. The quarterly economic depreciation rate $\delta = 0.025$ corresponds to a standard 10\% annual rate. The capital income share $\theta = 0.30$ matches the average labor share of income in U.S.\ national accounts. The price elasticity of substitution $\eta = 5.3$ implies a steady-state markup of roughly 23\%, while the labor variety elasticity $\eta_w = 21.0$ is calibrated to match a 5\% steady-state wage markup consistent with the Rotemberg wage-setting framework.
 
-\begin{equation}\label{TAppEqMarkClrX}
-   x_t = X_t
-\end{equation}
+Steady-state hours worked $\bar{h} = 0.50$ normalizes the time endowment to unity and follows \cn{Zubairy2010}. The government spending share $\bar{g}/\bar{y} = 0.18$ and debt-to-output ratio $\bar{b}/\bar{y} = 0.33$ match U.S.\ historical averages. Steady-state inflation is normalized to $\bar{\pi} = 1$ (zero net inflation).
 
-\begin{equation}\label{TAppEqMarkClrResConst}
-   Y_t = C_t + I_t + G_t
-\end{equation}
+The steady-state tax rates are set to match average effective tax rates for the U.S.\ economy. The capital income tax $\bar{\tau}^k = 0.41$ and labor income tax $\bar{\tau}^w = 0.23$ follow \cn{Zubairy2010}. The consumption tax $\bar{\tau}^c = 0.10$ approximates the combined federal excise and average state sales tax burden. The interest income tax rate $\bar{\tau}^i = 0.20$ and dividend tax rate $\bar{\tau}^d = 0.15$ reflect average effective rates on capital income components. The investment tax credit and immediate expensing rates are calibrated to zero in steady state ($\bar{\tau}^{ic} = \bar{e}^{\tau} = 0$), reflecting the baseline tax code without active bonus depreciation or ITC provisions; both are active as stochastic fiscal instruments. The tax depreciation rate $\delta^{\tau} = 0.025$ equals the economic depreciation rate as a baseline. The dividend share of output $\overline{\text{div}}/\bar{y} = 0.11$ is calibrated to match a realistic profit-to-output ratio consistent with U.S.\ data; the fixed operating cost $\psi$ in the production function is determined residually to hit this target in steady state.
 
+\begin{table}[ht]
+\centering
+\caption{Calibrated Parameters}
+\label{tab:calib}
+\begin{tabular}{llc}
+\hline\hline
+Parameter & Description & Value \\
+\hline
+\multicolumn{3}{l}{\textit{Preferences and technology}} \\
+$\beta$ & Discount factor & $1/(1.03)^{1/4}$ \\
+$\delta$ & Quarterly economic depreciation rate & 0.025 \\
+$\theta$ & Capital income share & 0.30 \\
+$\eta$ & Elasticity of substitution, goods varieties & 5.3 \\
+$\eta_w$ & Elasticity of substitution, labor varieties & 21.0 \\
+\hline
+\multicolumn{3}{l}{\textit{Steady-state targets}} \\
+$\bar{\pi}$ & Steady-state gross inflation & 1.0 \\
+$\bar{h}$ & Steady-state hours worked & 0.50 \\
+$\bar{g}/\bar{y}$ & Government spending share of output & 0.18 \\
+$\bar{b}/\bar{y}$ & Debt-to-output ratio & 0.33 \\
+$\overline{\text{div}}/\bar{y}$ & Dividend share of output & 0.11 \\
+\hline
+\multicolumn{3}{l}{\textit{Steady-state tax rates}} \\
+$\bar{\tau}^k$ & Capital income tax rate & 0.41 \\
+$\bar{\tau}^w$ & Labor income tax rate & 0.23 \\
+$\bar{\tau}^c$ & Consumption tax rate & 0.10 \\
+$\bar{\tau}^i$ & Interest income tax rate & 0.20 \\
+$\bar{\tau}^d$ & Dividend tax rate & 0.15 \\
+$\bar{\tau}^{ic}$ & Investment tax credit rate & 0.00 \\
+$\bar{e}^{\tau}$ & Immediate expensing rate & 0.00 \\
+$\delta^{\tau}$ & Tax depreciation rate & 0.025 \\
+\hline\hline
+\end{tabular}
+\end{table}
 
-\subsection{Calibration/Parameterization}
+\subsubsection{Bayesian Estimation}
 
-Many of these DSGE papers estimate the model (e.g., \cn{TY2010}, \cn{Zubairy2010}, \cn{SW2003}), but I think all we need to do is calibrate (or even just parameterize at \cn{CER2010} do.  Not really sure why need to estimate yet another time if other have done it.  Idea is to pick parameters close to other models finding large spending multipliers and show that similar assumptions/parameters also show that certain tax policies also have really large multipliers.  Likely want to calibrate to European economy because want a place with a consumption tax.  UK is probably a good bet since they have their own central bank and a VAT of about 20\%.
+The remaining 57 parameters are estimated jointly using Bayesian techniques. We match 12 quarterly observables from U.S.\ data to 12 of the model's measurement equations:
+\begin{enumerate}
+\item $\hat{c}_t = 100(c_t - \bar{c})/\bar{c}$ — private consumption (percent deviation from SS)
+\item $\hat{\imath}_t = 100(i_t - \bar{\imath})/\bar{\imath}$ — private investment (percent deviation)
+\item $\hat{g}_t = 100(g_t - \bar{g})/\bar{g}$ — government purchases (percent deviation)
+\item $\pi_t - \bar{\pi}$ — gross price inflation (level deviation)
+\item $R_t - \bar{R}$ — gross nominal interest rate (level deviation)
+\item $(\tau_t^k - \bar{\tau}^k)/\bar{\tau}^k$ — capital income tax rate (fractional deviation)
+\item $(\tau_t^w - \bar{\tau}^w)/\bar{\tau}^w$ — labor income tax rate (fractional deviation)
+\item $100(b_t - \bar{b})/\bar{b}$ — government debt (percent deviation)
+\item $(\tau_t^c - \bar{\tau}^c)/\bar{\tau}^c$ — consumption tax rate (fractional deviation)
+\item $(\tau_t^d - \bar{\tau}^d)/\bar{\tau}^d$ — dividend tax rate (fractional deviation)
+\item $\tau_t^{ic} - \bar{\tau}^{ic}$ — investment tax credit rate (level deviation)
+\item $e_t^{\tau} - \bar{e}^{\tau}$ — expensing rate (level deviation)
+\end{enumerate}
+Transfer payments $x_t$ are excluded from the observable set because of well-known data quality concerns. The interest income tax rate $\tau_t^i$ has no direct observable; its shock $\varepsilon_t^i$ is identified indirectly through the bond Euler equation and debt dynamics. The model therefore has 13 structural shocks and 12 observables, with $\varepsilon_t^i$ being the over-identified shock. Observed data are demeaned prior to estimation (\texttt{prefilter = 1}) to accommodate potential mismatches between model steady states and sample means.
 
-\begin{itemize}
-\item $\delta_{0}$= annual depreciation rate ($\sim$10\%), equals the aggregate SS investment rate ($\frac{\bar{I}}{\bar{K}}$).
-\item $\delta_{1}$ =
-\item $\delta_{2}$ =
-\item $\delta^{\tau}$ = Not sure how set- varies by asset type and front loaded, but probably just set to 12-14\%- something higher than econ depreciation
-\item $\tau^{l}$ = See \cn{Jones2002} or just do statutory rate for median household or use tax calculator to get marginal rate for median household
-\item $\tau^{i}$ = assume = labor income tax
-\item $\tau^{d}$ = See \cn{Jones2002} or just do statutory rate for median household or use tax calculator to get marginal rate for median household
-\item $\tau^{k}$ = See \cn{Jones2002}
-\item $\tau^{c}$ = See \cn{Jones2002}
-\item $\tau^{ic}$ = 0, most years for most investments this is zero
-\item $e^{\tau}$ = 0, in reality expensing for tax $> 0$ for many small businesses at most times, but we can set to zero
-\item $\gamma$ =
-\item $\zeta$ = I think this is the Frisch elasticity of labor.  \cn{CER2010} set to 0.29.
-\item $\sigma$ = coeff of relative risk aversion.  Often set to 2.
-\item $\chi^{g}$ =
-\item $\sigma_{g}$ =
-\item $\sigma_{\ve}$ =
-\item $\rho_{\ve}$ =
-\item $\sigma_{\lambda}$ =
-\item $\lambda_{p}$ = mean markup = $\frac{1+\lambda_{p}}{\lambda_{p}}$, \cn{BF1995} give U.S. evidence of avg markup of 10-14\% which implies $\lambda_{p}\sim 8$.
-\item $\beta$ = set to match (real?) after-tax interest rate (given tax on interest income)
-\item $\alpha$ = capital share of output (30-35\%)
-\item $\sigma_{z}$ = Estimate log of production function using aggregate data (typical business cycle accounting) to get residual.  Fit the residual to AR(1) to get $\sigma_{z}$ and $\rho_{z}$.
-\item $\rho_{z}$ = Estimate log of production function using aggregate data (typical business cycle accounting) to get residual.  Fit the residual to AR(1) to get $\sigma_{z}$ and $\rho_{z}$.
-\item $\theta$ = fraction of firms changing price
-\item $\phi_{1}$ = estimate a log-log specification of the Taylor rule
-\item $\phi_{2}$ = estimate a log-log specification of the Taylor rule
-\item $\rho_{r}$ = estimate a log-log specification of the Taylor rule
-\item $\bar{L}$ = fraction of hours worked ($0.3 \sim \frac{8}{24}$, 0.5 corresponds to Frisch elasticity = 1??)
-\item $\frac{\bar{G}}{\bar{Y}}$ = historical average
-\item $\frac{\bar{B}}{\bar{Y}}$ = historial average
-\item $\frac{\bar{X}}{\bar{Y}}$ = historical average
-\end{itemize}
+Table~\ref{tab:priors} reports the estimated parameters along with their prior distributions. Prior choices closely follow \cn{Zubairy2010} for the 28 parameters common to both models. Deep habit parameters $b_c$, $\theta^c$, $b_g$, $\theta^g$ receive Beta priors on $(0,1)$ consistent with their interpretation as persistence parameters. The risk aversion coefficient $\gamma$, utilization curvature $\sigma_u$, investment adjustment cost $\kappa$, and nominal rigidity parameters $\alpha_P$, $\alpha_W$ receive Normal priors centered near values that generate moderate nominal rigidity. Fiscal rule AR coefficients $\rho_j$ all receive Beta$(0.7, 0.2)$ priors reflecting high but uncertain persistence. Debt-feedback coefficients for tax rules receive Gamma priors (positive), while those for spending rules receive Normal priors centered below zero (negative feedback). Output-feedback coefficients receive Normal priors centered near zero. All shock standard deviations receive inverse-Gamma priors. The 15 parameters for the five extension fiscal rules ($\rho_c$, $\rho_{ic}$, $\rho_{ti}$, $\rho_{td}$, $\rho_{e\tau}$ and their debt and output responses) and the cross-shock correlation $\phi_{wd}$ are new to this paper; their priors are set symmetrically with the analogous Zubairy parameters.
 
-TABLE: Parameritization
+\begin{table}[ht]
+\centering
+\caption{Estimated Parameters: Prior Distributions}
+\label{tab:priors}
+\begin{tabular}{llccc}
+\hline\hline
+Parameter & Description & Prior & Mean & Std \\
+\hline
+\multicolumn{5}{l}{\textit{Deep habits}} \\
+$b_c$ & Private consumption habit depth & Beta & 0.70 & 0.10 \\
+$\theta^c$ & Private habit stock persistence & Beta & 0.80 & 0.10 \\
+$b_g$ & Government consumption habit depth & Beta & 0.70 & 0.10 \\
+$\theta^g$ & Government habit stock persistence & Beta & 0.80 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Structural parameters}} \\
+$\gamma$ & Risk aversion / inverse EIS & Normal & 2.00 & 1.00 \\
+$\sigma_u$ & Utilization cost curvature & Normal & 2.50 & 0.50 \\
+$\kappa$ & Investment adjustment cost & Normal & 2.00 & 0.50 \\
+$\alpha_P$ & Rotemberg price adjustment cost & Normal & 17.0 & 5.00 \\
+$\alpha_W$ & Rotemberg wage adjustment cost & Normal & 100.0 & 30.0 \\
+\hline
+\multicolumn{5}{l}{\textit{Monetary policy (Taylor rule)}} \\
+$\alpha_R$ & Interest rate smoothing & Beta & 0.80 & 0.20 \\
+$\alpha_\pi$ & Inflation response & Normal & 1.60 & 0.20 \\
+$\alpha_Y$ & Output response & Normal & 0.10 & 0.05 \\
+\hline
+\multicolumn{5}{l}{\textit{Exogenous process persistence}} \\
+$\rho_z$ & Technology shock & Beta & 0.70 & 0.20 \\
+$\rho_d$ & Preference shock & Beta & 0.70 & 0.20 \\
+$\rho_\mu$ & Investment efficiency shock & Beta & 0.70 & 0.20 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule AR coefficients}} \\
+$\rho_k$ & Capital tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_w$ & Labor tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_g$ & Government spending rule persistence & Beta & 0.80 & 0.20 \\
+$\rho_{tr}$ & Transfer rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_c$ & Consumption tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{ic}$ & ITC rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{ti}$ & Interest income tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{td}$ & Dividend tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{e\tau}$ & Expensing rule persistence & Beta & 0.70 & 0.20 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule debt-feedback coefficients}} \\
+$\rho_{k,b}$ & Capital tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{w,b}$ & Labor tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{g,b}$ & Government spending / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{tr,b}$ & Transfers / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{c,b}$ & Consumption tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{ti,b}$ & Interest income tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{td,b}$ & Dividend tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{ic,b}$ & ITC / debt & Normal & 0.00 & 0.25 \\
+$\rho_{e\tau,b}$ & Expensing / debt & Normal & 0.00 & 0.25 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule output-feedback coefficients}} \\
+$\rho_{k,y}$ & Capital tax / output & Gamma & 0.15 & 0.10 \\
+$\rho_{w,y}$ & Labor tax / output & Gamma & 0.15 & 0.10 \\
+$\rho_{g,y}$ & Government spending / output & Normal & $-$0.05 & 0.05 \\
+$\rho_{tr,y}$ & Transfers / output & Normal & $-$0.10 & 0.05 \\
+$\rho_{c,y}$ & Consumption tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{ic,y}$ & ITC / output & Normal & 0.00 & 0.10 \\
+$\rho_{ti,y}$ & Interest income tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{td,y}$ & Dividend tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{e\tau,y}$ & Expensing / output & Normal & 0.00 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Cross-shock correlations}} \\
+$\phi$ & $\varepsilon_t^k$ entering labor tax rule & Normal & 0.25 & 0.10 \\
+$\phi_{wd}$ & $\varepsilon_t^w$ entering dividend tax rule & Normal & 0.25 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Shock standard deviations (all inv-Gamma, mean 0.05, std 0.10)}} \\
+$\sigma_{\varepsilon^k}$, $\sigma_{\varepsilon^w}$, $\sigma_{\varepsilon^g}$, $\sigma_{\varepsilon^{tr}}$, $\sigma_{\varepsilon^z}$, $\sigma_{\varepsilon^d}$, $\sigma_{\varepsilon^\mu}$, $\sigma_{\varepsilon^m}$ & Zubairy shocks & Inv-Gamma & 0.05 & 0.10 \\
+$\sigma_{\varepsilon^c}$, $\sigma_{\varepsilon^{ic}}$, $\sigma_{\varepsilon^{ti}}$, $\sigma_{\varepsilon^{td}}$, $\sigma_{\varepsilon^{e\tau}}$ & Extension shocks & Inv-Gamma & 0.05 & 0.10 \\
+\hline\hline
+\multicolumn{5}{p{0.85\textwidth}}{\footnotesize Note: Parameters below the horizontal rule are new to this paper relative to \cn{Zubairy2010}. Gamma priors for debt-feedback coefficients of tax rules enforce positive values (taxes rise with debt). Normal priors for debt-feedback coefficients of the ITC and expensing rules are centered at zero because these instruments may either rise or fall in response to debt. Gamma priors for output-feedback coefficients enforce the sign implied by automatic stabilizers for tax rates; Normal priors for spending rules allow the sign to be determined by the data.}
+\end{tabular}
+\end{table}
 
 \section{Short Run Multipliers}
 
@@ -978,48 +569,18 @@ How do results change with change to key parameters...
 
 Note that hard to know preferences for gov't spending, but imagine that people know better what want, cutting taxes may be politically easier than increasing spending.  Note other weaknesses of the modeling assumptions.
 
+If consumption taxes are useful stabilization tool, and not just a tool for more revenue, countries like the US that don't have them should consider implementing them.  This is especially true if the zero bound is a concern, since consumption tax cuts can be effective even when interest rates are at the zero bound.  Just like a non-zero inflation target can help give monetary policy more room to maneuver, a non-zero consumption tax can give fiscal policy more room to maneuver.
+
 \section{Conclusion}
 
 
 
-\section{Questions:}
-\begin{enumerate}
-\item Do those with models of the multiplier usually have transfers to households or gov't actually buying stuff?
-\item Do I want to say anything about optimal consumption tax being non-zero (like want non-zero inflation) because can more easily do tax cut to respond to recession than could do negative tax rate (spending)?
-\item Did Europe (or even US states) have any changes to consumption taxes in response to the recession? \emph{A: I don't think so.  In fact, I believe some states cancelled their sales tax holidays due to budget shortfalls.}
-\item Do we want to have rules for fiscal policy as in \cn{Zubairy2010}?  Again, not sure why we need it if not trying to match data.  Just need to estimate SS levels and propose levels that will revert to after aggregate shock.
-\end{enumerate}
-
-\section{Does anyone do this?}
-\begin{enumerate}
-\item \cn{IMF2010} shows impulse response functions to a consumption tax cut.  This paper seems to find that consumption taxes do well compared to other taxes and transfers, but don't do as well as gov't consumption and gov't investment
-\item \cn{LPT2010} have consumption taxes, but don't allow them to vary with gov't debt
-\item \cn{Zubairy2010} doesn't not have consumption taxes, only capital and labor income taxes.  Says few even have distortionary taxes in models of multipliers.
-\item \cn{TY2010} allow for consumption taxes and allow them to vary.  Not answering the same question as I want, but good to look at what they say about consumption taxes.  In particular, how with cons taxes the consumer and producer price index will vary and what crowding out happens with consumption tax changes.
-\item \cn{SC2005} have consumption taxes, but don't use them as a policy instrument.  They don't say anything interesting about consumption taxes.
-\item \cn{CER2010} don't have consumption taxes and only focus on spending multipliers.  I don't even think they have taxes.  Fiscal and monetary policy rules look simple though- might want to take these.
-\end{enumerate}
-
-
-\section{Links}
-\begin{itemize}
-\item \url{http://www.econbrowser.com/archives/2010/03/policy_in_dsges.html}
-\item \cn{IMF2010} paper: \url{http://www.imf.org/external/pubs/ft/wp/2010/wp1073.pdf}
-\item \url{http://delong.typepad.com/sdj/2009/07/cracking-chistiano-eichenbaum-and-rebelos-big-multipliers-without-coffee.html}
-\item \url{http://www.econbrowser.com/archives/multipliers/index.html}
-\item \cn{TY2010} paper: \url{http://www.nber.org/papers/w15160}
-\end{itemize}
-
-
-
-
-\section{MORE QUESTIONS:}
-\begin{enumerate}
-\item Why do \cn{CER2010} have a subsidy to correct for monopoly of int goods producers?  I don't see others with this.
-\item What is capital tax equivalent to?  See what \cn{Zubairy2010} estimates from, but it's like a corp income tax, cap gains tax, div tax rolled into one.
-\item Do Multiplier of: gov't spending (baseline to compare), cut in: cap tax, labor tax, cons tax, invest tax credit/bonus deprec/accelerated expensing
-\item Can I do bonus deprec with my model- or do I need to keep track of vintage/basis since not partial expensing?
-\end{enumerate}
+% \section{Questions:}
+% \begin{enumerate}
+% \item Do those with models of the multiplier usually have transfers to households or gov't actually buying stuff?
+% \item Did Europe (or even US states) have any changes to consumption taxes in response to the recession? \emph{A: I don't think so.  In fact, I believe some states cancelled their sales tax holidays due to budget shortfalls.}
+% \item Why do \cn{CER2010} have a subsidy to correct for monopoly of int goods producers?  I don't see others with this.
+% \end{enumerate}
 
 \newpage
 
@@ -1028,123 +589,8 @@ Note that hard to know preferences for gov't spending, but imagine that people k
 
 
 \newpage
-\renewcommand{\theequation}{T.\arabic{section}.\arabic{equation}}
-                                                 % redefine the command that creates the section number
-\renewcommand{\thesection}{T-\arabic{section}}   % redefine the command that creates the equation number
-\setcounter{equation}{0}                         % reset counter
-\setcounter{section}{0}                          % reset section number
-\section*{TECHNICAL APPENDIX}                    % use *-form to suppress numbering
 
-\setcounter{equation}{0} % reset counter
-\section{Derivation of monopolistic competition intermediate goods demand and aggregate price Equations}\label{TAppDemPrice}
-
-The profit maximization approach to solving for each intermediate good demand equation $y_{i,t}$ and the aggregate price equation $P_t$ is the following.
-
-\begin{equation}
-\max_{y_{i,t}} P_{t}Y_{t}^{d} - \int_{0}^{1}p_{i,t}y_{i,t}di
-\end{equation}
-
-The FOC's are:
-
-\begin{equation}
-p_{t}(1+\lambda_{p,t})\left(\int_{0}^{1}y_{i,t}^{\left(\frac{1}{1+\lambda_{p,t}}\right)}di\right)^{\lambda_{p,t}}\left(\frac{1}{1+\lambda_{p,t}}\right)y_{i,t}^{\frac{1}{1+\lambda_{p,t}}-1}-p_{i,t} = 0, \forall i
-\end{equation}
-
-Dividing the FOCs for intermediate inputs $i$ and $j$ $\implies$
-\begin{equation}
-\frac{p_{i,t}}{p_{j,t}} = \left(\frac{y_{i,t}}{y_{j,t}}\right)^{\frac{1}{1+\lambda_{p,t}}-1} = \left(\frac{y_{i,t}}{y_{j,t}}\right)^{\frac{-\lambda_{p,t}}{1+\lambda_{p,t}}}
-\end{equation}
-
-Rearranging:
-\begin{equation}
-\begin{split}
-&\implies p_{i,t} = \left(\frac{y_{j,t}}{y_{i,t}}\right)^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}p_{j,t} \\
-& \implies p_{i,t} = y_{j,t}^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}p_{j,t}y_{i,t}^{\frac{-\lambda_{p,t}}{1+\lambda_{p,t}}} \\
-& \implies p_{i,t}y_{i,t} = p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}
-\end{split}
-\end{equation}
-
-Then integrate this condition to yield:
-\begin{equation}
-\begin{split}
-\int_{0}^{1}p_{i,t}y_{i,t}di & = p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}\int_{0}^{1}y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}di  \\
-& = p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}}
-\end{split}
-\end{equation}
-
-The zero profit condition implies $P_{t}Y_{t}=\int_{0}^{1}p_{i,t}y_{i,t}di$.  Plugging this into the above and we find:
-\begin{equation}
-\begin{split}
-P_{t}Y_{t} &= p_{j,t}y_{j,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}} \\
-\implies &P_{t}Y_{t}=p_{j,t}y_{j,t}^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}} \\
-\implies & P_{t} =  p_{j,t}y_{j,t}^{\frac{\lambda_{p,t}}{1+\lambda_{p,t}}}(Y_{t})^{\frac{-\lambda_{p,t}}{1+\lambda_{p,t}}}
-\end{split}
-\end{equation}
-
-Which implies the demand function (just rearranging terms):
-\begin{equation}
-\begin{split}
-y_{i,t} =  \left(\frac{p_{i,t}}{P_{t}}\right)^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}, \forall i
-\end{split}
-\end{equation}
-
-To find $P_{t}$ use the zero profit condition:
-\begin{equation}
-\begin{split}
-& P_{t}Y_{t} = \int_{0}^{1}p_{i,t}y_{i,t}^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}\left(\left(\frac{p_{i,t}}{P_{t}}\right)^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}\right)^{\left(\frac{\lambda_{p,t}}{1+\lambda_{p,t}}\right)}(Y_{t})^{\frac{1}{1+\lambda_{p,t}}}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}\left(\frac{p_{i,t}}{P_{t}}\right)^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}p_{i,t}^{\frac{-(1+\lambda_{p,t})}{\lambda_{p,t}}}P_{t}^{\frac{(1+\lambda_{p,t})}{\lambda_{p,t}}}Y_{t}di \\
-\implies & P_{t}Y_{t} = \int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di \:  Y_{t}P_{t}^{\frac{1+\lambda_{p,t}}{\lambda_{p,t}}} \\
-\implies & P_{t} = \int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di \: P_{t}^{\frac{1+\lambda_{p,t}}{\lambda_{p,t}}} \\
-\implies & P_{t}^{\frac{-1}{\lambda_{p,t}}} = \int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di \\
-\implies & P_{t} = \left(\int_{0}^{1}p_{i,t}^{\frac{-1}{\lambda_{p,t}}}di\right)^{-\lambda_{p,t}} \\
-\end{split}
-\end{equation}
-
-The cost minimization approach to solving for each intermediate good demand equation $y_{i,t}$ and the aggregate price equation $P_t$ is the following.
-\begin{equation}\label{TAppEqObjCostMin}
-   \min_{y_{i,t}} \int_{0}^{1}p_{i,t}y_{i,t}di \quad\text{s.t.}\quad Y_t \leq \left(\int_{0}^{1} y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}di\right)^{1+\lambda_{p,t}}
-\end{equation}
-The Lagrangian for this minimization problem is the following,
-\begin{equation}\label{TAppEqLagrCostMin}
-   \mathcal{L} = \int_{0}^{1}p_{i,t}y_{i,t}di + \lambda_y\left[Y_t - \left(\int_{0}^{1} y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}di\right)^{1+\lambda_{p,t}}\right]
-\end{equation}
-in which the multiplier $\lambda_y$ has the interpretation of being the marginal cost of an extra unit of aggregated output. That is, $\lambda_y$ is the price of aggregate output $P_t$.
-\begin{equation}\label{TAppEqLagrCostMin2}
-   \mathcal{L} = \int_{0}^{1}p_{i,t}y_{i,t}di + P_t\left[Y_t - \left(\int_{0}^{1} y_{i,t}^{\frac{1}{1+\lambda_{p,t}}}di\right)^{1+\lambda_{p,t}}\right]
-\end{equation}
-We need to finish this....
-
-
-\newpage
-\setcounter{equation}{0} % reset counter
-\section{Derivation of real marginal costs}\label{TAppRealMC}
-
-Dividing the period profits equation \eqref{EqIntGoodDiv} by aggregate prices $P_t$ gives the following real total costs function.
-\begin{equation}\label{TAppEqRealTC}
-   tc_t = \frac{r_t^k}{P_t}\tilde{k}_{i,t} + \frac{w_t}{P_t}l_{i,t}
-\end{equation}
-Substituting in the expression for $\tilde{k}_{i,t}$ from the capital-labor ratio equation \eqref{Eqklratio} gives real total costs in terms of $\alpha$, $w_t$, $P_t$, and $l_{i,t}$.
-\begin{equation}\label{TAppEqRealTCl}
-   tc_t = \frac{1}{1-\alpha}\left(\frac{w_t}{P_t}\right)l_{i,t}
-\end{equation}
-
-Because the intermediate goods production exhibits constant returns to scale, we can find the real marginal cost $mc_t$ by finding the amount of labor necessary to produce 1 unit of output, and substituting that value into the real total costs equation \eqref{TAppEqRealTCl}.
-\begin{equation}\label{TAppEqlunitprod1}
-   z_t\tilde{k}_{i,t}^\alpha l_{i,t}^{1-\alpha} = 1
-\end{equation}
-Next, substitute in the equation for capital $\tilde{k}_{i,t}$ in terms of labor from the capital-labor ratio equation \eqref{Eqklratio}.
-\begin{equation}\label{TAppEqlunitprod2}
-   z_t\left(\frac{\alpha}{1-\alpha}\left[\frac{w_t}{r_t^k}\right]l_{i,t}\right)^\alpha l_{i,t}^{1-\alpha} = 1 \quad\Rightarrow\quad l_{i,t} = \frac{1}{z_t}\left(\frac{\alpha}{1-\alpha}\left[\frac{w_t}{r_t^k}\right]\right)^{-\alpha}
-\end{equation}
-
-Lastly, substitute the amount of labor necessary to produce one unit of output from \eqref{TAppEqlunitprod2} into the expression for real total costs \eqref{TAppEqRealTCl} to get real marginal costs.
-\begin{equation}\label{TAppEqRealMC}
-   mc_t = \frac{1}{1-\alpha}\left(\frac{w_t}{P_t}\right)\frac{1}{z_t}\left(\frac{\alpha}{1-\alpha}\left[\frac{w_t}{r_t^k}\right]\right)^{-\alpha} = \frac{w_t^{1-\alpha}(r_t^k)^\alpha}{z_t P_t \alpha^\alpha (1-\alpha)^{1-\alpha}}
-\end{equation}
-
-
+\input{appendix.tex}
 
 
 \end{document}
