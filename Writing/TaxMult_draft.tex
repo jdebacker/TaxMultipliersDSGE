@@ -308,6 +308,31 @@ where $\alpha_R \in (0,1)$ governs interest rate inertia, $\alpha_\pi > 1$ is th
 
 \subsection{Equilibrium}
 
+\noindent\textbf{Definition (Competitive Rational Expectations Equilibrium).} Given exogenous shock processes $\{z_t, d_t, \mu_t\}_{t=0}^{\infty}$ and initial conditions $(k_{-1},\, k_{-1}^{\tau},\, s_{C,-1},\, s_{G,-1},\, b_{-1})$, a \emph{competitive rational expectations equilibrium} is a collection of sequences of quantities
+\[
+\bigl\{c_t,\, i_t,\, g_t,\, x_t,\, y_t,\, h_t,\, u_t,\, k_t,\, k_t^{\tau},\, b_t,\, \text{div}_t,\, s_{C,t},\, s_{G,t},\, x_{c,t},\, x_{g,t}\bigr\}_{t=0}^{\infty},
+\]
+prices and shadow values
+\[
+\bigl\{w_t,\, r_t^k,\, R_t,\, \pi_t,\, \pi_t^w,\, mc_t,\, q_t,\, \lambda_t,\, v_{\tau,t},\, \tilde{w}_t,\, \tilde{\nu}_t^c,\, \tilde{\nu}_t^g,\, \tilde{\nu}_t^i\bigr\}_{t=0}^{\infty},
+\]
+and fiscal instrument sequences $\{\tau_t^c,\, \tau_t^w,\, \tau_t^k,\, \tau_t^i,\, \tau_t^d,\, \tau_t^{ic},\, e_t^{\tau}\}_{t=0}^{\infty}$ such that:
+\begin{enumerate}
+\item[(i)] Taking prices and tax rates as given, the representative household maximizes \eqref{eq:utility} subject to the budget constraint \eqref{eq:bc}, capital accumulation \eqref{eq:kacc}, and tax basis accumulation \eqref{eq:ktau}, yielding the first-order conditions \eqref{eq:lambda}--\eqref{eq:bondeuler}.
+
+\item[(ii)] Taking wages $w_t$ and rental rates $r_t^k$ as given, each intermediate goods firm $i \in [0,1]$ minimizes costs, yielding factor demands \eqref{eq:wfoc}--\eqref{eq:rkfoc}, and sets its nominal price to maximize the present discounted value of dividends subject to Rotemberg adjustment costs and the deep habits demand structure \eqref{eq:cdem}--\eqref{eq:gdem}, yielding customer-base shadow values \eqref{eq:nui}--\eqref{eq:nug} and the price Phillips curve \eqref{eq:pricePC}.
+
+\item[(iii)] Each household sets its nominal wage to maximize utility subject to Rotemberg wage adjustment costs, yielding the wage Phillips curve \eqref{eq:wagePC}.
+
+\item[(iv)] The government satisfies its budget constraint \eqref{eq:gbc} with tax revenue defined by \eqref{eq:taxrev}, and each fiscal instrument follows its policy rule \eqref{eq:grule}--\eqref{eq:etaurule}.
+
+\item[(v)] The central bank sets the gross nominal interest rate $R_t$ according to the Taylor rule \eqref{eq:taylor}.
+
+\item[(vi)] Labor, capital, bond, and goods markets clear according to conditions \eqref{eq:labmc}--\eqref{eq:goodsmc}.
+
+\item[(vii)] Expectations $E_t[\,\cdot\,]$ are rational: agents' beliefs are consistent with the probability distribution implied by the model.
+\end{enumerate}
+
 \subsubsection{Market Clearing}
 
 In a symmetric equilibrium all intermediate goods firms make identical factor choices, so labor and capital markets clear when household factor supply equals aggregate firm demand:
@@ -378,46 +403,150 @@ Solve for these unknowns with the following equations:
 
 
 
-\subsection{Calibration/Estimation}
+\subsection{Calibration and Estimation}
+\label{sec:calibration}
 
-Many of these DSGE papers estimate the model (e.g., \cn{TY2010}, \cn{Zubairy2010}, \cn{SW2003}), but I think all we need to do is calibrate (or even just parameterize at \cn{CER2010} do.  Not really sure why need to estimate yet another time if other have done it.  Idea is to pick parameters close to other models finding large spending multipliers and show that similar assumptions/parameters also show that certain tax policies also have really large multipliers.  Likely want to calibrate to European economy because want a place with a consumption tax.  UK is probably a good bet since they have their own central bank and a VAT of about 20\%.
+The model's parameter vector is partitioned into two groups. A subset of parameters is \emph{calibrated}: fixed prior to estimation at values drawn from the literature or from long-run data targets, because they are weakly identified by the business-cycle observables used in estimation. The remaining parameters are \emph{estimated} via Bayesian methods using U.S.\ quarterly data, following \cn{Zubairy2010} and \cn{SW2003}. We use Dynare to compute the posterior mode via a Monte Carlo–based optimization routine and to characterize the posterior distribution via the Metropolis-Hastings algorithm with 1{,}500{,}000 draws across two chains, discarding the first one-third of draws as burn-in.
 
-\begin{itemize}
-\item $\delta_{0}$= annual depreciation rate ($\sim$10\%), equals the aggregate SS investment rate ($\frac{\bar{I}}{\bar{K}}$).
-\item $\delta_{1}$ =
-\item $\delta_{2}$ =
-\item $\delta^{\tau}$ = Not sure how set- varies by asset type and front loaded, but probably just set to 12-14\%- something higher than econ depreciation
-\item $\tau^{l}$ = See \cn{Jones2002} or just do statutory rate for median household or use tax calculator to get marginal rate for median household
-\item $\tau^{i}$ = assume = labor income tax
-\item $\tau^{d}$ = See \cn{Jones2002} or just do statutory rate for median household or use tax calculator to get marginal rate for median household
-\item $\tau^{k}$ = See \cn{Jones2002}
-\item $\tau^{c}$ = See \cn{Jones2002}
-\item $\tau^{ic}$ = 0, most years for most investments this is zero
-\item $e^{\tau}$ = 0, in reality expensing for tax $> 0$ for many small businesses at most times, but we can set to zero
-\item $\gamma$ =
-\item $\zeta$ = I think this is the Frisch elasticity of labor.  \cn{CER2010} set to 0.29.
-\item $\sigma$ = coeff of relative risk aversion.  Often set to 2.
-\item $\chi^{g}$ =
-\item $\sigma_{g}$ =
-\item $\sigma_{\ve}$ =
-\item $\rho_{\ve}$ =
-\item $\sigma_{\lambda}$ =
-\item $\lambda_{p}$ = mean markup = $\frac{1+\lambda_{p}}{\lambda_{p}}$, \cn{BF1995} give U.S. evidence of avg markup of 10-14\% which implies $\lambda_{p}\sim 8$.
-\item $\beta$ = set to match (real?) after-tax interest rate (given tax on interest income)
-\item $\alpha$ = capital share of output (30-35\%)
-\item $\sigma_{z}$ = Estimate log of production function using aggregate data (typical business cycle accounting) to get residual.  Fit the residual to AR(1) to get $\sigma_{z}$ and $\rho_{z}$.
-\item $\rho_{z}$ = Estimate log of production function using aggregate data (typical business cycle accounting) to get residual.  Fit the residual to AR(1) to get $\sigma_{z}$ and $\rho_{z}$.
-\item $\theta$ = fraction of firms changing price
-\item $\phi_{1}$ = estimate a log-log specification of the Taylor rule
-\item $\phi_{2}$ = estimate a log-log specification of the Taylor rule
-\item $\rho_{r}$ = estimate a log-log specification of the Taylor rule
-\item $\bar{L}$ = fraction of hours worked ($0.3 \sim \frac{8}{24}$, 0.5 corresponds to Frisch elasticity = 1??)
-\item $\frac{\bar{G}}{\bar{Y}}$ = historical average
-\item $\frac{\bar{B}}{\bar{Y}}$ = historical average
-\item $\frac{\bar{X}}{\bar{Y}}$ = historical average
-\end{itemize}
+\subsubsection{Calibrated Parameters}
 
-TABLE: Parameterization
+Table~\ref{tab:calib} reports the calibrated parameters. The discount factor $\beta$ is set to imply a 3\% annual real interest rate. The quarterly economic depreciation rate $\delta = 0.025$ corresponds to a standard 10\% annual rate. The capital income share $\theta = 0.30$ matches the average labor share of income in U.S.\ national accounts. The price elasticity of substitution $\eta = 5.3$ implies a steady-state markup of roughly 23\%, while the labor variety elasticity $\eta_w = 21.0$ is calibrated to match a 5\% steady-state wage markup consistent with the Rotemberg wage-setting framework.
+
+Steady-state hours worked $\bar{h} = 0.50$ normalizes the time endowment to unity and follows \cn{Zubairy2010}. The government spending share $\bar{g}/\bar{y} = 0.18$ and debt-to-output ratio $\bar{b}/\bar{y} = 0.33$ match U.S.\ historical averages. Steady-state inflation is normalized to $\bar{\pi} = 1$ (zero net inflation).
+
+The steady-state tax rates are set to match average effective tax rates for the U.S.\ economy. The capital income tax $\bar{\tau}^k = 0.41$ and labor income tax $\bar{\tau}^w = 0.23$ follow \cn{Zubairy2010}. The consumption tax $\bar{\tau}^c = 0.10$ approximates the combined federal excise and average state sales tax burden. The interest income tax rate $\bar{\tau}^i = 0.20$ and dividend tax rate $\bar{\tau}^d = 0.15$ reflect average effective rates on capital income components. The investment tax credit and immediate expensing rates are calibrated to zero in steady state ($\bar{\tau}^{ic} = \bar{e}^{\tau} = 0$), reflecting the baseline tax code without active bonus depreciation or ITC provisions; both are active as stochastic fiscal instruments. The tax depreciation rate $\delta^{\tau} = 0.025$ equals the economic depreciation rate as a baseline. The dividend share of output $\overline{\text{div}}/\bar{y} = 0.11$ is calibrated to match a realistic profit-to-output ratio consistent with U.S.\ data; the fixed operating cost $\psi$ in the production function is determined residually to hit this target in steady state.
+
+\begin{table}[ht]
+\centering
+\caption{Calibrated Parameters}
+\label{tab:calib}
+\begin{tabular}{llc}
+\hline\hline
+Parameter & Description & Value \\
+\hline
+\multicolumn{3}{l}{\textit{Preferences and technology}} \\
+$\beta$ & Discount factor & $1/(1.03)^{1/4}$ \\
+$\delta$ & Quarterly economic depreciation rate & 0.025 \\
+$\theta$ & Capital income share & 0.30 \\
+$\eta$ & Elasticity of substitution, goods varieties & 5.3 \\
+$\eta_w$ & Elasticity of substitution, labor varieties & 21.0 \\
+\hline
+\multicolumn{3}{l}{\textit{Steady-state targets}} \\
+$\bar{\pi}$ & Steady-state gross inflation & 1.0 \\
+$\bar{h}$ & Steady-state hours worked & 0.50 \\
+$\bar{g}/\bar{y}$ & Government spending share of output & 0.18 \\
+$\bar{b}/\bar{y}$ & Debt-to-output ratio & 0.33 \\
+$\overline{\text{div}}/\bar{y}$ & Dividend share of output & 0.11 \\
+\hline
+\multicolumn{3}{l}{\textit{Steady-state tax rates}} \\
+$\bar{\tau}^k$ & Capital income tax rate & 0.41 \\
+$\bar{\tau}^w$ & Labor income tax rate & 0.23 \\
+$\bar{\tau}^c$ & Consumption tax rate & 0.10 \\
+$\bar{\tau}^i$ & Interest income tax rate & 0.20 \\
+$\bar{\tau}^d$ & Dividend tax rate & 0.15 \\
+$\bar{\tau}^{ic}$ & Investment tax credit rate & 0.00 \\
+$\bar{e}^{\tau}$ & Immediate expensing rate & 0.00 \\
+$\delta^{\tau}$ & Tax depreciation rate & 0.025 \\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Bayesian Estimation}
+
+The remaining 57 parameters are estimated jointly using Bayesian techniques. We match 12 quarterly observables from U.S.\ data to 12 of the model's measurement equations:
+\begin{enumerate}
+\item $\hat{c}_t = 100(c_t - \bar{c})/\bar{c}$ — private consumption (percent deviation from SS)
+\item $\hat{\imath}_t = 100(i_t - \bar{\imath})/\bar{\imath}$ — private investment (percent deviation)
+\item $\hat{g}_t = 100(g_t - \bar{g})/\bar{g}$ — government purchases (percent deviation)
+\item $\pi_t - \bar{\pi}$ — gross price inflation (level deviation)
+\item $R_t - \bar{R}$ — gross nominal interest rate (level deviation)
+\item $(\tau_t^k - \bar{\tau}^k)/\bar{\tau}^k$ — capital income tax rate (fractional deviation)
+\item $(\tau_t^w - \bar{\tau}^w)/\bar{\tau}^w$ — labor income tax rate (fractional deviation)
+\item $100(b_t - \bar{b})/\bar{b}$ — government debt (percent deviation)
+\item $(\tau_t^c - \bar{\tau}^c)/\bar{\tau}^c$ — consumption tax rate (fractional deviation)
+\item $(\tau_t^d - \bar{\tau}^d)/\bar{\tau}^d$ — dividend tax rate (fractional deviation)
+\item $\tau_t^{ic} - \bar{\tau}^{ic}$ — investment tax credit rate (level deviation)
+\item $e_t^{\tau} - \bar{e}^{\tau}$ — expensing rate (level deviation)
+\end{enumerate}
+Transfer payments $x_t$ are excluded from the observable set because of well-known data quality concerns. The interest income tax rate $\tau_t^i$ has no direct observable; its shock $\varepsilon_t^i$ is identified indirectly through the bond Euler equation and debt dynamics. The model therefore has 13 structural shocks and 12 observables, with $\varepsilon_t^i$ being the over-identified shock. Observed data are demeaned prior to estimation (\texttt{prefilter = 1}) to accommodate potential mismatches between model steady states and sample means.
+
+Table~\ref{tab:priors} reports the estimated parameters along with their prior distributions. Prior choices closely follow \cn{Zubairy2010} for the 28 parameters common to both models. Deep habit parameters $b_c$, $\theta^c$, $b_g$, $\theta^g$ receive Beta priors on $(0,1)$ consistent with their interpretation as persistence parameters. The risk aversion coefficient $\gamma$, utilization curvature $\sigma_u$, investment adjustment cost $\kappa$, and nominal rigidity parameters $\alpha_P$, $\alpha_W$ receive Normal priors centered near values that generate moderate nominal rigidity. Fiscal rule AR coefficients $\rho_j$ all receive Beta$(0.7, 0.2)$ priors reflecting high but uncertain persistence. Debt-feedback coefficients for tax rules receive Gamma priors (positive), while those for spending rules receive Normal priors centered below zero (negative feedback). Output-feedback coefficients receive Normal priors centered near zero. All shock standard deviations receive inverse-Gamma priors. The 15 parameters for the five extension fiscal rules ($\rho_c$, $\rho_{ic}$, $\rho_{ti}$, $\rho_{td}$, $\rho_{e\tau}$ and their debt and output responses) and the cross-shock correlation $\phi_{wd}$ are new to this paper; their priors are set symmetrically with the analogous Zubairy parameters.
+
+\begin{table}[ht]
+\centering
+\caption{Estimated Parameters: Prior Distributions}
+\label{tab:priors}
+\begin{tabular}{llccc}
+\hline\hline
+Parameter & Description & Prior & Mean & Std \\
+\hline
+\multicolumn{5}{l}{\textit{Deep habits}} \\
+$b_c$ & Private consumption habit depth & Beta & 0.70 & 0.10 \\
+$\theta^c$ & Private habit stock persistence & Beta & 0.80 & 0.10 \\
+$b_g$ & Government consumption habit depth & Beta & 0.70 & 0.10 \\
+$\theta^g$ & Government habit stock persistence & Beta & 0.80 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Structural parameters}} \\
+$\gamma$ & Risk aversion / inverse EIS & Normal & 2.00 & 1.00 \\
+$\sigma_u$ & Utilization cost curvature & Normal & 2.50 & 0.50 \\
+$\kappa$ & Investment adjustment cost & Normal & 2.00 & 0.50 \\
+$\alpha_P$ & Rotemberg price adjustment cost & Normal & 17.0 & 5.00 \\
+$\alpha_W$ & Rotemberg wage adjustment cost & Normal & 100.0 & 30.0 \\
+\hline
+\multicolumn{5}{l}{\textit{Monetary policy (Taylor rule)}} \\
+$\alpha_R$ & Interest rate smoothing & Beta & 0.80 & 0.20 \\
+$\alpha_\pi$ & Inflation response & Normal & 1.60 & 0.20 \\
+$\alpha_Y$ & Output response & Normal & 0.10 & 0.05 \\
+\hline
+\multicolumn{5}{l}{\textit{Exogenous process persistence}} \\
+$\rho_z$ & Technology shock & Beta & 0.70 & 0.20 \\
+$\rho_d$ & Preference shock & Beta & 0.70 & 0.20 \\
+$\rho_\mu$ & Investment efficiency shock & Beta & 0.70 & 0.20 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule AR coefficients}} \\
+$\rho_k$ & Capital tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_w$ & Labor tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_g$ & Government spending rule persistence & Beta & 0.80 & 0.20 \\
+$\rho_{tr}$ & Transfer rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_c$ & Consumption tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{ic}$ & ITC rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{ti}$ & Interest income tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{td}$ & Dividend tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{e\tau}$ & Expensing rule persistence & Beta & 0.70 & 0.20 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule debt-feedback coefficients}} \\
+$\rho_{k,b}$ & Capital tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{w,b}$ & Labor tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{g,b}$ & Government spending / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{tr,b}$ & Transfers / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{c,b}$ & Consumption tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{ti,b}$ & Interest income tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{td,b}$ & Dividend tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{ic,b}$ & ITC / debt & Normal & 0.00 & 0.25 \\
+$\rho_{e\tau,b}$ & Expensing / debt & Normal & 0.00 & 0.25 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule output-feedback coefficients}} \\
+$\rho_{k,y}$ & Capital tax / output & Gamma & 0.15 & 0.10 \\
+$\rho_{w,y}$ & Labor tax / output & Gamma & 0.15 & 0.10 \\
+$\rho_{g,y}$ & Government spending / output & Normal & $-$0.05 & 0.05 \\
+$\rho_{tr,y}$ & Transfers / output & Normal & $-$0.10 & 0.05 \\
+$\rho_{c,y}$ & Consumption tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{ic,y}$ & ITC / output & Normal & 0.00 & 0.10 \\
+$\rho_{ti,y}$ & Interest income tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{td,y}$ & Dividend tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{e\tau,y}$ & Expensing / output & Normal & 0.00 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Cross-shock correlations}} \\
+$\phi$ & $\varepsilon_t^k$ entering labor tax rule & Normal & 0.25 & 0.10 \\
+$\phi_{wd}$ & $\varepsilon_t^w$ entering dividend tax rule & Normal & 0.25 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Shock standard deviations (all inv-Gamma, mean 0.05, std 0.10)}} \\
+$\sigma_{\varepsilon^k}$, $\sigma_{\varepsilon^w}$, $\sigma_{\varepsilon^g}$, $\sigma_{\varepsilon^{tr}}$, $\sigma_{\varepsilon^z}$, $\sigma_{\varepsilon^d}$, $\sigma_{\varepsilon^\mu}$, $\sigma_{\varepsilon^m}$ & Zubairy shocks & Inv-Gamma & 0.05 & 0.10 \\
+$\sigma_{\varepsilon^c}$, $\sigma_{\varepsilon^{ic}}$, $\sigma_{\varepsilon^{ti}}$, $\sigma_{\varepsilon^{td}}$, $\sigma_{\varepsilon^{e\tau}}$ & Extension shocks & Inv-Gamma & 0.05 & 0.10 \\
+\hline\hline
+\multicolumn{5}{p{0.85\textwidth}}{\footnotesize Note: Parameters below the horizontal rule are new to this paper relative to \cn{Zubairy2010}. Gamma priors for debt-feedback coefficients of tax rules enforce positive values (taxes rise with debt). Normal priors for debt-feedback coefficients of the ITC and expensing rules are centered at zero because these instruments may either rise or fall in response to debt. Gamma priors for output-feedback coefficients enforce the sign implied by automatic stabilizers for tax rates; Normal priors for spending rules allow the sign to be determined by the data.}
+\end{tabular}
+\end{table}
 
 \section{Short Run Multipliers}
 
