@@ -1,6 +1,6 @@
 # Tax Multipliers in a DSGE Framework
 
-This repository contains code and other materials for the paper ``Tax Multipliers in a DSGE Model'' by [Jason DeBacker](http://jasondebacker.com) and Aerfate Haimiti.
+This repository contains code and other materials for the paper ``Tax Multipliers in a DSGE Model'' by [Jason DeBacker](http://jasondebacker.com) and [Aerfate Haimiti](https://arfathamit.github.io/).
 
 To solve the model:
 * In Matlab (after installing Dynare and linking the Dynare path to Matlab), navigate to the `./TaxMultipliersDSGE/Codes` directory.
