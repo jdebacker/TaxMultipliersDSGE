@@ -1,0 +1,212 @@
+DATA SOURCES
+============
+
+Pipeline:
+    1a_pre_prep.py          -> raw/PQdat_BEA.csv, raw/treat_BEA.csv,
+                              raw/asset_types.txt
+    1b_build_data.py        -> output/US_Data_Full.xlsx
+    1c_diagnose_data.py     -> sanity checks + diagnostic PNGs
+    1d_clean_for_matlab.py  -> output/US_Data_Matlab.xlsx, US_Data_Matlab_Zubairy.xlsx
+                              (and matching .mat files)
+
+API keys live in raw/api_keys.txt:
+    FRED_KEY=<your FRED API key>
+    BEA_KEY=<your BEA API key>
+
+
+--------------------------------------------------------------------------
+FRED series (https://api.stlouisfed.org)
+--------------------------------------------------------------------------
+  Series ID                Description                              Used for
+  PCND                     PCE: Nondurable goods                    chat
+  PCESV                    PCE: Services                            chat
+  PCDG                     PCE: Durable goods                       ihat, tau_c
+  GPDI                     Gross Private Domestic Investment        ihat
+  GCE                      Govt Consumption + Investment            ghat, tau_c, g_y
+  GDPDEF                   GDP Implicit Price Deflator              pi, all real-pc deflations
+  FEDFUNDS                 Federal Funds Effective Rate (monthly)   r
+  CNP16OV                  Civ. Noninst. Pop. 16+ (monthly)         per-capita scaling
+  MVPHGFD027MNFRBDAL       Market Value of Privately Held Federal   bhat, b_y
+                           Debt (Dallas Fed, monthly)
+  HOANBS                   Nonfarm Business Hours Worked Index      lhat
+  B087RC1Q027SBEA          Govt Social Benefits to Persons          trhat
+  GDP                      Gross Domestic Product                   b_y, g_y
+
+Population alternative: BLS LNU00000000Q. Set POP_SOURCE = "CSV" in
+1_build_data.py to use a local CSV download instead of CNP16OV.
+
+
+--------------------------------------------------------------------------
+BEA NIPA tables (https://apps.bea.gov/api/data/)
+--------------------------------------------------------------------------
+  Table 1.12 (T11200)  National Income by Type of Income
+    L2  Compensation of employees                              -> EC
+    L3  Wages and salaries                                     -> W
+    L9  Proprietors' income                                    -> PRI
+    L12 Rental income of persons                               -> Rental
+    L13 Corporate profits                                      -> CP
+    L18 Net interest                                           -> NI
+
+  Table 3.1  (T30100)  Government Total
+    L4  Taxes on production and imports                        -> TPI
+    L7  Contributions for govt social insurance                -> CSI
+
+  Table 3.2  (T30200)  Federal Government
+    L3  Personal current taxes                                 -> FIT
+    L8  Taxes on corporate income                              -> CT_fed
+
+  Table 3.3  (T30300)  State and Local Government
+    L3  Personal current taxes                                 -> SIT
+    L9  Property taxes                                         -> PT
+    L11 Taxes on corporate income                              -> CT_sl
+
+Lines auto-discovered by description (BEA renumbers periodically). Values
+auto-rescaled from millions to billions to match FRED.
+
+
+--------------------------------------------------------------------------
+BEA Fixed Assets Table 2.7 (used by 0_pre_prep.py for e_tau weights)
+--------------------------------------------------------------------------
+Endpoint: https://apps.bea.gov/api/data/  (DataSetName=FixedAssets)
+TableName: FAAt207  -- "Investment in Private Fixed Assets, Equipment,
+                       Structures, and Intellectual Property Products by Type"
+Coverage: annual, 1901-current
+
+0_pre_prep.py pulls Table 2.7, drops aggregate parent rows, expands annual
+to quarterly (each year's value applied to all four quarters), and assigns
+0/1 bonus-eligibility flags by MACRS recovery period.
+
+Outputs to raw/:
+    PQdat_BEA.csv     quarterly nominal investment by detailed asset type
+    treat_BEA.csv     0/1 eligibility vector aligned to PQdat_BEA columns
+    asset_types.txt   numbered asset list with eligibility flags
+
+Eligibility (Section 168(k) bonus depreciation):
+    Recovery period <= 20 years    -> 1 (eligible)
+        equipment, software, R&D, entertainment originals,
+        utility/telecom/farm/oil-gas quasi-structures
+    Recovery period > 20 years     -> 0 (not eligible)
+        commercial structures (39yr), residential (27.5yr), land
+
+Section 179 expensing NOT included (matches House-Shapiro practice).
+
+
+--------------------------------------------------------------------------
+House-Shapiro (2008) ITC files (used for tau_itc only)
+--------------------------------------------------------------------------
+Local files in raw/:
+    ITCdat.txt   Quarterly ITC rate by asset type (38 cols, 1959Q1-2007Q1)
+    PQdat.txt    Quarterly nominal investment by asset type (38 cols)
+
+Used by build_tau_ic in 1_build_data.py to construct the aggregate ITC
+rate. PQdat.txt provides type weights; the 38-type taxonomy aligns with
+ITCdat.txt's columns. (BEA's Fixed Assets Table 2.7 uses a different
+asset taxonomy and so isn't usable for ITC weighting.)
+
+Coverage outside HS sample:
+    1958Q1-1958Q4: ITC = 0 (didn't exist), weights backfilled from 1959Q1
+    2007Q2-current: ITC = 0 (statutory, repealed 1986), weights forward-filled
+
+
+--------------------------------------------------------------------------
+McGrattan-TAXSIM federal marginal tax rates (used for tau_i and tau_div)
+--------------------------------------------------------------------------
+Local file in raw/:
+    taxsim_fed_McGrattan.txt   Annual federal marginal tax rates from the
+                               NBER TAXSIM model (Feenberg-Coutts 1993),
+                               distributed by Ellen McGrattan. Columns
+                               include Wages, Interest, Dividends,
+                               Qualified Dividends, ST/LT Gains, Pensions,
+                               Property Tax, Mortgage Interest, Cash Gifts.
+                               Coverage 1960-2013, annual.
+
+Used by build_taxsim_rates in 1_build_data.py to construct:
+    tau_i        Interest income tax rate (Interest column / 100)
+    tau_div      Dividend income tax rate (Qualified Dividends column / 100)
+
+The Qualified Dividends column is used as the dividend-tax measure from the McGrattan-TAXSIM file. 
+Around the JGTRRA period, it captures the preferential tax treatment of qualified dividends. 
+Before qualified-dividend treatment is relevant, the series should be interpreted as the TAXSIM dividend-income marginal tax rate.
+
+Coverage outside 1960-2013:
+    1958Q1-1959Q4: NaN
+    2014Q1-current: NaN
+
+
+--------------------------------------------------------------------------
+Constructed series and transformations
+--------------------------------------------------------------------------
+Real per-capita levels (chat, ihat, ghat, bhat, lhat, trhat):
+    100 * (log(real / pop) - linear trend)
+    nominal / (GDPDEF/100), divided by population in persons
+
+pi  = GDPDEF[t] / GDPDEF[t-1]            (gross inflation ratio)
+r   = FEDFUNDS / 400                     (quarterly decimal rate)
+
+Tax rates (Jones 2002 / Mendoza-Razin-Tesar 1994):
+    CI    = Rental + CP + NI + PRI/2
+    tau_p = (FIT + SIT) / (W + PRI/2 + CI)
+    tau_l = (tau_p*(W + PRI/2) + CSI) / (EC + PRI/2)
+    tau_k = (tau_p*CI + CT_fed + CT_sl + PT) / CI                 (Jones 2002)
+    tau_c = (TPI - PT) / (PCE_total + GCE - (TPI - PT))
+    tau_d = tau_p                        (proxy)
+
+Each detrendable tax rate is exposed as TWO hat variants in US_Data_Full:
+    tau_x_hat_detrend     -- (linear-detrended - mean) / mean
+    tau_x_hat_nodetrend   -- (level - mean) / mean
+
+3_clean_for_matlab.py picks one per tax via HAT_CHOICE and renames it to
+the canonical tau_x_hat for the .mod file.
+
+tau_itc:
+    Federal Investment Tax Credit. Existed 1962-1986; repealed by the
+    Tax Reform Act of 1986. Quarterly rates by asset type from House-
+    Shapiro's ITCdat.txt (1959Q1-2007Q1), backfilled with zero for 1958
+    (pre-existence) and post-2007Q1 (statutory zero). Aggregated using
+    HS's own PQdat.txt for type weights (since the 38-type ITC rates
+    align with HS's 38-type investment shares). LEVEL deviation:
+    tau_itc_hat = tau_itc - mean(tau_itc).
+
+e_tau (aggregate bonus-depreciation expensing share):
+    e_tau[t] = bonus[t] * eligible_share[t]
+    where eligible_share[t] = sum_m (PQ_BEA[t,m] / sum_j PQ_BEA[t,j]) * treat[m]
+    Uses LEVEL deviation: e_tau_hat = e_tau - mean(e_tau).
+    Set etau_ss in the .mod file to mean(e_tau) over the estimation window.
+
+tau_i and tau_div (interest and dividend tax rates):
+    Annual federal marginal tax rates from McGrattan-TAXSIM file,
+    expanded to quarterly by applying each year's value to all four
+    quarters. Pre-1960 and post-2013 are NaN.
+    Each series gets two variants (parallel to tau_l/tau_k/tau_c/tau_d):
+        tau_x_hat_detrend    = linear-detrended fractional deviation
+                               (trend fit on observed quarters only)
+        tau_x_hat_nodetrend  = (tau_x - mean) / mean
+
+
+--------------------------------------------------------------------------
+Bonus depreciation calendar (hard-coded in 1_build_data.py)
+--------------------------------------------------------------------------
+    Pre-2001Q4:    0     (no bonus regime)
+    2001Q4-2003Q2: 30%   JCWAA 2002 (retroactive to 9/11/2001)
+    2003Q3-2004Q4: 50%   JGTRRA 2003
+    2005Q1-2007Q4: 0     bonus expired
+    2008Q1-2010Q4: 50%   ESA 2008 + ARRA 2009 + SBJA 2010
+    2011Q1-2011Q4: 100%  Tax Relief Act 2010
+    2012Q1-2013Q4: 50%   ATRA 2012
+    2014Q1-2017Q3: 50%   TIPA 2014 + PATH 2015
+    2017Q4-2022Q4: 100%  TCJA 2017
+    2023Q1-2023Q4: 80%   TCJA phase-down
+    2024Q1-2024Q4: 60%
+    2025Q1:        40%   pre-OBBBA effective date
+    2025Q2+:       100%  OBBBA 2025 (permanent)
+
+
+--------------------------------------------------------------------------
+Outputs
+--------------------------------------------------------------------------
+US_Data_Full.xlsx           1958Q1 to current
+US_Data_Matlab.xlsx/.mat    1958Q1 - 2019Q4 (extended sample)
+US_Data_Matlab_Zubairy.xlsx/.mat   1958Q1 - 2008Q4 (Zubairy window)
+
+diagnostic_real_series.png  real-quantity hats + first differences
+diagnostic_tax_levels.png   tax-rate levels with linear-trend overlay

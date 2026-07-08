@@ -1,35 +1,10 @@
-// tax_dsge.mod
-// =====================================================================
-// Zubairy (2014, IER) extended with full tax structure — Bayesian
-// estimation version (standalone, no external .m file).
-//
-// Base: "On Fiscal Multipliers: Estimates from a Medium Scale DSGE Model"
-//       International Economic Review, 55(1), 169-195.
-//
-// Extension adds tau_c (consumption tax), tau_ic (investment tax credit),
-//   tau_i (interest income tax), tau_d (dividend tax), e_tau (expensing
-//   rate, stochastic), plus tax basis tracking (k_tau) and firm dividend
-//   accounting (div).
-//
-// Estimation:
-//   - Steady state computed in steady_state_model + model-local (#)
-//     variables so derived quantities update at every MCMC draw.
-//   - Data file: US_Data_Matlab.mat (200 quarterly obs, 14 variables, 12 used as observables)
-//   - prefilter = 1 demeaning handles SS ≠ sample mean mismatches
-//
-// Design:
-//   - Tax channels enter HH equations following tax_dsge_fiscal_shocks_b
-//   - Tax rate processes follow Zubairy-style rules (AR + debt/output feedback)
-//   - All non-tax structure (deep habits, Rotemberg pricing, wage rigidity,
-//     utilization, investment adjustment costs, monetary rule) is pure Zubairy
-//   - Capital is predetermined: production uses k(-1)
-//   - Present value multipliers computed outside Dynare (Matlab post-processing)
-//
+// tax_dsge_est_full.mod
+
 // /***************************************************************/
 // /* Preamble                                                    */
 // /***************************************************************/
 //
-// /* Endogenous Variables (46 structural + 13 measurement = 59)  */
+// /* Endogenous Variables (46 structural + 14 measurement = 60)  */
 //
 // --- Macro aggregates ---
 // c        = private consumption
@@ -103,7 +78,7 @@
 // spend_ic = investment tax credit outlays
 // rev_net  = net tax revenue (sum of revenues minus ITC outlays)
 //
-// --- Measurement variables (13) ---
+// --- Measurement variables (14) ---
 // chat      = 100 × (c - c_ss)/c_ss          [% deviation]
 // ihat      = 100 × (i - i_ss)/i_ss          [% deviation]
 // ghat      = 100 × (g - g_ss)/g_ss          [% deviation]
@@ -115,12 +90,13 @@
 // trhat     = 100 × (tr - tr_ss)/tr_ss       [% deviation]
 // tau_c_hat = (tau_c - tauc_ss)/tauc_ss       [fractional deviation]
 // tau_d_hat = (tau_d - taud_ss)/taud_ss       [fractional deviation]
+// tau_i_hat = (tau_i - taui_ss)/taui_ss       [fractional deviation]
 // tau_itc_hat = tau_ic - tauic_ss             [level deviation, SS may be 0]
 // e_tau_hat   = e_tau - etau_ss               [level deviation, SS may be 0]
 //
 // /***************************************************************/
 //
-// /* Exogenous Shocks (13)                                       */
+// /* Exogenous Shocks (14)                                       */
 //
 // eps_g    = government spending shock
 // eps_tr   = transfer shock
@@ -135,6 +111,7 @@
 // eps_ti   = interest income tax rate shock
 // eps_td   = dividend tax rate shock
 // eps_etau = expensing rate shock
+// eps_b    = government budget / debt residual shock
 //
 // /***************************************************************/
 //
@@ -212,7 +189,6 @@
 // rho_w_b  = response to lagged debt
 // rho_w_y  = response to lagged output
 // phi      = cross-correlation: eps_k enters tau_w rule
-// phi_wd   = cross-correlation: eps_w enters tau_d rule (tau_l/tau_d corr = 0.90)
 //
 // --- Fiscal rule: consumption tax ---
 // rho_c    = AR(1) persistence
@@ -257,7 +233,7 @@ var
     rev_c rev_w rev_k rev_i rev_d spend_ic rev_net
     // Measurement variables (match data column names)
     chat ihat ghat pi_obs r_obs tau_k_hat tau_l_hat bhat
-    trhat tau_c_hat tau_d_hat tau_itc_hat e_tau_hat
+    trhat tau_c_hat tau_d_hat tau_itc_hat e_tau_hat tau_i_hat
 ;
 
 varexo
@@ -266,7 +242,7 @@ varexo
     eps_z eps_d eps_mu
     eps_m
     eps_c eps_ic eps_ti eps_td
-    eps_etau
+    eps_etau eps_b
 ;
 
 parameters
@@ -281,7 +257,7 @@ parameters
     rho_tr rho_tr_b rho_tr_y
     rho_k rho_k_b rho_k_y
     rho_w rho_w_b rho_w_y
-    phi phi_wd
+    phi
     tauc_ss  rho_c  rho_c_b  rho_c_y
     tauic_ss rho_ic rho_ic_b rho_ic_y
     taui_ss  rho_ti rho_ti_b rho_ti_y
@@ -302,23 +278,24 @@ eta     = 5.3;
 etaw    = 21.0;
 pi_ss   = 1.0;
 h_ss    = 0.50;
-g_y     = 0.18;
-b_y     = 0.33;
-tauk_ss = 0.41;
-tauw_ss = 0.23;
+g_y      = 0.2073;     // 0.2053 (1958Q1-2019Q4);  0.2073 (1961Q1-2013Q4)
+b_y      = 0.3220;     // 0.3549 (1958Q1-2019Q4);  0.3220 (1961Q1-2013Q4)
+tauw_ss  = 0.217283;     // 0.216196 (1958Q1-2019Q4);  0.217283 (1961Q1-2013Q4)
+tauk_ss  = 0.419945;     // 0.416325 (1958Q1-2019Q4);  0.419945 (1961Q1-2013Q4)
 
 // Extension: SS tax rates (calibrated)
-tauc_ss  = 0.10;
-tauic_ss = 0.0;
-taui_ss  = 0.20;
-taud_ss  = 0.15;
-etau_ss  = 0.0;
-delta_tau = 0.025;
+delta_tau = 0.025;     
+tauc_ss  = 0.058625;     // 0.058396 (1958Q1-2019Q4); 0.058625 (1961Q1-2013Q4)
+tauic_ss = 0.017568;     // 0.015018 (1958Q1-2019Q4); 0.017568 (1961Q1-2013Q4)
+etau_ss  = 0.055903;     // 0.088618 (1958Q1-2019Q4); 0.055903 (1961Q1-2013Q4)
+taui_ss  = 0.249417;         // 0.20 calibration;         0.249417 (TAXSIM observed years / 1961Q1-2013Q4)
+taud_ss  = 0.299868;     // 0.138509 (1958Q1-2019Q4); 0.299868 (taxsim 1961Q1-2013Q4)
 
-// Dividend share target (fraction of output going to firm profits)
-// Old model (Calvo explicit profits): ~0.11. Set slightly higher to
-// account for Rotemberg pricing absorbing some markup.
-divshare  = 0.11;
+// Steady-state dividend share. Targets the postwar average of NIPA
+// net corporate dividends / GDP, which centers around 0.05. This is
+// the natural empirical counterpart to the model's div = y - w*h - rk*u*k(-1),
+// the residual flow accruing to firm owners.
+divshare = 0.05;
 
 
 // =====================================================================
@@ -345,7 +322,6 @@ rho_tr  = 0.64;
 rho_k   = 0.91;
 rho_w   = 0.90;
 phi     = 0.22;
-phi_wd  = 0.25;
 rho_k_b = 0.017;
 rho_w_b = 0.020;
 rho_g_b = 0.009;
@@ -364,7 +340,7 @@ rho_etau = 0.90;  rho_etau_b = 0.0;  rho_etau_y = 0.0;
 
 
 // =====================================================================
-// MODEL (46 structural + 13 measurement = 59 equations)
+// MODEL (46 structural + 14 measurement = 60 equations)
 // =====================================================================
 // Model-local (#) variables recompute derived SS quantities at every
 // evaluation, so they update when estimated parameters change during MCMC.
@@ -510,7 +486,7 @@ model;
     div = y - w*h - rk*u*k(-1);
 
     // (24-25) Government budget and tax revenue [MODIFIED]
-    b = R(-1)*b(-1)/pi + g + tr - taxrev;
+    b = R(-1)*b(-1)/pi + g + tr - taxrev + eps_b;
 
     taxrev = tau_c*c
            + tau_w*w*h
@@ -547,7 +523,7 @@ model;
         + rho_ti_b*log(b(-1)/b_ss) + rho_ti_y*log(y(-1)/Y_ss) + eps_ti;
 
     log(tau_d/taud_ss) = rho_td*log(tau_d(-1)/taud_ss)
-        + rho_td_b*log(b(-1)/b_ss) + rho_td_y*log(y(-1)/Y_ss) + phi_wd*eps_w + eps_td;
+        + rho_td_b*log(b(-1)/b_ss) + rho_td_y*log(y(-1)/Y_ss) + eps_td;
 
     // (35) Expensing rate fiscal rule [NEW: e_tau promoted to stochastic]
     //   Level-deviation form (like tau_ic) since SS may be zero.
@@ -583,6 +559,7 @@ model;
     trhat       = 100 * (tr - tr_ss) / tr_ss;
     tau_c_hat   = (tau_c - tauc_ss) / tauc_ss;
     tau_d_hat   = (tau_d - taud_ss) / taud_ss;
+    tau_i_hat   = (tau_i - taui_ss) / taui_ss;
     tau_itc_hat = tau_ic - tauic_ss;
     e_tau_hat   = e_tau - etau_ss;
 
@@ -693,6 +670,7 @@ steady_state_model;
     trhat       = 0;
     tau_c_hat   = 0;
     tau_d_hat   = 0;
+    tau_i_hat   = 0;
     tau_itc_hat = 0;
     e_tau_hat   = 0;
 
@@ -703,16 +681,17 @@ check;
 
 
 // =====================================================================
-// OBSERVABLES — 12 observables, 13 shocks (over-identified by 1)
+// OBSERVABLES — 12 observables, 14 shocks (Run 1: data trim)
 // =====================================================================
-// Zubairy 8 + tau_c_hat + tau_d_hat + tau_itc_hat + e_tau_hat.
-// trhat excluded: transfer data is noisy/unreliable. eps_tr is still
-// in the model and identified indirectly through debt dynamics.
-// The unmatched shock is eps_ti (no tau_i observable in the data).
+// Dropped: trhat (2008-2010 ARRA outliers)
+//          tau_i_hat (0.77 collinearity with tau_d_hat)
+// Kept all 14 shocks (eps_tr and eps_ti become unobserved structural shocks).
+// eps_b is included as a government budget / debt residual shock.
 // =====================================================================
-varobs chat ihat ghat pi_obs r_obs tau_k_hat tau_l_hat bhat
-       tau_c_hat tau_d_hat tau_itc_hat e_tau_hat;
-
+varobs chat ihat ghat bhat        // trhat
+       pi_obs r_obs 
+       tau_k_hat tau_l_hat
+       tau_c_hat tau_itc_hat e_tau_hat tau_d_hat;   // tau_i_hat  
 
 // =====================================================================
 // PRIORS
@@ -724,8 +703,8 @@ varobs chat ihat ghat pi_obs r_obs tau_k_hat tau_l_hat bhat
 //   tau_i  (rho_ti, rho_ti_b, rho_ti_y)
 //   tau_d  (rho_td, rho_td_b, rho_td_y)
 //   e_tau  (rho_etau, rho_etau_b, rho_etau_y)
-// Plus phi_wd (tau_l/tau_d cross-correlation) and all 13 shock stds.
-// Total: 57 estimated parameters.
+// All 14 shock stds, including eps_b.
+// Total: 58 estimated parameters.
 // =====================================================================
 estimated_params;
 
@@ -772,7 +751,6 @@ estimated_params;
 
     // --- Tax correlations ---
     phi,      normal_pdf,     0.25,  0.1;
-    phi_wd,   normal_pdf,     0.25,  0.1;   // eps_w enters tau_d (data corr = 0.90)
 
     // --- AR coefficients (extension) ---
     rho_c,    beta_pdf,       0.7,   0.2;
@@ -811,6 +789,7 @@ estimated_params;
     stderr eps_ti,   inv_gamma_pdf, 0.05,  0.1;
     stderr eps_td,   inv_gamma_pdf, 0.05,  0.1;
     stderr eps_etau, inv_gamma_pdf, 0.05,  0.1;
+    stderr eps_b, inv_gamma_pdf, 0.05, 0.1;
 
 end;
 
@@ -819,8 +798,10 @@ end;
 // ESTIMATION
 // =====================================================================
 
+/* 
+// Run this for first-time estimation                                               
 estimation(
-    datafile     = US_Data_Matlab,
+    datafile     = US_Data_Matlab_1961_2013,  // US_Data_Matlab,  
     prefilter    = 1,
     lik_init     = 1,
     mh_replic    = 1500000, // 500000, 20000, 1500000
@@ -829,7 +810,27 @@ estimation(
     mh_jscale    = 0.3,
     mode_compute = 6, // 4 is csminwel, 6 is a Monte Carlo based mode-finding routine
     // posterior_sampling_method = 6,
-    // bayesian_irf,
+    bayesian_irf,
     irf          = 40,
     nodisplay
-);
+) y c i h pi R g tr div taxrev
+  rev_c rev_w rev_k rev_d rev_i spend_ic;
+*/
+
+// Run this to reload existing chains and mode
+estimation(
+    datafile     = US_Data_Matlab_1961_2013,
+    prefilter    = 1,
+    lik_init     = 1,
+    mh_replic    = 0,                              // skip MCMC
+    load_mh_file,                                  // load existing chains
+    mode_compute = 0,                              // skip mode-finding
+    mode_file    = tax_dsge_est_mode,              // use existing mode file
+    mh_nblocks   = 2,
+    mh_drop      = 0.333,
+    mh_jscale    = 0.3,
+    irf          = 40,
+    bayesian_irf,
+    nodisplay
+) y c i h pi R g tr div taxrev
+  rev_c rev_w rev_k rev_d rev_i spend_ic;

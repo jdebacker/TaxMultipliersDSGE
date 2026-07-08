@@ -1,0 +1,72 @@
+  1  1  Computers and peripheral equipment
+  2  1  Communication equipment
+  3  1  Medical equipment and instruments
+  4  1  Nonmedical instruments
+  5  1  Photocopy and related equipment
+  6  1  Office and accounting equipment
+  7  1  Fabricated metal products
+  8  1  Engines and turbines
+  9  1  Metalworking machinery
+ 10  1  Special industry machinery, n.e.c.
+ 11  1  General industrial, including materials handling, equipment
+ 12  1  Electrical transmission, distribution, and industrial apparatus
+ 13  1  Light trucks (including utility vehicles)
+ 14  1  Other trucks, buses, and truck trailers
+ 15  1  Autos
+ 16  1  Aircraft
+ 17  1  Ships and boats
+ 18  1  Railroad equipment
+ 19  1  Furniture and fixtures
+ 20  1  Agricultural machinery
+ 21  1  Construction machinery
+ 22  1  Mining and oilfield machinery
+ 23  1  Service industry machinery
+ 24  1  Electrical equipment, n.e.c.
+ 25  1  Other nonresidential equipment
+ 26  0  Office
+ 27  0  Health care
+ 28  0  Hospitals
+ 29  0  Special care
+ 30  0  Medical buildings
+ 31  0  Multimerchandise shopping
+ 32  0  Food and beverage establishments
+ 33  0  Warehouses
+ 34  0  Other commercial
+ 35  0  Manufacturing
+ 36  1  Power and communication
+ 37  1  Electric
+ 38  1  Other power
+ 39  1  Communication
+ 40  1  Petroleum and natural gas
+ 41  0  Mining
+ 42  0  Religious
+ 43  0  Educational and vocational
+ 44  0  Amusement and recreation
+ 45  0  Air
+ 46  0  Land
+ 47  1  Farm
+ 48  0  Other (L66)
+ 49  0  Housing units
+ 50  0  1 to 4 unit
+ 51  0  5-or more-unit
+ 52  0  Manufactured homes
+ 53  0  Brokers' commissions and other ownership transfer costs
+ 54  0  Improvements
+ 55  0  Other residential
+ 56  1  Prepackaged
+ 57  1  Custom
+ 58  1  Own account
+ 59  1  Pharmaceutical and medicine manufacturing
+ 60  1  Chemical manufacturing, excluding pharmaceutical and medicine
+ 61  1  Semiconductor and other electronic component manufacturing
+ 62  1  Motor vehicles, bodies and trailers, and parts manufacturing
+ 63  1  Aerospace products and parts manufacturing
+ 64  1  Other manufacturing
+ 65  1  Scientific research and development services
+ 66  1  Universities and colleges
+ 67  1  Other nonprofit institutions
+ 68  1  Theatrical movies
+ 69  1  Long-lived television programs
+ 70  1  Books
+ 71  1  Music
+ 72  0  Other (L103)
