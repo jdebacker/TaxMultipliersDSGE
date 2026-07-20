@@ -1,0 +1,76 @@
+\begin{table}[ht]
+\centering
+\caption{Estimated Parameters: Prior Distributions}
+\label{tab:priors}
+\begin{tabular}{llccc}
+\hline\hline
+Parameter & Description & Prior & Mean & Std \\
+\hline
+\multicolumn{5}{l}{\textit{Deep habits}} \\
+$b_c$ & Private consumption habit depth & Beta & 0.70 & 0.10 \\
+$\theta^c$ & Private habit stock persistence & Beta & 0.80 & 0.10 \\
+$b_g$ & Government consumption habit depth & Beta & 0.70 & 0.10 \\
+$\theta^g$ & Government habit stock persistence & Beta & 0.80 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Structural parameters}} \\
+$\gamma$ & Risk aversion / inverse EIS & Normal & 2.00 & 1.00 \\
+$\sigma_u$ & Utilization cost curvature & Normal & 2.50 & 0.50 \\
+$\kappa$ & Investment adjustment cost & Normal & 2.00 & 0.50 \\
+$\alpha_P$ & Rotemberg price adjustment cost & Normal & 17.0 & 5.00 \\
+$\alpha_W$ & Rotemberg wage adjustment cost & Normal & 100.0 & 30.0 \\
+\hline
+\multicolumn{5}{l}{\textit{Monetary policy (Taylor rule)}} \\
+$\alpha_R$ & Interest rate smoothing & Beta & 0.80 & 0.20 \\
+$\alpha_\pi$ & Inflation response & Normal & 1.60 & 0.20 \\
+$\alpha_Y$ & Output response & Normal & 0.10 & 0.05 \\
+\hline
+\multicolumn{5}{l}{\textit{Exogenous process persistence}} \\
+$\rho_z$ & Technology shock & Beta & 0.70 & 0.20 \\
+$\rho_d$ & Preference shock & Beta & 0.70 & 0.20 \\
+$\rho_\mu$ & Investment efficiency shock & Beta & 0.70 & 0.20 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule AR coefficients}} \\
+$\rho_k$ & Capital tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_w$ & Labor tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_g$ & Government spending rule persistence & Beta & 0.80 & 0.20 \\
+$\rho_{tr}$ & Transfer rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_c$ & Consumption tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{ic}$ & ITC rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{ti}$ & Interest income tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{td}$ & Dividend tax rule persistence & Beta & 0.70 & 0.20 \\
+$\rho_{e\tau}$ & Expensing rule persistence & Beta & 0.70 & 0.20 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule debt-feedback coefficients}} \\
+$\rho_{k,b}$ & Capital tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{w,b}$ & Labor tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{g,b}$ & Government spending / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{tr,b}$ & Transfers / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{c,b}$ & Consumption tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{ti,b}$ & Interest income tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{td,b}$ & Dividend tax / debt & Gamma & 0.50 & 0.25 \\
+$\rho_{ic,b}$ & ITC / debt & Normal & 0.00 & 0.25 \\
+$\rho_{e\tau,b}$ & Expensing / debt & Normal & 0.00 & 0.25 \\
+\hline
+\multicolumn{5}{l}{\textit{Fiscal rule output-feedback coefficients}} \\
+$\rho_{k,y}$ & Capital tax / output & Gamma & 0.15 & 0.10 \\
+$\rho_{w,y}$ & Labor tax / output & Gamma & 0.15 & 0.10 \\
+$\rho_{g,y}$ & Government spending / output & Normal & $-$0.05 & 0.05 \\
+$\rho_{tr,y}$ & Transfers / output & Normal & $-$0.10 & 0.05 \\
+$\rho_{c,y}$ & Consumption tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{ic,y}$ & ITC / output & Normal & 0.00 & 0.10 \\
+$\rho_{ti,y}$ & Interest income tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{td,y}$ & Dividend tax / output & Normal & 0.00 & 0.10 \\
+$\rho_{e\tau,y}$ & Expensing / output & Normal & 0.00 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Cross-shock correlations}} \\
+$\phi$ & $\varepsilon_t^k$ entering labor tax rule & Normal & 0.25 & 0.10 \\
+$\phi_{wd}$ & $\varepsilon_t^w$ entering dividend tax rule & Normal & 0.25 & 0.10 \\
+\hline
+\multicolumn{5}{l}{\textit{Shock standard deviations (all inv-Gamma, mean 0.05, std 0.10)}} \\
+$\sigma_{\varepsilon^k}$, $\sigma_{\varepsilon^w}$, $\sigma_{\varepsilon^g}$, $\sigma_{\varepsilon^{tr}}$, $\sigma_{\varepsilon^z}$, $\sigma_{\varepsilon^d}$, $\sigma_{\varepsilon^\mu}$, $\sigma_{\varepsilon^m}$ & Zubairy shocks & Inv-Gamma & 0.05 & 0.10 \\
+$\sigma_{\varepsilon^c}$, $\sigma_{\varepsilon^{ic}}$, $\sigma_{\varepsilon^{ti}}$, $\sigma_{\varepsilon^{td}}$, $\sigma_{\varepsilon^{e\tau}}$ & Extension shocks & Inv-Gamma & 0.05 & 0.10 \\
+$\sigma_{\varepsilon^b}$ & Debt residual & Inv-Gamma & 0.05 & 0.10 \\
+\hline\hline
+\multicolumn{5}{p{1\textwidth}}{\footnotesize Note: Parameters below the horizontal rule are new to this paper relative to \cn{Zubairy2010}. Gamma priors for debt-feedback coefficients of tax rules enforce positive values (taxes rise with debt). Normal priors for debt-feedback coefficients of the ITC and expensing rules are centered at zero because these instruments may either rise or fall in response to debt. Gamma priors for output-feedback coefficients enforce the sign implied by automatic stabilizers for tax rates; Normal priors for spending rules allow the sign to be determined by the data.}
+\end{tabular}
+\end{table}
