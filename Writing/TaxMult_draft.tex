@@ -91,7 +91,7 @@ The economy is populated by a continuum of identical households. Each household 
 \begin{equation}\label{eq:utility}
 E_{0}\sum_{t=0}^{\infty}\beta^{t} d_t \left\{ \frac{\left[x_{c,t}^{a}(1-h_{t})^{1-a}\right]^{1-\gamma}}{1-\gamma} + V(x_{g,t}) \right\}
 \end{equation}
-where $\beta \in (0,1)$ is the discount factor, $d_t$ is an intertemporal preference shock, $\gamma$ is the coefficient of relative risk aversion, and $a \in (0,1)$ is the consumption expenditure share calibrated at the steady state. Utility over government consumption $V(x_{g,t})$ is separable from private utility, so government spending does not directly affect the marginal utility of private consumption or leisure. Following \cn{Zubairy2010}, the model incorporates deep habit formation in both private and government consumption as in \cn{RSU2006}, which generates counter-cyclical markups and allows private consumption to rise in response to a government spending shock.
+where $\beta \in (0,1)$ is the discount factor, $d_t$ is an intertemporal preference shock, $\gamma$ is the coefficient of relative risk aversion, and $a \in (0,1)$ is the consumption expenditure share. Rather than being independently fixed, $a$ is derived from the household's steady-state intratemporal optimality conditions to ensure the model matches the calibration target $\bar{h}$; the formula is given below. Utility over government consumption $V(x_{g,t})$ is separable from private utility, so government spending does not directly affect the marginal utility of private consumption or leisure. Following \cn{Zubairy2010}, the model incorporates deep habit formation in both private and government consumption as in \cn{RSU2006}, which generates counter-cyclical markups and allows private consumption to rise in response to a government spending shock.
 
 The habit-adjusted consumption surpluses are:
 \begin{align}
@@ -138,7 +138,13 @@ The intratemporal labor-leisure condition equates the marginal disutility of wor
 \begin{equation}\label{eq:labor}
 d_t (1-a) \frac{\left[x_{c,t}^{a}(1-h_t)^{1-a}\right]^{1-\gamma}}{1-h_t} = \frac{\lambda_t w_t}{\tilde{w}_t}
 \end{equation}
-where $\tilde{w}_t$ is the wage markup arising from monopolistic competition in the labor market. The labor income tax $\tau_t^w$ does not appear explicitly here because it is absorbed into the endogenous markup: the wage Phillips curve \eqref{eq:wagePC} implies $\tilde{w}_t = \eta_w/[(\eta_w-1)(1-\tau_t^w)]$ in the frictionless limit, so the effective wage $w_t/\tilde{w}_t$ already reflects the after-tax, after-markup return to labor.
+where $\tilde{w}_t$ is an endogenous variable that nests both the pure monopolistic wage markup and the labor income tax wedge. The labor income tax $\tau_t^w$ does not appear as a standalone term in equation~\eqref{eq:labor}; rather, it enters equilibrium through $\tilde{w}_t$ via the wage Phillips curve~\eqref{eq:wagePC}. In the frictionless limit ($\alpha_W\to 0$), the wage Phillips curve implies $\tilde{w}_t = \eta_w/[(\eta_w-1)(1-\tau_t^w)]$, which nests the pure monopolistic markup $\eta_w/(\eta_w-1)$ and the labor tax gross-up $1/(1-\tau_t^w)$. The effective after-tax, after-markup return to labor is therefore $w_t/\tilde{w}_t = w_t(\eta_w-1)(1-\tau_t^w)/\eta_w$. The labor income tax is fully present in the household's labor supply margin; it simply propagates through the endogenous variable $\tilde{w}_t$ rather than as a separate explicit term, so stochastic changes in $\tau_t^w$ interact dynamically with nominal wage rigidity through the wage Phillips curve.
+
+Combining equations~\eqref{eq:lambda} and~\eqref{eq:labor} at the deterministic steady state (where $d=\mu=z=1$ and $S=S'=0$) and solving for $a$ gives:
+\begin{equation}\label{eq:ashare}
+a = \frac{\bar{x}_c(1+\bar{\tau}^c)}{\bar{x}_c(1+\bar{\tau}^c) + \bigl(\bar{w}/\bar{\tilde{w}}\bigr)(1-\bar{h})}
+\end{equation}
+where $\bar{x}_c = (1-b_c)\bar{c}$ is the steady-state habit-adjusted consumption surplus. Because $\bar{x}_c$, $\bar{w}$, and $\bar{\tilde{w}}$ all depend on structural parameters that include estimated quantities---notably $b_c$, $\theta^c$, $\gamma$, and $\bar{\tau}^w$---$a$ is re-derived at each posterior draw during Bayesian estimation rather than being fixed at a pre-specified value.
 
 The optimal utilization rate equates the after-tax marginal product of capital to the marginal cost of utilization:
 \begin{equation}\label{eq:util}
@@ -166,7 +172,11 @@ Finally, the bond Euler equation is:
 \begin{equation}\label{eq:bondeuler}
 \lambda_t = \beta E_t \!\left[1+(R_t-1)(1-\tau_{t+1}^{i})\right]\frac{\lambda_{t+1}}{\pi_{t+1}}
 \end{equation}
-Only the interest earned $(R_t-1)$ on bond holdings is subject to the interest income tax $\tau_{t+1}^i$, so the relevant return is the after-tax net interest. This differs from \cn{Zubairy2010}, in which the pre-tax gross return $R_t$ governs the bond Euler.
+Only the interest earned $(R_t-1)$ on bond holdings is subject to the interest income tax $\tau_{t+1}^i$, so the relevant return is the after-tax net interest. This differs from \cn{Zubairy2010}, in which the pre-tax gross return $R_t$ governs the bond Euler. Imposing stationarity on equation~\eqref{eq:bondeuler} at the deterministic steady state yields
+\begin{equation}\label{eq:Rss}
+\bar{R} = 1 + \frac{\bar{\pi}/\beta - 1}{1 - \bar{\tau}^i}
+\end{equation}
+so the equilibrium pre-tax interest rate rises with $\bar{\tau}^i$. Because the government borrows at the gross pre-tax rate $\bar{R}$ but collects interest income tax receipts $\bar{\tau}^i(\bar{R}-1)\bar{b}/\bar{\pi}$ as revenue, a cut to $\tau_t^i$ has two partially-offsetting fiscal effects: it reduces direct interest tax revenue, but the associated rise in $R_t$ increases the gross cost of servicing the government's outstanding debt. The multiplier estimates for the interest income tax therefore reflect the net of these two channels.
 
 
 \subsection{Firms}
@@ -280,6 +290,7 @@ The dividend tax rule includes $\phi_{wd}\,\varepsilon_t^w$, capturing the empir
 \tau_t^{ic} - \bar{\tau}^{ic} &= \rho_{ic}(\tau_{t-1}^{ic} - \bar{\tau}^{ic}) + \rho_{ic,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{ic,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^{ic} \label{eq:tauicrule} \\
 e_t^{\tau} - \bar{e}^{\tau} &= \rho_{e}(e_{t-1}^{\tau} - \bar{e}^{\tau}) + \rho_{e,b}\log\!\left(\frac{b_{t-1}}{\bar{b}}\right) + \rho_{e,y}\log\!\left(\frac{y_{t-1}}{\bar{y}}\right) + \varepsilon_t^{e} \label{eq:etaurule}
 \end{align}
+Positive shocks $\varepsilon_t^{ic}>0$ and $\varepsilon_t^{e^\tau}>0$ raise the ITC rate and expensing allowance above their steady-state values; negative shocks represent reductions. Because these instruments have historically been enacted and allowed to expire episodically---the general ITC was active from 1962 until its repeal in 1986, and bonus depreciation provisions have been enacted, expanded, and allowed to lapse multiple times since 2001---the estimated multipliers for these instruments measure the general equilibrium response to an expansion or contraction of such a provision relative to its sample average, rather than a change to a continuously-active policy rate.
 
 
 \subsection{Monetary Authority}
