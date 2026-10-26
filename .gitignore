@@ -2,8 +2,16 @@
 MANIFEST
 build/*
 dist/*
-Codes/+tax_dsge/*
-Codes/tax_dsge/*
+# Dynare-generated files inside each model folder
+Codes/*/+tax_dsge_est/
+Codes/*/tax_dsge_est/
+Codes/*/+tax_dsge_uk/
+Codes/*/tax_dsge_uk/
+Codes/*/*_mode.mat
+Codes/*/*_results.mat
+Codes/*/post_raw.mat
+Codes/*/post_paired.csv
+Codes/paper_figures/
 *.cache/
 .coverage
 .coveragerc

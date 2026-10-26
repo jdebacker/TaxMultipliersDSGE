@@ -1,76 +1,72 @@
-\begin{table}[ht]
-\centering
-\caption{Estimated Parameters: Prior Distributions}
-\label{tab:priors}
-\begin{tabular}{llccc}
+{\footnotesize\setlength{\tabcolsep}{3.5pt}
+\begin{longtable}{llcccccc}
+\caption{Prior Distributions and Posterior Estimates, Baseline Model}\label{tab:priors} \\
 \hline\hline
-Parameter & Description & Prior & Mean & Std \\
+Parameter & Description & Prior & Mean & Std & Median & 5\% & 95\% \\
 \hline
-\multicolumn{5}{l}{\textit{Deep habits}} \\
-$b_c$ & Private consumption habit depth & Beta & 0.70 & 0.10 \\
-$\theta^c$ & Private habit stock persistence & Beta & 0.80 & 0.10 \\
-$b_g$ & Government consumption habit depth & Beta & 0.70 & 0.10 \\
-$\theta^g$ & Government habit stock persistence & Beta & 0.80 & 0.10 \\
-\hline
-\multicolumn{5}{l}{\textit{Structural parameters}} \\
-$\gamma$ & Risk aversion / inverse EIS & Normal & 2.00 & 1.00 \\
-$\sigma_u$ & Utilization cost curvature & Normal & 2.50 & 0.50 \\
-$\kappa$ & Investment adjustment cost & Normal & 2.00 & 0.50 \\
-$\alpha_P$ & Rotemberg price adjustment cost & Normal & 17.0 & 5.00 \\
-$\alpha_W$ & Rotemberg wage adjustment cost & Normal & 100.0 & 30.0 \\
-\hline
-\multicolumn{5}{l}{\textit{Monetary policy (Taylor rule)}} \\
-$\alpha_R$ & Interest rate smoothing & Beta & 0.80 & 0.20 \\
-$\alpha_\pi$ & Inflation response & Normal & 1.60 & 0.20 \\
-$\alpha_Y$ & Output response & Normal & 0.10 & 0.05 \\
-\hline
-\multicolumn{5}{l}{\textit{Exogenous process persistence}} \\
-$\rho_z$ & Technology shock & Beta & 0.70 & 0.20 \\
-$\rho_d$ & Preference shock & Beta & 0.70 & 0.20 \\
-$\rho_\mu$ & Investment efficiency shock & Beta & 0.70 & 0.20 \\
-\hline
-\multicolumn{5}{l}{\textit{Fiscal rule AR coefficients}} \\
-$\rho_k$ & Capital tax rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_w$ & Labor tax rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_g$ & Government spending rule persistence & Beta & 0.80 & 0.20 \\
-$\rho_{tr}$ & Transfer rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_c$ & Consumption tax rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_{ic}$ & ITC rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_{ti}$ & Interest income tax rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_{td}$ & Dividend tax rule persistence & Beta & 0.70 & 0.20 \\
-$\rho_{e\tau}$ & Expensing rule persistence & Beta & 0.70 & 0.20 \\
-\hline
-\multicolumn{5}{l}{\textit{Fiscal rule debt-feedback coefficients}} \\
-$\rho_{k,b}$ & Capital tax / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{w,b}$ & Labor tax / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{g,b}$ & Government spending / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{tr,b}$ & Transfers / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{c,b}$ & Consumption tax / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{ti,b}$ & Interest income tax / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{td,b}$ & Dividend tax / debt & Gamma & 0.50 & 0.25 \\
-$\rho_{ic,b}$ & ITC / debt & Normal & 0.00 & 0.25 \\
-$\rho_{e\tau,b}$ & Expensing / debt & Normal & 0.00 & 0.25 \\
-\hline
-\multicolumn{5}{l}{\textit{Fiscal rule output-feedback coefficients}} \\
-$\rho_{k,y}$ & Capital tax / output & Gamma & 0.15 & 0.10 \\
-$\rho_{w,y}$ & Labor tax / output & Gamma & 0.15 & 0.10 \\
-$\rho_{g,y}$ & Government spending / output & Normal & $-$0.05 & 0.05 \\
-$\rho_{tr,y}$ & Transfers / output & Normal & $-$0.10 & 0.05 \\
-$\rho_{c,y}$ & Consumption tax / output & Normal & 0.00 & 0.10 \\
-$\rho_{ic,y}$ & ITC / output & Normal & 0.00 & 0.10 \\
-$\rho_{ti,y}$ & Interest income tax / output & Normal & 0.00 & 0.10 \\
-$\rho_{td,y}$ & Dividend tax / output & Normal & 0.00 & 0.10 \\
-$\rho_{e\tau,y}$ & Expensing / output & Normal & 0.00 & 0.10 \\
-\hline
-\multicolumn{5}{l}{\textit{Cross-shock correlations}} \\
-$\phi$ & $\varepsilon_t^k$ entering labor tax rule & Normal & 0.25 & 0.10 \\
-$\phi_{wd}$ & $\varepsilon_t^w$ entering dividend tax rule & Normal & 0.25 & 0.10 \\
-\hline
-\multicolumn{5}{l}{\textit{Shock standard deviations (all inv-Gamma, mean 0.05, std 0.10)}} \\
-$\sigma_{\varepsilon^k}$, $\sigma_{\varepsilon^w}$, $\sigma_{\varepsilon^g}$, $\sigma_{\varepsilon^{tr}}$, $\sigma_{\varepsilon^z}$, $\sigma_{\varepsilon^d}$, $\sigma_{\varepsilon^\mu}$, $\sigma_{\varepsilon^m}$ & Zubairy shocks & Inv-Gamma & 0.05 & 0.10 \\
-$\sigma_{\varepsilon^c}$, $\sigma_{\varepsilon^{ic}}$, $\sigma_{\varepsilon^{ti}}$, $\sigma_{\varepsilon^{td}}$, $\sigma_{\varepsilon^{e\tau}}$ & Extension shocks & Inv-Gamma & 0.05 & 0.10 \\
-$\sigma_{\varepsilon^b}$ & Debt residual & Inv-Gamma & 0.05 & 0.10 \\
+\endfirsthead
 \hline\hline
-\multicolumn{5}{p{1\textwidth}}{\footnotesize Note: Parameters below the horizontal rule are new to this paper relative to \cn{Zubairy2010}. Gamma priors for debt-feedback coefficients of tax rules enforce positive values (taxes rise with debt). Normal priors for debt-feedback coefficients of the ITC and expensing rules are centered at zero because these instruments may either rise or fall in response to debt. Gamma priors for output-feedback coefficients enforce the sign implied by automatic stabilizers for tax rates; Normal priors for spending rules allow the sign to be determined by the data.}
-\end{tabular}
-\end{table}
+Parameter & Description & Prior & Mean & Std & Median & 5\% & 95\% \\
+\hline
+\endhead
+\multicolumn{8}{l}{\textit{Deep habits}} \\
+$b_c$ & Private consumption habit depth & Beta & 0.700 & 0.100 & 0.764 & 0.691 & 0.829 \\
+$\theta^g$ & Government habit stock persistence & Beta & 0.800 & 0.100 & 0.861 & 0.699 & 0.949 \\
+\multicolumn{8}{l}{\textit{Structural parameters}} \\
+$\gamma$ & Risk aversion & Normal & 2.000 & 1.000 & 2.047 & 1.606 & 2.506 \\
+$\kappa$ & Investment adjustment cost & Normal & 2.000 & 0.500 & 3.121 & 2.510 & 3.760 \\
+$\alpha_P$ & Rotemberg price adjustment cost & Normal & 17.0 & 5.000 & 33.8 & 28.2 & 39.9 \\
+\multicolumn{8}{l}{\textit{Monetary policy}} \\
+$\alpha_R$ & Interest rate smoothing & Beta & 0.800 & 0.200 & 0.700 & 0.651 & 0.744 \\
+$\alpha_\pi$ & Inflation response & Normal & 1.600 & 0.200 & 1.986 & 1.830 & 2.172 \\
+$\alpha_Y$ & Output response & Normal & 0.100 & 0.050 & 0.014 & $-$0.004 & 0.034 \\
+\multicolumn{8}{l}{\textit{Exogenous processes}} \\
+$\rho_z$ & Technology & Beta & 0.700 & 0.200 & 0.991 & 0.983 & 0.997 \\
+$\rho_d$ & Preference & Beta & 0.700 & 0.200 & 0.664 & 0.581 & 0.745 \\
+$\rho_\mu$ & Investment efficiency & Beta & 0.700 & 0.200 & 0.530 & 0.437 & 0.620 \\
+\multicolumn{8}{l}{\textit{Fiscal rules: persistence}} \\
+$\rho_g$ & Government purchases & Beta & 0.800 & 0.200 & 0.951 & 0.928 & 0.973 \\
+$\rho_x$ & Transfers & Beta & 0.700 & 0.200 & 0.984 & 0.957 & 0.998 \\
+$\rho_k$ & Capital tax & Beta & 0.700 & 0.200 & 0.960 & 0.940 & 0.980 \\
+$\rho_w$ & Labor tax & Beta & 0.700 & 0.200 & 0.973 & 0.950 & 0.991 \\
+$\rho_c$ & Consumption tax & Beta & 0.700 & 0.200 & 0.915 & 0.874 & 0.954 \\
+$\rho_d^{\tau}$ & Dividend tax & Beta & 0.700 & 0.200 & 0.961 & 0.919 & 0.991 \\
+$\rho_{ic}$ & Investment tax credit & Beta & 0.700 & 0.200 & 0.858 & 0.814 & 0.901 \\
+$\rho_e$ & Expensing rate & Beta & 0.700 & 0.200 & 0.951 & 0.904 & 0.989 \\
+\multicolumn{8}{l}{\textit{Fiscal rules: debt feedback}} \\
+$\rho_{g,b}$ & Government purchases & Gamma & 0.500 & 0.250 & 0.005 & 0.002 & 0.008 \\
+$\rho_{x,b}$ & Transfers & Gamma & 0.500 & 0.250 & 0.138 & 0.063 & 0.240 \\
+$\rho_{k,b}$ & Capital tax & Gamma & 0.500 & 0.250 & 0.029 & 0.020 & 0.038 \\
+$\rho_{w,b}$ & Labor tax & Gamma & 0.500 & 0.250 & 0.017 & 0.009 & 0.026 \\
+$\rho_{c,b}$ & Consumption tax & Gamma & 0.500 & 0.250 & 0.009 & 0.005 & 0.014 \\
+$\rho_{d,b}$ & Dividend tax & Gamma & 0.500 & 0.250 & 0.031 & 0.015 & 0.053 \\
+$\rho_{ic,b}$ & Investment tax credit & Normal & 0.000 & 0.250 & $-$0.010 & $-$0.013 & $-$0.006 \\
+$\rho_{e,b}$ & Expensing rate & Normal & 0.000 & 0.250 & $-$0.005 & $-$0.024 & 0.015 \\
+\multicolumn{8}{l}{\textit{Fiscal rules: output feedback}} \\
+$\rho_{g,y}$ & Government purchases & Normal & $-$0.050 & 0.050 & 0.044 & 0.014 & 0.074 \\
+$\rho_{x,y}$ & Transfers & Normal & $-$0.100 & 0.050 & $-$0.103 & $-$0.183 & $-$0.022 \\
+$\rho_{k,y}$ & Capital tax & Gamma & 0.150 & 0.100 & 0.070 & 0.028 & 0.120 \\
+$\rho_{w,y}$ & Labor tax & Gamma & 0.150 & 0.100 & 0.064 & 0.026 & 0.110 \\
+$\rho_{c,y}$ & Consumption tax & Normal & 0.000 & 0.100 & $-$0.018 & $-$0.055 & 0.019 \\
+$\rho_{d,y}$ & Dividend tax & Normal & 0.000 & 0.100 & 0.007 & $-$0.102 & 0.110 \\
+$\rho_{ic,y}$ & Investment tax credit & Normal & 0.000 & 0.100 & $-$0.066 & $-$0.087 & $-$0.044 \\
+$\rho_{e,y}$ & Expensing rate & Normal & 0.000 & 0.100 & $-$0.004 & $-$0.092 & 0.082 \\
+$\phi$ & Capital tax shock in labor tax rule & Normal & 0.250 & 0.100 & 0.533 & 0.450 & 0.614 \\
+\multicolumn{8}{l}{\textit{Shock standard deviations}} \\
+$\sigma_g$ & Government purchases & Inv.\ Gamma & 0.050 & 0.100 & 0.010 & 0.010 & 0.011 \\
+$\sigma_x$ & Transfers & Inv.\ Gamma & 0.050 & 0.100 & 0.311 & 0.263 & 0.367 \\
+$\sigma_k$ & Capital tax & Inv.\ Gamma & 0.050 & 0.100 & 0.023 & 0.022 & 0.025 \\
+$\sigma_w$ & Labor tax & Inv.\ Gamma & 0.050 & 0.100 & 0.019 & 0.018 & 0.021 \\
+$\sigma_c$ & Consumption tax & Inv.\ Gamma & 0.050 & 0.100 & 0.015 & 0.014 & 0.016 \\
+$\sigma_d$ & Dividend tax & Inv.\ Gamma & 0.050 & 0.100 & 0.056 & 0.052 & 0.061 \\
+$\sigma_{ic}$ & Investment tax credit & Inv.\ Gamma & 0.050 & 0.100 & 0.007 & 0.006 & 0.007 \\
+$\sigma_e$ & Expensing rate & Inv.\ Gamma & 0.050 & 0.100 & 0.045 & 0.042 & 0.049 \\
+$\sigma_z$ & Technology & Inv.\ Gamma & 0.050 & 0.100 & 0.010 & 0.009 & 0.012 \\
+$\sigma_d^{p}$ & Preference & Inv.\ Gamma & 0.050 & 0.100 & 0.024 & 0.019 & 0.032 \\
+$\sigma_\mu$ & Investment efficiency & Inv.\ Gamma & 0.050 & 0.100 & 0.044 & 0.039 & 0.051 \\
+$\sigma_m$ & Monetary policy & Inv.\ Gamma & 0.050 & 0.100 & 0.006 & 0.006 & 0.007 \\
+$\sigma_b$ & Debt residual & Inv.\ Gamma & 0.050 & 0.100 & 0.007 & 0.007 & 0.008 \\
+\hline\hline
+\multicolumn{8}{p{0.95\textwidth}}{\footnotesize Note: Prior mean and standard deviation. Posterior median and 5th and 95th percentiles over 2{,}000{,}000 retained draws (four chains of 1{,}000{,}000, first half of each discarded). The four weakly identified parameters $\theta^c$, $b_g$, $\sigma_u$, and $\alpha_W$ are calibrated (Table~\ref{tab:calib}).}
+\end{longtable}
+}

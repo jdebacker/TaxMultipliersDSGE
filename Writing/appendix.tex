@@ -4,10 +4,48 @@
 \setcounter{section}{0}
 \section*{Appendix}
 
+\section{Alternative Specifications}
+\label{app:alt}
+
+Table~\ref{tab:mult_alt} reports the multipliers of the three alternative U.S.\ specifications with their posterior intervals: AR(1) fiscal rules (Section~\ref{sec:govt}), the baseline fiscal rules with the capital-goods friction (Section~\ref{sec:kgoods}), and AR(1) fiscal rules with the friction. Each is estimated separately on the same data and sample as the baseline model, with the same priors for the parameters they share and the same calibration. The AR(1) models have 34 estimated parameters and the models with the baseline rules have 49. All three meet the same convergence criteria as the baseline model.
+
+\input{tables/tab_mult_alt}
+
+\clearpage
+
+\section{United Kingdom}
+\label{app:uk}
+
+\subsection*{Data}
+
+The UK model is estimated on quarterly data for 1997Q2--2016Q4 (79 quarters). Real per-capita consumption, investment, and government consumption are constructed from ONS national accounts (household final consumption, gross fixed capital formation, and general government final consumption), deflated by the GDP deflator and detrended as in the U.S.\ data. Debt is ONS public sector net debt, inflation is GDP deflator inflation, and the interest rate is Bank Rate. The effective tax rates on labor income, capital income, and consumption follow the same constructions as for the United States \cite{Jones2002,Mendoza_et_al_1994}, applied to ONS national accounts and public sector finance data; revenue series published without seasonal adjustment are seasonally adjusted before the rates are computed. The model has nine observables: consumption, investment, government consumption, debt, inflation, the interest rate, and the three tax rates.
+
+There is no UK counterpart to the TAXSIM dividend and interest tax series, and UK capital allowances are not directly comparable to the U.S.\ investment tax credit and bonus depreciation. The dividend tax rate and the expensing rate are therefore not observed, and the UK model has no investment tax credit. The dividend tax and expensing shocks remain in the model and are identified only through cross-equation restrictions.
+
+\subsection*{Model and calibration}
+
+The UK model uses AR(1) fiscal rules (equation~\ref{eq:trrule_ar1}) and no capital-goods friction. The steady-state tax rates are UK sample means: $\bar{\tau}^w = 0.215$, $\bar{\tau}^k = 0.522$, and $\bar{\tau}^c = 0.147$. The government consumption share is $\bar{g}/\bar{y} = 0.192$, the World Bank series on general government final consumption over 1997--2016, and the debt ratio is $\bar{b}/\bar{y} = 0.487$, the mean of ONS public sector net debt over the sample. The steady-state expensing, interest income, and dividend tax rates are set at their U.S.\ values, since no comparable UK series is available; the UK did tax dividends and interest and allowed partial expensing over the sample, so these are approximations. All other calibrated parameters and all priors are as in the U.S.\ model. With the investment tax credit removed, 32 parameters are estimated. The largest potential scale reduction factor is 1.018 and every parameter meets the convergence criteria used for the U.S.\ models.
+
+\subsection*{Results}
+
+Table~\ref{tab:mult_uk} reports the UK multipliers and Figure~\ref{fig:mult_uk} compares them with the U.S.\ model with AR(1) rules. Section~\ref{sec:uk} discusses them. The UK expensing multiplier depends on the U.S.\ steady-state expensing rate and on an unobserved expensing process, and is the least reliable of the UK estimates.
+
+\input{tables/tab_mult_uk}
+
+\begin{figure}[ht]
+\centering
+\figfile{figures/mult_uk.png}
+\caption{Multipliers by Horizon, United Kingdom and United States (AR(1) Fiscal Rules)}
+\label{fig:mult_uk}
+\par\footnotesize UK: posterior median and 5--95 percentile band. U.S.: posterior median of the model with AR(1) fiscal rules (dashed).
+\end{figure}
+
+\clearpage
+
 \section{Household First-Order Conditions}
 \label{AppHouseholdFOCs}
 
-This appendix derives the household first-order conditions of the model presented in Section~\ref{sec:model}. Zubairy's original derivations, which apply unchanged to the parts of the model that are not modified by our tax extensions, are reproduced in \cn{Zubairy2010}. We restrict attention here to the conditions that are either new or modified relative to the baseline.
+This appendix derives the household first-order conditions of the model presented in Section~\ref{sec:model}. Zubairy's original derivations, which apply unchanged to the parts of the model that are not modified by our tax extensions, are reproduced in \cn{Zubairy2014}. We restrict attention here to the conditions that are either new or modified relative to the baseline.
 
 \subsection{Utility and Constraints}
 
@@ -42,7 +80,7 @@ The FOC with respect to $c_t$ gives $\partial U/\partial c_t = (1+\tau_t^c)\lamb
 \begin{equation}\label{AppEqLambda}
     \lambda_t = d_t\, a\, \frac{\left[(x_t^c)^a (1-h_t)^{1-a}\right]^{1-\gamma}}{x_t^c (1+\tau_t^c)}
 \end{equation}
-Relative to \cn{Zubairy2010}, the $(1+\tau_t^c)$ factor in the denominator is new. Because $\lambda_t$ enters every forward-looking equation of the household problem, the consumption tax propagates into the bond Euler, capital Euler, investment FOC, wage Phillips curve, and pricing block without changing the functional form of those equations.
+Relative to \cn{Zubairy2014}, the $(1+\tau_t^c)$ factor in the denominator is new. Because $\lambda_t$ enters every forward-looking equation of the household problem, the consumption tax propagates into the bond Euler, capital Euler, investment FOC, wage Phillips curve, and pricing block without changing the functional form of those equations.
 
 \subsection{Labor--Leisure Condition}
 
@@ -74,7 +112,7 @@ The FOC with respect to $k_t$ (using the capital constraint) gives:
      - \tfrac{\gamma_1}{1+\sigma_u}(u_{t+1}^{1+\sigma_u} - 1)
      + q_{t+1}(1 - \delta)\right]
 \end{equation}
-The depreciation deduction $\delta q_{t+1} \tau_{t+1}^k u_{t+1}$ present in \cn{Zubairy2010}, which credits the capital-tax shield directly in the Euler, is absent here. Instead the shield is carried entirely through the shadow value $v_{\tau,t}$ derived below, avoiding double-counting.
+The depreciation deduction $\delta q_{t+1} \tau_{t+1}^k u_{t+1}$ present in \cn{Zubairy2014}, which credits the capital-tax shield directly in the Euler, is absent here. Instead the shield is carried entirely through the shadow value $v_{\tau,t}$ derived below, avoiding double-counting.
 
 \subsection{Shadow Value of the Tax Basis}
 
@@ -83,7 +121,7 @@ The FOC with respect to $k_t^\tau$ delivers a forward-looking recursion. Because
     \lambda_t v_{\tau,t} = \beta E_t
     \left[\lambda_{t+1}\left((1 - \delta_\tau) v_{\tau,t+1} + \tau_{k,t+1}\delta_\tau\right)\right]
 \end{equation}
-This equation is new relative to \cn{Zubairy2010} and is what makes it possible to separate immediate expensing (through $e_\tau$) from the ordinary depreciation schedule.
+This equation is new relative to \cn{Zubairy2014} and is what makes it possible to separate immediate expensing (through $e_\tau$) from the ordinary depreciation schedule.
 
 \subsection{Investment First-Order Condition}
 
