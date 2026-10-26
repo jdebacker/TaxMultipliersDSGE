@@ -1,2 +1,0 @@
-FRED_KEY=
-BEA_KEY=
