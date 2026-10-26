@@ -1,0 +1,92 @@
+UK DATA PIPELINE — companion notes
+====================================
+
+This UK pipeline mirrors the US pipeline (1a-1d_*.py) where the data exists
+and is publicly accessible. Coverage and data sources differ from the US
+in three substantive ways, summarized below.
+
+
+--------------------------------------------------------------------------
+Pipeline files
+--------------------------------------------------------------------------
+    1b_build_data_uk.py       -> output/US_Data_Full_UK.xlsx
+    1c_diagnose_data_uk.py    -> sanity checks (use US version with SRC swapped)
+    1d_clean_for_matlab_uk.py -> output/US_Data_Matlab_UK.xlsx and .mat
+
+
+--------------------------------------------------------------------------
+Series mapping (UK <- US analog)
+--------------------------------------------------------------------------
+  Observable     Source                                  ONS CDID / BoE code
+  chat           ONS HHFCE / GDP deflator / pop          ABJR (£m, sa)
+  ihat           ONS GFCF / GDP deflator / pop           NPQT (£m, sa)
+  ghat           ONS GGFCE / GDP deflator / pop          NMRY (£m, sa)
+  bhat           ONS general govt gross debt / pop       HF6X (£m)
+  trhat          ONS social benefits paid / pop          DH7K (£m)
+  lhat           ONS total weekly hours, all workers     HOAB (1971Q1+)
+  pi_obs         ONS GDP deflator (constructed)          YBHA / ABMI ratio
+  r_obs          BoE Bank Rate                           IUDBEDR (1975+)
+  Population     ONS mid-year estimates, interpolated    EBAQ (annual, thousands)
+
+
+--------------------------------------------------------------------------
+What's NOT in the UK build (and why)
+--------------------------------------------------------------------------
+
+1. tau_l, tau_k, tau_c (effective tax rates)
+   Achievable but requires its own module. Build by applying Mendoza-Razin-
+   Tesar (1994) formulas to UK aggregates. Inputs needed:
+     - OECD Revenue Statistics: detailed UK tax revenue by category
+       (income tax, NICs, corporate tax, VAT/purchase tax, council tax)
+     - ONS UK Sector Accounts: compensation of employees, mixed income,
+       operating surplus, household final consumption
+   Source URL pattern:
+     https://sdmx.oecd.org/public/rest/data/OECD.CTP.TPS,DSD_REV@DF_REV/
+       GBR.....A?startPeriod=1955&format=csvfilewithlabels
+   This is a separate file (e.g. 1b_build_data_uk_taxes.py) -- not yet built.
+   Note that the UK introduced VAT in 1973; pre-1973 consumption tax was
+   "Purchase Tax" with a different base, so a structural break around 1973
+   is expected in tau_c.
+
+2. tau_d, tau_i (dividend / interest income tax rates)
+   No public UK equivalent of NBER TAXSIM. Practical options:
+     (a) Proxy as tau_p (= tau_l from MRT formulas). Defensible, exact pre-1973
+         since interest and dividends were taxed at ordinary income rates.
+         Post-1973 (and especially post-2016 dividend allowance) this becomes
+         an upper bound rather than exact.
+     (b) Manually construct from HMRC statutory rate tables.
+   Recommended: stick with (a) for parity with the US tau_p proxy approach.
+
+3. tau_itc, e_tau (investment incentives)
+   The UK does not have an analogous policy lever to the US ITC + bonus
+   depreciation. UK uses "Capital Allowances" (Annual Investment Allowance,
+   First Year Allowances, Full Expensing 2023+). These are conceptually
+   different: AIA is a cap, not a rate. Constructing a UK e_tau-equivalent
+   would require:
+     - Statutory AIA caps and First Year Allowance percentages over time
+     - HMRC-published average claim shares by asset type
+   This is genuinely not directly comparable; the cleanest path is to
+   omit these observables from the UK estimation and document the
+   asymmetry. The fundamental tax mechanisms (tau_c, tau_l, tau_k, plus
+   government spending and transfers) are the comparable subset.
+
+
+--------------------------------------------------------------------------
+Practical recommendation
+--------------------------------------------------------------------------
+For a US-vs-UK comparison estimating the same DSGE on both:
+    Run UK estimation with 8 observables: chat, ihat, ghat, bhat,
+    pi_obs, r_obs, lhat, trhat.
+    Tax shocks (eps_w, eps_k, eps_c, eps_d, eps_i, eps_ic, eps_etau) are
+    structural in the model but not directly observed -- identified through
+    priors and cross-equation restrictions on the 8 macro observables.
+
+This matches the conservative spec used in your tax_dsge_est.mod (dropping
+tau_d_hat and tau_i_hat from varobs) and extends it by also dropping
+tau_l_hat, tau_k_hat, tau_c_hat, tau_itc_hat, e_tau_hat for the UK.
+8 observables, still well above the threshold for stable Bayesian estimation
+on 13 structural shocks.
+
+If you later build the OECD-based UK tax module, you can add tau_l_hat,
+tau_k_hat, tau_c_hat to UK varobs (giving 11 observables, matching the
+US "extension" specification).
