@@ -31,7 +31,7 @@ function make_paper_figures(what)
 if nargin < 1, what = 'all'; end
 C   = fileparts(mfilename('fullpath'));          % ...\Codes
 addpath(C);  % Shared +fiscal_reporting helpers.
-REPORTING_CONVENTION = 'positive-output-no-net-revenue-cost-inf-v1';
+REPORTING_CONVENTION = 'finite-own-revenue-v2';  % figures plot finite ratios, as in the main table
 OUT = fullfile(C, 'paper_figures');
 if ~exist(OUT, 'dir'), mkdir(OUT); end
 setappdata(0, 'PF_LOG', fullfile(OUT, 'log.txt'));
@@ -194,7 +194,9 @@ try
                     itaxrev = find(strcmp(vn,'taxrev'));
                     net_cost = -INS{j,4} * cumsum(disc .* irf(itaxrev,:)');
                 end
-                mlt = fiscal_reporting.multiplier(output, den, net_cost);
+                % Finite ratios, as in the main table (no +Inf override);
+                % self-financing shares are reported in table_self_financing.csv.
+                mlt = fiscal_reporting.multiplier(output, den, NaN(size(output)));
                 mlt = fiscal_reporting.clip(mlt, 50);
                 MULT(d, j, :) = mlt;
                 sd = sqrt(M_d.Sigma_e(si(j), si(j)));

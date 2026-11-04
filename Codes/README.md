@@ -14,7 +14,7 @@ Estimation and multiplier code for "Tax Multipliers in a DSGE Model". Requires M
 
 `old/` holds earlier versions of the model file and is not used.
 
-Each US folder contains the model (`tax_dsge_est.mod`), the data (`US_Data_Matlab_1961_2013.mat`, 1961Q1-2013Q4), the starting point for the mode search (`start_mode.mat`), the mode and proposal covariance used by the MCMC (`tax_dsge_est_mode_cal.mat`), the two post-estimation scripts, and the results reported in the paper (`table_multipliers_pvown.csv`, `post_pvown.csv`). The UK folder has the same structure with `tax_dsge_uk.mod`, `UK_Data_Matlab_tax.mat` (1997Q2-2016Q4), `start_uk.mat`, `tax_dsge_uk_mode_cal.mat`, and a driver `run_uk.m`.
+Each US folder contains the model (`tax_dsge_est.mod`), the data (`US_Data_Matlab_1961_2013.mat`, 1961Q1-2013Q4), the starting point for the mode search (`start_mode.mat`), the mode and proposal covariance used by the MCMC (`tax_dsge_est_mode_cal.mat`), the two post-estimation scripts, and the results reported in the paper (`table_multipliers_pvown.csv`, `table_self_financing.csv`, `post_pvown.csv`). The UK folder has the same structure with `tax_dsge_uk.mod`, `UK_Data_Matlab_tax.mat` (1997Q2-2016Q4), `start_uk.mat`, `tax_dsge_uk_mode_cal.mat`, and a driver `run_uk.m`.
 
 The MCMC chains are not included (several hundred MB per model). They are recreated by step 1 below, or can be sent on request.
 
@@ -35,7 +35,7 @@ For each US model, from inside its folder:
 
 1. `dynare tax_dsge_est noclearall -DSTAGE=2` (estimation; skip if the chains are already in `tax_dsge_est\metropolis\`)
 2. `dynare tax_dsge_est noclearall -DSTAGE=5` (only in a new MATLAB session; after step 1 the workspace is already loaded)
-3. `compute_multipliers` writes `table_multipliers_pvown.csv`: present-value own-revenue multipliers at H = 1, 4, 12, 20 (Tables 3, 4, 6)
+3. `compute_multipliers` writes `table_multipliers_pvown.csv`: present-value own-revenue multipliers at H = 1, 4, 12, 20 (Tables 3, 4, 6), and `table_self_financing.csv`: the share of self-financing draws
 4. `post_estimation` writes `post_pvown.csv`: re-solves on the same draws with sigma_u, b_g and, in the friction models, epsK changed (Table 5)
 
 For the UK, from inside `tax_dsge_uk`: `run_uk('estimate')` (mode search and MCMC), then `run_uk('post')` (reload, `compute_multipliers`, `post_estimation`; Table 7).
@@ -68,8 +68,15 @@ Existing CSV tables and saved figures use the previous expensing denominator and
 
 ## Self-financing tax cuts and incentives
 
-A tax cut, ITC increase, or expensing increase is reported as `+Inf` when its discounted cumulative GDP response is positive and its discounted cumulative **total tax revenue** response is nonnegative. Zero is evaluated with a numerical tolerance of `1e-10` in model units. All changes are oriented in the expansionary policy direction, including reversing the simulated positive rate innovation for tax cuts. This is a reporting convention for a positive GDP gain with no net revenue loss, rather than the literal signed revenue-ratio value.
+A tax cut, ITC increase, or expensing increase is self-financing in a given posterior draw and horizon when its discounted cumulative GDP response is positive and its discounted cumulative **total tax revenue** response is nonnegative. Zero is evaluated with a numerical tolerance of `1e-10` in model units. All changes are oriented in the expansionary policy direction, including reversing the simulated positive rate innovation for tax cuts. Spending and transfers are not classified.
 
-The test uses total revenue even in the own-revenue and mechanical-cost tables; otherwise these tables retain their existing denominators. Spending and transfers are exempt. Classification is applied separately to every posterior draw, horizon, and sensitivity setting, before computing medians and intervals. Thus a subset of self-financing draws does not necessarily make the reported median infinite. Intentional infinities survive the finite-ratio clipping rule and are written as `Inf` in CSVs and console tables. Interpolated percentiles touching `+Inf` remain infinite. Figures mark infinite medians with triangles labeled `+Inf` and label unbounded intervals. Paired percentage changes involving infinite levels are undefined and use finite pairs only.
+The main table, `table_multipliers_pvown.csv`, keeps the finite own-revenue ratio for every draw, since it measures output per dollar of the instrument's own cost. `compute_multipliers` also writes:
 
-Regenerate tables and figure data from the existing chains to apply this convention. Cached figure data from older reporting conventions cannot be replotted without recomputation. These changes affect reporting only and require no re-estimation. Run `addpath('Codes/tests'); test_fiscal_reporting` in MATLAB or Octave to check the reporting rules.
+- `table_self_financing.csv`: for each tax instrument and horizon, the share of posterior draws that are self-financing.
+- `table_multipliers_pvown_inf.csv`: the own-revenue table with the `+Inf` reporting override applied to self-financing draws, draw by draw, before medians and intervals are computed.
+
+The mechanical and total-revenue tables keep the `+Inf` override. `post_estimation` reports finite ratios in `post_pvown.csv` and saves the total-revenue response (`NET_COST`) in `post_raw.mat`, so the override or the shares can be recomputed for the sensitivity settings. `make_paper_figures` plots the finite ratios.
+
+Intentional infinities survive the finite-ratio clipping rule and are written as `Inf` in CSVs and console tables. Interpolated percentiles touching `+Inf` remain infinite. Paired percentage changes involving infinite levels are undefined and use finite pairs only.
+
+These changes affect reporting only and require no re-estimation. Run `addpath('Codes/tests'); test_fiscal_reporting` in MATLAB or Octave to check the reporting rules.

@@ -131,7 +131,9 @@ for d = 1:N_draws
 end
 M_ = M_base; oo_ = oo_base; options_ = opt_base;
 
-PV = fiscal_reporting.multiplier(NUM, DEN, NET_COST);
+% Finite ratios, as in the main table; NET_COST is saved in post_raw.mat so
+% the +Inf override or self-financing shares can be recomputed from it.
+PV = fiscal_reporting.multiplier(NUM, DEN, NaN(size(NUM)));
 PV = fiscal_reporting.clip(PV, clip_val);
 both = all(ok,1);
 fprintf('\nSolved: %s of %d draws per setting; paired sample %d\n', mat2str(sum(ok,2)'), N_draws, sum(both));

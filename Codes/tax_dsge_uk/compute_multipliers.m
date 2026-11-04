@@ -13,9 +13,13 @@
 %   denominator is the instrument's own revenue or outlay. This is the
 %   standard present-value convention in the fiscal multiplier literature
 %   and is the object reported in the main table.
-%   Reporting override (all tax normalizations): positive expansionary GDP
-%   with nonpositive total net revenue cost is +Inf, draw by draw.
-%   Spending and transfers retain their ordinary ratios.
+%   The main table keeps the finite ratio for every draw. A separate table
+%   reports, for each tax instrument and horizon, the share of draws that
+%   are self-financing: positive expansionary GDP with nonpositive total
+%   net revenue cost. table_multipliers_pvown_inf.csv applies the +Inf
+%   reporting override to those draws instead. Spending and transfers are
+%   not classified. The mechanical and total-revenue tables keep the +Inf
+%   override.
 %
 % -------------------------------------------------------------------------
 % SECONDARY: MECHANICAL OWN-COST NORMALIZATION
@@ -67,7 +71,9 @@
 %   compute_multipliers
 %
 % Output files:
-%   table_multipliers_pvown.csv    -- MAIN
+%   table_multipliers_pvown.csv    -- MAIN (finite ratios)
+%   table_self_financing.csv       -- share of self-financing draws
+%   table_multipliers_pvown_inf.csv -- MAIN with the +Inf override
 %   table_multipliers_mech.csv     -- secondary, matches the HANK paper
 %   table_multipliers_totalrev.csv -- robustness (includes Zubairy Panel C)
 % =========================================================================
@@ -227,7 +233,9 @@ ip_delta_tau = idx_or_die(pnames_all, 'delta_tau', 'parameter');
 %% ========================================================================
 %  STORAGE
 %% ========================================================================
-m_pvown = NaN(N_draws, nI, numel(H));   % MAIN
+m_pvown = NaN(N_draws, nI, numel(H));   % MAIN (finite ratios)
+m_pvinf = NaN(N_draws, nI, numel(H));   % MAIN with the +Inf override
+m_sf    = NaN(N_draws, nI, numel(H));   % 1 if self-financing, 0 if not
 m_mech  = NaN(N_draws, nI, numel(H));   % secondary, matches HANK paper
 m_total = NaN(N_draws, nI, numel(H));   % robustness
 
@@ -280,7 +288,13 @@ for d = 1:N_draws
             if ins.usetax
                 net_cost = -ins.numsign * cumsum(disc .* irf(vi_taxrev, :)');
             end
-            v_pv = safe_ratio(pv_y, pv_own, net_cost);
+            v_pv     = safe_ratio(pv_y, pv_own, NaN(size(pv_y)));   % finite
+            v_pv_inf = safe_ratio(pv_y, pv_own, net_cost);           % +Inf override
+            if ins.usetax
+                sf = double(isfinite(pv_y) & isfinite(net_cost) & pv_y > 1e-10 & net_cost <= 1e-10);
+            else
+                sf = NaN(size(pv_y));
+            end
 
             % --- ROBUSTNESS: total revenue (own outlay for spending) -----
             % ITC and expensing need the opposite numerator sign: their cost
@@ -321,6 +335,8 @@ for d = 1:N_draws
             v_mech  = safe_ratio(pv_y, pv_mech, net_cost);
 
             m_pvown(d,j,:) = v_pv(H)';
+            m_pvinf(d,j,:) = v_pv_inf(H)';
+            m_sf(d,j,:)    = sf(H)';
             m_mech(d,j,:)  = v_mech(H)';
             m_total(d,j,:) = v_tot(H)';
         end
@@ -355,6 +371,8 @@ end
 %  SUMMARIZE
 %% ========================================================================
 [med_pv, lo_pv, hi_pv] = summarize_block(m_pvown, clip_val);
+[med_pi, lo_pi, hi_pi] = summarize_block(m_pvinf, clip_val);
+sf_share = reshape(mean(m_sf, 1, 'omitnan'), nI, numel(H));   % NaN for spending, transfers
 [med_mc, lo_mc, hi_mc] = summarize_block(m_mech,  clip_val);
 [med_tt, lo_tt, hi_tt] = summarize_block(m_total, clip_val);
 
@@ -374,6 +392,12 @@ print_table('MAIN. Present-value own-revenue multiplier', ...
             'numerator and denominator both cumulated to H', ...
             INS, nI, H, med_pv, lo_pv, hi_pv, N_draws, n_success);
 
+fprintf('\n  Share of self-financing draws (total tax revenue does not fall)\n');
+for j = 1:nI
+    if all(isnan(sf_share(j,:))), continue; end
+    fprintf('  %-22s %6.0f%% %6.0f%% %6.0f%% %6.0f%%\n', INS(j).label, 100*sf_share(j,:));
+end
+
 print_table('SECONDARY. Mechanical own-cost normalization', ...
             'no-behavior denominator; same convention as the HANK paper', ...
             INS, nI, H, med_mc, lo_mc, hi_mc, N_draws, n_success);
@@ -392,6 +416,8 @@ print_multiplier_row('Capital tax',   z_med_k, z_p05_k, z_p95_k);
 %  WRITE CSVs
 %% ========================================================================
 write_mult_csv('table_multipliers_pvown.csv', INS, nI, med_pv, lo_pv, hi_pv, {});
+write_mult_csv('table_multipliers_pvown_inf.csv', INS, nI, med_pi, lo_pi, hi_pi, {});
+write_share_csv('table_self_financing.csv', INS, nI, sf_share);
 write_mult_csv('table_multipliers_mech.csv',  INS, nI, med_mc, lo_mc, hi_mc, {});
 
 zrows = { 'C','Govt spending', z_med_g, z_p05_g, z_p95_g ; ...
@@ -400,7 +426,9 @@ zrows = { 'C','Govt spending', z_med_g, z_p05_g, z_p95_g ; ...
 write_mult_csv('table_multipliers_totalrev.csv', INS, nI, med_tt, lo_tt, hi_tt, zrows);
 
 fprintf('\nSaved:\n');
-fprintf('  table_multipliers_pvown.csv     (MAIN)\n');
+fprintf('  table_multipliers_pvown.csv     (MAIN, finite ratios)\n');
+fprintf('  table_self_financing.csv        (share of self-financing draws)\n');
+fprintf('  table_multipliers_pvown_inf.csv (MAIN with the +Inf override)\n');
 fprintf('  table_multipliers_mech.csv      (secondary, matches HANK paper)\n');
 fprintf('  table_multipliers_totalrev.csv  (robustness, with Zubairy Panel C)\n');
 
@@ -474,6 +502,17 @@ function write_mult_csv(fname, INS, nI, med, lo, hi, extra_rows)
         rows(end+1,:) = [{extra_rows{r,1}, extra_rows{r,2}, '[5,95]'}, ...
                          arrayfun(@(a,b) sprintf('[%.2f,%.2f]',a,b), extra_rows{r,4}, extra_rows{r,5}, ...
                          'UniformOutput', false)]; %#ok<AGROW>
+    end
+    T = cell2table(rows, 'VariableNames', {'Panel','Multiplier','Statistic','H1','H4','H12','H20'});
+    writetable(T, fname, 'Delimiter', ',', 'QuoteStrings', true);
+end
+
+function write_share_csv(fname, INS, nI, share)
+    rows = {};
+    for j = 1:nI
+        if all(isnan(share(j,:))), continue; end
+        rows(end+1,:) = [{INS(j).panel, INS(j).label, 'share'}, ...
+                         arrayfun(@(v) sprintf('%.3f',v), share(j,:), 'UniformOutput', false)]; %#ok<AGROW>
     end
     T = cell2table(rows, 'VariableNames', {'Panel','Multiplier','Statistic','H1','H4','H12','H20'});
     writetable(T, fname, 'Delimiter', ',', 'QuoteStrings', true);
